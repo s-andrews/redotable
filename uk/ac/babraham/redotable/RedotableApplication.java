@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
+import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
+import uk.ac.babraham.redotable.displays.alignment.CollectionAlignmentPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
@@ -120,6 +122,13 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		}
 		else if (command.equals("yseqs")) {
 			collectionY = (SequenceCollection)result;
+		}
+		else if (command.equals("align")) {
+			System.err.println("Alignment finished");
+			setContentPane(new CollectionAlignmentPanel((SequenceCollectionAlignment)result));
+		}
+		else {
+			throw new IllegalStateException("Unknown command result "+command);
 		}
 
 	}

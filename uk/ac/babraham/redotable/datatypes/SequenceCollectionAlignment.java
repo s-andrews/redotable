@@ -16,6 +16,16 @@ public class SequenceCollectionAlignment {
 		alignments = new PairwiseAlignment[collectionX.sequences().length][collectionY.sequences().length];
 	}
 	
+	public SequenceCollection collectionX () {
+		return (collectionX);
+	}
+
+	
+	public SequenceCollection collectionY () {
+		return (collectionY);
+	}
+
+	
 	public void addPairwiseAlignment (PairwiseAlignment pw) {
 
 		// Find the indices for these sequences
