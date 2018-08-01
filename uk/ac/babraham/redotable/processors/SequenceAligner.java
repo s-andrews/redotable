@@ -96,6 +96,10 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 						
 					}
 					matchCount = 0;
+					
+					// We can also step the index on by the window size minus one, as we know no
+					// other hits can possibly happen before then.
+					index += (windowSize-1);
 
 				}
 				
