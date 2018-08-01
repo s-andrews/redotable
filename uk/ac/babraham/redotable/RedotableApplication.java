@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.filechooser.FileFilter;
 
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
+import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 
@@ -15,8 +16,10 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	private SequenceCollection collectionX;
 	private SequenceCollection collectionY;
 	
+	private static RedotableApplication application;
 	
-	public RedotableApplication () {
+	
+	private RedotableApplication () {
 		setJMenuBar(new RedotableMenu(this));
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,6 +28,10 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		setVisible(true);
 		
 		
+	}
+	
+	public static RedotableApplication getInstance() {
+		return application;
 	}
 	
 	public void openxseqs (){
@@ -62,6 +69,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 
 		SequenceParser sp = new SequenceParser(file, tag);
 		sp.addListener(this);
+		sp.addListener(new ProgressDialog("Parsing Sequences"));
 		
 		sp.startParsing();
 
@@ -70,7 +78,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	
 	
 	public static void main(String[] args) {
-		new RedotableApplication();
+		application = new RedotableApplication();
 	}
 
 

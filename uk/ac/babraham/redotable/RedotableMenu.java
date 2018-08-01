@@ -28,9 +28,12 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		fileOpenY.addActionListener(this);
 		fileMenu.add(fileOpenY);
 
+		fileMenu.addSeparator();
+		
 		JMenuItem fileExit = new JMenuItem("Exit");
 		fileExit.setActionCommand("exit");
 		fileExit.addActionListener(this);
+		fileMenu.add(fileExit);
 
 		add(fileMenu);
 		
