@@ -30,6 +30,13 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 
 		fileMenu.addSeparator();
 		
+		JMenuItem startAlignment = new JMenuItem("Start Aligning...");
+		startAlignment.setActionCommand("align");
+		startAlignment.addActionListener(this);
+		fileMenu.add(startAlignment);
+		
+		fileMenu.addSeparator();
+		
 		JMenuItem fileExit = new JMenuItem("Exit");
 		fileExit.setActionCommand("exit");
 		fileExit.addActionListener(this);
@@ -51,6 +58,10 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		else if (ae.getActionCommand().equals("exit")) {
 			System.exit(0);
 		}
+		else if (ae.getActionCommand().equals("align")) {
+			application.align();
+		}
+
 		else {
 			throw new IllegalStateException("Unknown menu command "+ae.getActionCommand());
 		}

@@ -7,6 +7,8 @@ public class Sequence {
 	private String name;
 	private String description;
 	
+	private static boolean [] test = new boolean[150];
+	
 	// We encode sequence in a boolean array to make things
 	// as efficient as possible.  We use 3 bits per base
 	//
@@ -61,4 +63,21 @@ public class Sequence {
 			}
 		}
 	}
+	
+	public int length () {
+		return bases.length()/3;
+	}
+	
+	public boolean [] getBases (int start, int end) {
+		int indexStart = start*3;
+		int indexEnd = (end*3)+2;
+
+		boolean [] returnArray = new boolean[(indexEnd-indexStart)+1]; 
+		for (int i=0;i<returnArray.length;i++) {
+			returnArray[i] = bases.toArray()[indexStart+i];
+		}
+		
+		return (returnArray);
+	}
+	
 }

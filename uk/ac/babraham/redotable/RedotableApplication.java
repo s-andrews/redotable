@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileFilter;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
+import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 
 public class RedotableApplication extends JFrame implements ProgressListener {
@@ -75,6 +76,20 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 
 	}
 	
+	public void align() {
+		
+		//TODO: Handle missing sequences better.
+		if (collectionX == null || collectionY == null) {
+			return;
+		}
+		
+		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, 50);
+		aligner.addListener(new ProgressDialog("Running alignment", aligner));
+		aligner.addListener(this);
+		
+		aligner.startAligning();
+		
+	}
 	
 	
 	public static void main(String[] args) {

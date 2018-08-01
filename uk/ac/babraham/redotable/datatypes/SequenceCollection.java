@@ -31,6 +31,11 @@ public class SequenceCollection {
 	public void addSequence (String sequence) {
 		currentSequence.addSequence(sequence);
 	}
+
+	public Sequence [] sequences () {
+		return sequences;
+	}
+	
 	
 	
 }
