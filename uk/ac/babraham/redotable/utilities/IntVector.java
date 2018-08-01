@@ -107,4 +107,15 @@ public class IntVector implements Serializable {
 		array = newArray;
 	}
 	
+	public String toString () {
+		StringBuffer sb = new StringBuffer();
+		trim();
+		for (int i=0;i<array.length;i++) {
+			sb.append(array[i]);
+			sb.append(" ");
+		}
+		
+		return (sb.toString());
+	}
+	
 }

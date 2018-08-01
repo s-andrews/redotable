@@ -96,6 +96,15 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	
 	public static void main(String[] args) {
 		application = new RedotableApplication();
+		
+		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "xseqs");
+		sp.addListener(application);		
+		sp.startParsing();
+
+		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "yseqs");
+		sp.addListener(application);		
+		sp.startParsing();
+		
 	}
 
 
@@ -126,6 +135,8 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		else if (command.equals("align")) {
 			System.err.println("Alignment finished");
 			setContentPane(new CollectionAlignmentPanel((SequenceCollectionAlignment)result));
+			getContentPane().validate();
+			getContentPane().repaint();
 		}
 		else {
 			throw new IllegalStateException("Unknown command result "+command);

@@ -50,7 +50,6 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 					return;
 				}
 				
-				progressUpdated("Aligning "+xSequences[x].name()+ " vs "+ySequences[y].name(), 0, 1);
 
 				makePairwiseAlignment(xSequences[x],ySequences[y],alignment);
 			}
@@ -69,9 +68,10 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 		
 		for (int yStart = 0;yStart<y.length()-windowSize;yStart++) {
 			
-//			if (yStart % 1000 == 0) {
-//				progressUpdated("Line "+yStart, yStart, y.length());
-//			}
+			if (yStart %100 == 0) {
+				progressUpdated("Aligning "+x.name()+ " vs "+y.name(), yStart, y.length()-windowSize);
+			}
+
 			
 			byte [] ySeq = y.getBases(yStart,yStart+(windowSize-1));
 			
@@ -87,6 +87,7 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 				}
 				
 				if (compareSeqs(ySeq,xSeq)) {
+//					System.err.println("Match at "+yStart+" vs "+xStart);
 					if (weMatch) {
 						alignment.increaseLastBy(1);
 					}
@@ -96,15 +97,19 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 					}
 				}
 				else {
+//					System.err.println("No match at "+yStart+" vs "+xStart);
 					if (weMatch) {
 						weMatch = false;
 						alignment.add(1);
 					}
 					else {
 						alignment.increaseLastBy(1);
+//						System.err.println("Increased last no match to "+alignment.getLast());
 					}
 				}
 			}			
+			
+			System.err.println("Alignment at line "+yStart+" is "+alignment.toString());
 			
 			pw.setAlignmentLine(yStart, alignment.toArray());
 		}
@@ -129,9 +134,9 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 			if (x[start] != y[start]) return false;
 		}
 		
-		
 		return true;
 		
 	}
+		
 	
 }
