@@ -1,34 +1,23 @@
 package uk.ac.babraham.redotable.datatypes;
 
+import java.util.Vector;
+
 public class PairwiseAlignment {
 
 	private Sequence sequenceX;
 	private Sequence sequenceY;
-	private int windowSize;
 
-	private int [][] alignmentLines;
+	private Vector<Diagonal> diagonals = new Vector<Diagonal>();
 	/*
-	 * We store alignments as a series of integers.  We have a first dimension
-	 * which is all of the start points in the Y sequence and then each of those
-	 * has an int array associated with it.  This stores the transition points
-	 * from matching to not matching, and we assume that the first position is
-	 * NOT matching.
-	 * 
-	 * For example, a vector of 10,2,40,5,10 would be:
-	 * positions 1-10 didn't match
-	 * positions 11-12 matched
-	 * positions 13-52 didn't match
-	 * positions 53-57 matched
-	 * positions 58-67 didn't match
-	 * 
-	 * The sum of the values in each line should be the length of the x sequence
+	 * Our alignments are stored as sets of diagonals.  For each alignment segment we
+	 * simply store an x start, a y start and a length.  This will be enough to define
+	 * the alignment.
 	 */
 	
-	public PairwiseAlignment (Sequence sequenceX, Sequence sequenceY, int windowSize) {
+	public PairwiseAlignment (Sequence sequenceX, Sequence sequenceY) {
 		this.sequenceX = sequenceX;
 		this.sequenceY = sequenceY;
-		this.windowSize = windowSize;
-		alignmentLines = new int[sequenceY.length()][];
+		
 	}
 	
 	public Sequence sequenceX () {
@@ -40,32 +29,38 @@ public class PairwiseAlignment {
 	}
 	
 	public int yLength () {
-		return sequenceY.length()-windowSize;
+		return sequenceY.length();
 	}
 	
 	public int xLength() {
-		return sequenceX.length()-windowSize;
+		return sequenceX.length();
 	}
 	
-	public void setAlignmentLine (int line, int[] alignment) {
+	public void addAlignment (Diagonal d) {
+		diagonals.add(d);
+	}
+	
+	public Diagonal [] getDiagonals () {
+		return diagonals.toArray(new Diagonal[0]);
+	}
+	
+	public void printAlignment (Diagonal d) {
 		
-		int sum = 0;
-		for (int i=0;i<alignment.length;i++) {
-			sum += alignment[i];
+		System.err.println("x start="+d.xStart()+" xEnd="+d.xEnd()+" yStart="+d.yStart()+" yEnd="+d.yEnd()+"");
+		
+		StringBuffer b1 = new StringBuffer();
+		StringBuffer b2 = new StringBuffer();
+		
+		for (int i=0;i<d.length();i++) {
+			b1.append(sequenceX.getBases()[d.xStart()+i]);
+			b2.append(sequenceY.getBases()[d.yStart()+i]);
 		}
 		
-		if (sum != sequenceX.length()-windowSize) {
-			throw new IllegalStateException("Alignment was the wrong length "+sum+" vs "+sequenceX.length());
-		}
+		System.err.println(b1.toString());
+		System.err.println(b2.toString());
+		System.err.println("");
 		
-		alignmentLines[line] = alignment;
 	}
-	
-	public int [] getAlignmentForPosition (int position) {
-		return alignmentLines[position];
-	}
-	
-	
 	
 	
 }

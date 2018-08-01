@@ -1,12 +1,12 @@
 package uk.ac.babraham.redotable.processors;
 
 
+import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
 import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.utilities.Cancellable;
-import uk.ac.babraham.redotable.utilities.IntVector;
 import uk.ac.babraham.redotable.utilities.Progressable;
 
 public class SequenceAligner extends Progressable implements Runnable, Cancellable {
@@ -62,81 +62,62 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 	
 	
 	private void makePairwiseAlignment (Sequence x, Sequence y, SequenceCollectionAlignment align) {
-		PairwiseAlignment pw = new PairwiseAlignment(x, y,windowSize);
+		PairwiseAlignment pw = new PairwiseAlignment(x, y);
 		
-		// Start from all starting points in y
+		// We work by sliding the two sequences over each other and then doing a run over the overlap
 		
-		for (int yStart = 0;yStart<y.length()-windowSize;yStart++) {
-			
-			if (yStart %100 == 0) {
-				progressUpdated("Aligning "+x.name()+ " vs "+y.name(), yStart, y.length()-windowSize);
-			}
+		byte [] xBases = x.getBases();
+		byte [] yBases = y.getBases();
+		
+//		System.err.println("x length="+x.length()+" y length="+y.length()+" min offset="+(0-(y.length()-1))+" max offset="+(x.length()-1));
+		
+		for (int offset = 0-(y.length()-1);offset < x.length();offset++) {
+//		for (int offset = -1;offset < 0;offset++) {
 
+			if (offset %10000 == 0) {
+				progressUpdated("Offset is "+offset, 0, 1);
+			}
+			// In each diagonal we iterate over the overlapping region
 			
-			byte [] ySeq = y.getBases(yStart,yStart+(windowSize-1));
-			
-			IntVector alignment = new IntVector();
-			alignment.add(0);
-			boolean weMatch = false;
-			
-			for (int xStart = 0; xStart<x.length()-windowSize;xStart++) {
-				byte [] xSeq = x.getBases(xStart,xStart+(windowSize-1));
-								
-				if (cancel) {
-					return;
-				}
-				
-				if (compareSeqs(ySeq,xSeq)) {
-//					System.err.println("Match at "+yStart+" vs "+xStart);
-					if (weMatch) {
-						alignment.increaseLastBy(1);
-					}
-					else {
-						weMatch = true;
-						alignment.add(1);
-					}
+			int matchCount = 0;
+			for (int index = Math.max(0, offset);index<Math.min(x.length()-1,(y.length()-1)+offset);index++) {
+//				System.err.println("X index="+index+" y index="+(index-offset));
+				// See if this base matches
+				if (xBases[index] == yBases[index-offset]){
+					++matchCount;
 				}
 				else {
-//					System.err.println("No match at "+yStart+" vs "+xStart);
-					if (weMatch) {
-						weMatch = false;
-						alignment.add(1);
+					// If it doesn't we see if we've got a long enough match to record
+					if (matchCount >= windowSize) {
+						Diagonal d = new Diagonal(index-matchCount, (index-offset)-matchCount, matchCount, true);
+						pw.addAlignment(d);
+						
+//						pw.printAlignment(d);
+						
 					}
-					else {
-						alignment.increaseLastBy(1);
-//						System.err.println("Increased last no match to "+alignment.getLast());
+					matchCount = 0;
+
+				}
+				
+				if (index == Math.min(x.length()-1,(y.length()-1)+offset)-1) {
+					// We're on the last index, so check for a trailing match
+					if (matchCount >= windowSize) {
+						index++;
+						Diagonal d = new Diagonal(index-matchCount, (index-offset)-matchCount, matchCount, true);
+						pw.addAlignment(d);
+
+//						pw.printAlignment(d);
+
+						matchCount = 0;
 					}
 				}
-			}			
-			
-			System.err.println("Alignment at line "+yStart+" is "+alignment.toString());
-			
-			pw.setAlignmentLine(yStart, alignment.toArray());
+			}
+						
 		}
+		
 		
 		
 		align.addPairwiseAlignment(pw);
-	}
-	
-	
-	private boolean compareSeqs (byte [] x, byte [] y){
-				
-		// Go through them 
-				
-		if (x.length != y.length) {
-			throw new IllegalStateException("Sequences weren't the same length");
-		}
-
-		
-		for (int start = 0;start< x.length;start+=3) {
-			if (x[start] == Sequence.N || y[start] == Sequence.N) return false; // Ambiguous base
-			
-			if (x[start] != y[start]) return false;
-		}
-		
-		return true;
-		
-	}
-		
+	}		
 	
 }

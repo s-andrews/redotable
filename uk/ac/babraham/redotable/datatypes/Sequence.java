@@ -64,4 +64,8 @@ public class Sequence {
 		return (returnArray);
 	}
 	
+	public byte [] getBases () {
+		return bases.toArray();
+	}
+	
 }
