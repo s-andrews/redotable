@@ -73,14 +73,14 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 //				progressUpdated("Line "+yStart, yStart, y.length());
 //			}
 			
-			boolean [] ySeq = y.getBases(yStart,yStart+(windowSize-1));
+			byte [] ySeq = y.getBases(yStart,yStart+(windowSize-1));
 			
 			IntVector alignment = new IntVector();
 			alignment.add(0);
 			boolean weMatch = false;
 			
 			for (int xStart = 0; xStart<x.length()-windowSize;xStart++) {
-				boolean [] xSeq = x.getBases(xStart,xStart+(windowSize-1));
+				byte [] xSeq = x.getBases(xStart,xStart+(windowSize-1));
 								
 				if (cancel) {
 					return;
@@ -114,25 +114,21 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 	}
 	
 	
-	private boolean compareSeqs (boolean [] x, boolean [] y){
-		
-		// Go through them in 3s comparing
-		
-		if (x.length % 3 != 0) {
-			throw new IllegalStateException("Reads were wrong length "+x.length);
+	private boolean compareSeqs (byte [] x, byte [] y){
+				
+		// Go through them 
+				
+		if (x.length != y.length) {
+			throw new IllegalStateException("Sequences weren't the same length");
 		}
+
 		
 		for (int start = 0;start< x.length;start+=3) {
-			if (x[start] || y[start]) {
-				// We have an ambiguous base so we can just skip
-				return false;
-			}
+			if (x[start] == Sequence.N || y[start] == Sequence.N) return false; // Ambiguous base
 			
-			if (x[start+1] != y[start+1] || x[start+2] != y[start+2]) {
-				return false;
-			}
-			
+			if (x[start] != y[start]) return false;
 		}
+		
 		
 		return true;
 		

@@ -27,19 +27,19 @@ import java.io.Serializable;
  * @author andrewss
  *
  */
-public class BooleanVector implements Serializable {
+public class ByteVector implements Serializable {
 
-	private boolean [] array = new boolean [1000];
+	private byte [] array = new byte [1000];
 	private int length = 0;
 	private boolean trimmed = false;
 
-	public void add (boolean [] values) {
+	public void add (byte [] values) {
 		for (int i=0;i<values.length;i++) {
 			add(values[i]);
 		}
 	}
 	
-	public synchronized void add (boolean value) {
+	public synchronized void add (byte value) {
 		if (array.length == length) {
 			makeLonger();
 		}
@@ -54,18 +54,18 @@ public class BooleanVector implements Serializable {
 		return length;
 	}
 	
-	public void setValues (boolean [] values) {
+	public void setValues (byte [] values) {
 		array = values;
 		length = values.length;
 		trimmed = true;
 	}
 	
 	public void clear () {
-		array = new boolean [1000];
+		array = new byte [1000];
 		length = 0;
 	}
 	
-	public boolean [] toArray () {
+	public byte [] toArray () {
 		if (! trimmed) trim();
 		return array;
 	}
@@ -77,7 +77,7 @@ public class BooleanVector implements Serializable {
 	 * around after all of the reads have been added.
 	 */
 	public void trim () {
-		boolean [] trimmedArray = new boolean[length];
+		byte [] trimmedArray = new byte[length];
 		for (int i=0;i<trimmedArray.length;i++) {
 			trimmedArray[i] = array[i];
 		}
@@ -93,7 +93,7 @@ public class BooleanVector implements Serializable {
 			newLength = length+500;
 		}
 		
-		boolean [] newArray = new boolean[newLength];
+		byte [] newArray = new byte[newLength];
 		for (int i=0;i<array.length;i++) {
 			newArray[i] = array[i];
 		}

@@ -69,7 +69,7 @@ public class PairwiseAlignmentPanel extends JPanel{
 					int xEnd = getY(newEnd);
 					
 					for (int x=xStart;x<=xEnd;x++) {
-						System.err.println("Setting black at x,y");
+//						System.err.println("Setting black at "+x+","+y);
 						pixmap.setRGB(x, y, 0x00000000);
 					}
 					matching = false;
