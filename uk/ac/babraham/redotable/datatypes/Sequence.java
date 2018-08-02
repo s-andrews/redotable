@@ -16,8 +16,7 @@ public class Sequence {
 	public static final byte G = 1;
 	public static final byte A = 2;
 	public static final byte T = 3;
-	public static final byte U = 4;
-	public static final byte C = 5;
+	public static final byte C = 4;
 	
 	
 	public Sequence (String name, String description) {

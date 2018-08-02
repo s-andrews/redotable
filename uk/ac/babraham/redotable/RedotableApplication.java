@@ -18,6 +18,7 @@ import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
+import uk.ac.babraham.redotable.processors.HashingAligner;
 import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 
@@ -106,7 +107,8 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 			return;
 		}
 		
-		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
+//		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
+		HashingAligner aligner = new HashingAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
 		aligner.addListener(new ProgressDialog("Running alignment", aligner));
 		aligner.addListener(this);
 		
@@ -183,11 +185,11 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		
 		application = new RedotableApplication();
 		
-		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/test2.fa"), "xseqs");
+		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "xseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 	
-		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/test2.fa"), "yseqs");
+		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "yseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 		
