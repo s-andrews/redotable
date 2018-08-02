@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
@@ -24,7 +25,8 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	
 	private RedotableApplication () {
 		setJMenuBar(new RedotableMenu(this));
-		
+		setTitle("Re-dot-able");
+				
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
 		setLocationRelativeTo(null);
@@ -94,20 +96,6 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	}
 	
 	
-	public static void main(String[] args) {
-		application = new RedotableApplication();
-		
-		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "xseqs");
-		sp.addListener(application);		
-		sp.startParsing();
-
-		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "yseqs");
-		sp.addListener(application);		
-		sp.startParsing();
-		
-	}
-
-
 	@Override
 	public void progressExceptionReceived(Exception e) {}
 
@@ -142,6 +130,32 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 			throw new IllegalStateException("Unknown command result "+command);
 		}
 
+	}
+
+	public static void main(String[] args) {
+		
+		try {
+			
+			// Recent java themes for linux are just horribly broken with missing
+			// bits of UI.  We're therefore not going to set a native look if
+			// we're on linux.  See bug #95 for details.
+			
+			if (! System.getProperty("os.name").toLowerCase().contains("linux")) {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
+		} catch (Exception e) {}
+
+		
+		application = new RedotableApplication();
+		
+		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "xseqs");
+		sp.addListener(application);		
+		sp.startParsing();
+	
+		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "yseqs");
+		sp.addListener(application);		
+		sp.startParsing();
+		
 	}
 
 }
