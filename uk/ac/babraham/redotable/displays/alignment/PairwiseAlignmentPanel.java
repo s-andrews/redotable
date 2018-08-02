@@ -2,6 +2,8 @@ package uk.ac.babraham.redotable.displays.alignment;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ public class PairwiseAlignmentPanel extends JPanel{
 	
 	public void paintComponent (Graphics g) {
 		super.paintComponent(g);
+		
+		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
