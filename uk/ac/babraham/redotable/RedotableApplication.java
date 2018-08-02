@@ -19,7 +19,6 @@ import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.HashingAligner;
-import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 
 public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
