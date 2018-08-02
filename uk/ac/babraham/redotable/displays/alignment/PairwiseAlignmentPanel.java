@@ -57,7 +57,6 @@ public class PairwiseAlignmentPanel extends JPanel{
 				g.drawLine(getX(diagonals[d].xStart()), getY(diagonals[d].yStart()), getX(diagonals[d].xEnd()),getY(diagonals[d].yEnd()));
 			}
 			else {
-				System.err.println("Plotting reverse "+getX(diagonals[d].xStart())+","+getY(diagonals[d].yStart())+","+ getX(diagonals[d].xEnd())+","+getY(diagonals[d].yEnd()));
 				g.setColor(Color.BLUE);
 				g.drawLine(getX(diagonals[d].xStart()), getY(diagonals[d].yStart()), getX(diagonals[d].xEnd()),getY(diagonals[d].yEnd()));
 			}

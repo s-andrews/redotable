@@ -24,16 +24,16 @@ public class Diagonal {
 	}
 	
 	public int xEnd () {
-		return xStart+(length-1);
+		if (forward) {
+			return xStart+(length-1);
+		}
+		else {
+			return xStart-(length-1);
+		}
 	}
 	
 	public int yEnd () {
-		if (forward) {
-			return yStart+(length-1);
-		}
-		else {
-			return yStart-(length-1);
-		}
+		return yStart+(length-1);
 	}
 	
 	public int length() {

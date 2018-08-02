@@ -73,7 +73,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		BASE: for (int i=0;i<xBases.length-(10+1);i++) {
 			
 			if (i % 1000 == 0) {
-				progressUpdated("Hashed "+i+" positions", i, xBases.length);
+				progressUpdated("Hashed "+i+" forward positions", i, xBases.length);
 			}
 			
 			// We work out the index position for this base.
@@ -98,7 +98,39 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		    
 		    hashedPositions[hashValue].add(i);
 		}
+		
+		// Now we can hash the reverse positions.
+		byte [] reverseXbases = x.getReverseComplementBases();
+		BASE: for (int i=0;i<reverseXbases.length-(10+1);i++) {
+			
+			if (i % 1000 == 0) {
+				progressUpdated("Hashed "+i+" reverse positions", i, xBases.length);
+			}
+			
+			// We work out the index position for this base.
+			int hashValue = 0;
+		    int power = 1;
 
+		    for (int d = 9; d >= 0; d--) {
+		    	if (reverseXbases[i+d] == Sequence.G) hashValue += 0 * power;
+		    	else if (reverseXbases[i+d] == Sequence.A) hashValue += 1 * power;
+		    	else if (reverseXbases[i+d] == Sequence.T) hashValue += 2 * power;
+		    	else if (reverseXbases[i+d] == Sequence.C) hashValue += 3 * power;
+		    	else {
+		    		continue BASE;  // This has non-standard letters, skip it
+		    	}
+
+		        power = power * 4;
+		    }
+		    		    
+		    if (hashedPositions[hashValue] == null) {
+		    	hashedPositions[hashValue] = new IntVector();
+		    }
+		    
+		    // It's reverse so we make the position negative.  Since this won't work for zero, we need
+		    // to subtract it from -1
+		    hashedPositions[hashValue].add(-1-i);
+		}
 		
 		for (int yi=0;yi<ally.length;yi++) {
 			
@@ -137,34 +169,69 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 			    		
 			    		// See how far we can extend this match.
 			    		
-			    		// Firstly, check the base before.  If it matches then we'll
-			    		// already have recorded this.
-			    		if (matchPositions[p] > 0 && i>0 && xBases[matchPositions[p]-1] == yBases[i-1]) continue;
-			    		
-			    		int matchLength = 10;
-			    		while (true) {
-			    			if (matchPositions[p]+matchLength >= xBases.length-1) break;
-			    			if (i+matchLength >= yBases.length-1) break;
-			    			byte xBase = xBases[matchPositions[p]+matchLength];
-			    			byte yBase = yBases[i+matchLength];
+			    		// The logic works slightly differently for forward and reverse matches
+			    		if (matchPositions[p] >=0) {
+			    			// It's a forward hit
 			    			
-			    			if (xBase == Sequence.N || yBase == Sequence.N ) break;
-			    		
-//			    			System.err.println("Comparing "+xBase+" to "+yBase+" from "+(matchPositions[p]+matchLength)+" and "+(i+matchLength));
+				    		// Firstly, check the base before.  If it matches then we'll
+				    		// already have recorded this.
+				    		if (matchPositions[p] > 0 && i>0 && xBases[matchPositions[p]-1] == yBases[i-1]) continue;
+				    		
+				    		int matchLength = 10;
+				    		while (true) {
+				    			if (matchPositions[p]+matchLength >= xBases.length-1) break;
+				    			if (i+matchLength >= yBases.length-1) break;
+				    			byte xBase = xBases[matchPositions[p]+matchLength];
+				    			byte yBase = yBases[i+matchLength];
+				    			
+				    			if (xBase == Sequence.N || yBase == Sequence.N ) break;
+				    		
+	//			    			System.err.println("Comparing "+xBase+" to "+yBase+" from "+(matchPositions[p]+matchLength)+" and "+(i+matchLength));
+				    			
+				    			if (xBase != yBase) break;
+				    			
+				    			matchLength++;
+				    		}
+				    		
+				    		if (matchLength >= redotablePreferences.getInstance().windowSearchSize()) {	
+				    			Diagonal d = new Diagonal(matchPositions[p], i, matchLength, true);
+				    		
+				    			pw.addAlignment(d);
+				    		}
+				    	}
+			    		else {
+			    			// It's a reverse hit
+			    			int matchPosition  = -1-matchPositions[p];
+
+				    		// Firstly, check the base before.  If it matches then we'll
+				    		// already have recorded this.
+				    		if (matchPositions[p] > 0 && i>0 && reverseXbases[matchPositions[p]-1] == yBases[i-1]) continue;
+				    		
+				    		int matchLength = 10;
+				    		while (true) {
+				    			if (matchPosition+matchLength >= reverseXbases.length-1) break;
+				    			if (i+matchLength >= yBases.length-1) break;
+				    			byte xBase = reverseXbases[matchPosition+matchLength];
+				    			byte yBase = yBases[i+matchLength];
+				    			
+				    			if (xBase == Sequence.N || yBase == Sequence.N ) break;
+				    			
+				    			if (xBase != yBase) break;
+				    			
+				    			matchLength++;
+				    		}
+				    		
+				    		if (matchLength >= redotablePreferences.getInstance().windowSearchSize()) {	
+				    			Diagonal d = new Diagonal((reverseXbases.length-1)-matchPosition, i, matchLength, false);
+				    		
+				    			pw.addAlignment(d);
+				    		}
+
 			    			
-			    			if (xBase != yBase) break;
-			    			
-			    			matchLength++;
 			    		}
-			    		
-			    		if (matchLength >= redotablePreferences.getInstance().windowSearchSize()) {	
-			    			Diagonal d = new Diagonal(matchPositions[p], i, matchLength, true);
-			    		
-			    			pw.addAlignment(d);
-			    		}
-			    	}
 			    
-			    }
+			    	}
+				}
 			    
 			}
 		
