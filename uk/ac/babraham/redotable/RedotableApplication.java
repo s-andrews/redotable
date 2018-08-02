@@ -140,7 +140,6 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 			collectionY = (SequenceCollection)result;
 		}
 		else if (command.equals("align")) {
-			System.err.println("Alignment finished");
 			dotPanel.setAlignment((SequenceCollectionAlignment)result);
 		}
 		else {
@@ -184,11 +183,11 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		
 		application = new RedotableApplication();
 		
-		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "xseqs");
+		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/test2.fa"), "xseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 	
-		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_mouse.fa"), "yseqs");
+		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/test2.fa"), "yseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 		

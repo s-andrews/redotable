@@ -28,7 +28,12 @@ public class Diagonal {
 	}
 	
 	public int yEnd () {
-		return yStart+(length-1);
+		if (forward) {
+			return yStart+(length-1);
+		}
+		else {
+			return yStart-(length-1);
+		}
 	}
 	
 	public int length() {

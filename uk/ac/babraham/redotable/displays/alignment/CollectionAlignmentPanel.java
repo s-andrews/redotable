@@ -29,7 +29,6 @@ public class CollectionAlignmentPanel extends JPanel {
 				gbc.gridy=(yseqs.length-1)-y;
 				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().length());
 				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().length());
-				System.err.println("Adding at "+x+" "+y);
 				add(new PairwiseAlignmentPanel(alignment.getAlignmentForSequences(xseqs[x], yseqs[y])),gbc);
 			}
 		}

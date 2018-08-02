@@ -68,8 +68,14 @@ public class DotPlotPanel extends JPanel implements PreferencesListener {
 		xScale.setLimits(0, alignment.collectionX().length());
 		yScale.setLimits(0, alignment.collectionY().length());
 		
-		remove(centrePanel);
+		if (alignmentPanel != null) {
+			remove(alignmentPanel);
+		}
+		else {
+			remove(centrePanel);
+		}
 		validate();
+		repaint();
 		
 		alignmentPanel = new CollectionAlignmentPanel(alignment);
 		add(alignmentPanel,gbc);

@@ -48,24 +48,34 @@ public class Sequence {
 			default: bases.add(N);
 			}
 		}
+		
 	}
 	
 	public int length () {
-		return bases.length()/3;
+		return bases.length();
 	}
-	
-	public byte [] getBases (int start, int end) {
-
-		byte [] returnArray = new byte[(end-start)+1]; 
-		for (int i=0;i<returnArray.length;i++) {
-			returnArray[i] = bases.toArray()[start+i];
-		}
 		
-		return (returnArray);
-	}
-	
 	public byte [] getBases () {
 		return bases.toArray();
 	}
+	
+	public byte [] getReverseComplementBases () {
+		 byte [] forward = getBases();
+		 byte [] reverse = new byte[forward.length];
+		 
+		 int revIndex;
+		 for (int i=0;i<forward.length;i++) {
+			 revIndex = (reverse.length-1)-i;
+
+			 if (forward[i] == N) reverse[revIndex] = N;
+			 else if (forward[i] == G) reverse[revIndex] = C;
+			 else if (forward[i] == A) reverse[revIndex] = T;
+			 else if (forward[i] == T) reverse[revIndex] = A;
+			 else if (forward[i] == C) reverse[revIndex] = G;
+		 }
+		 
+		 return(reverse);
+	}
+
 	
 }
