@@ -6,8 +6,8 @@ import java.util.Vector;
 public class redotablePreferences {
 
 	private Vector<PreferencesListener> listeners = new Vector<PreferencesListener>();
-	private int windowSearchSize = 10;
-	private int windowDisplaySize = 10;
+	private int windowSearchSize = 50;
+	private int windowDisplaySize = 50;
 	
 	private static redotablePreferences instance = new redotablePreferences();
 	

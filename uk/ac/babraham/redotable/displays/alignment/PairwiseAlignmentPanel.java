@@ -1,6 +1,7 @@
 package uk.ac.babraham.redotable.displays.alignment;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -20,6 +21,15 @@ public class PairwiseAlignmentPanel extends JPanel{
 	public PairwiseAlignmentPanel (PairwiseAlignment align) {
 		this.align=align;
 		diagonals = align.getDiagonals();
+		setToolTipText(align.sequenceX().name()+" vs "+align.sequenceY().name());
+	}
+	
+	public Dimension getPreferredSize() {
+		return(new Dimension(1,1));
+	}
+	
+	public Dimension getMinimumSize () {
+		return (new Dimension(0,0));
 	}
 	
 	
