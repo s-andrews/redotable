@@ -9,16 +9,19 @@ import javax.swing.JPanel;
 
 import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
+import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
 public class PairwiseAlignmentPanel extends JPanel{
 
 	private PairwiseAlignment align;
-	Diagonal [] diagonals;
+	private Diagonal [] diagonals;
+	
 	
 	public PairwiseAlignmentPanel (PairwiseAlignment align) {
 		this.align=align;
 		diagonals = align.getDiagonals();
 	}
+	
 	
 	public void paintComponent (Graphics g) {
 		super.paintComponent(g);
@@ -32,10 +35,13 @@ public class PairwiseAlignmentPanel extends JPanel{
 		g.drawLine(0, 0, getWidth(), 0);
 		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
 		
-		
 		g.setColor(Color.BLACK);
+				
+		int windowSize = redotablePreferences.getInstance().windowDisplaySize();
+		
 		// Draw the diagonals
 		for (int d=0;d<diagonals.length;d++) {
+			if (diagonals[d].length() < windowSize) continue;
 			if (diagonals[d].forward()) {
 				g.drawLine(getX(diagonals[d].xStart()), getY(diagonals[d].yStart()), getX(diagonals[d].xEnd()),getY(diagonals[d].yEnd()));
 			}

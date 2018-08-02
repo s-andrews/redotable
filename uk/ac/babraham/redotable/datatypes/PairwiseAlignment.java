@@ -42,7 +42,7 @@ public class PairwiseAlignment {
 	
 	public Diagonal [] getDiagonals () {
 		return diagonals.toArray(new Diagonal[0]);
-	}
+	}	
 	
 	public void printAlignment (Diagonal d) {
 		

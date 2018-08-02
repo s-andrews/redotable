@@ -5,7 +5,11 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
@@ -13,10 +17,11 @@ import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
+import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 
-public class RedotableApplication extends JFrame implements ProgressListener {
+public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
 
 	private SequenceCollection collectionX;
 	private SequenceCollection collectionY;
@@ -24,6 +29,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	private static RedotableApplication application;
 	
 	private DotPlotPanel dotPanel;
+	private JSlider windowSlider;
 	
 	
 	private RedotableApplication () {
@@ -32,9 +38,13 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 				
 		
 		dotPanel = new DotPlotPanel();
+		windowSlider = new JSlider(SwingConstants.VERTICAL, 0, 1000, 0);
+		windowSlider.setPaintTicks(true);
+		windowSlider.addChangeListener(this);
 		
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(dotPanel, BorderLayout.CENTER);
+		getContentPane().add(windowSlider, BorderLayout.EAST);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
@@ -96,7 +106,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 			return;
 		}
 		
-		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, 5);
+		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
 		aligner.addListener(new ProgressDialog("Running alignment", aligner));
 		aligner.addListener(this);
 		
@@ -139,6 +149,25 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 
 	}
 
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// The slider moved.
+		
+		// The slider produces a value between 0 and 1000
+		int sliderValue = windowSlider.getValue();
+		
+		// We convert this into a window size.  This will be 
+		// between the current starting size and something 10 times that big
+		
+		int windowMin = redotablePreferences.getInstance().windowSearchSize();
+		int windowMax = windowMin * 10;
+		
+		int newWindowSize = windowMin + (int)((windowMax-windowMin)*(sliderValue/1000d));
+		
+		redotablePreferences.getInstance().setWindowDisplaySize(newWindowSize);
+		
+	}
+
 	public static void main(String[] args) {
 		
 		try {
@@ -164,5 +193,6 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		sp.startParsing();
 		
 	}
+
 
 }

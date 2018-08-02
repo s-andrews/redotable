@@ -12,17 +12,23 @@ import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.displays.alignment.CollectionAlignmentPanel;
 import uk.ac.babraham.redotable.displays.scaleBars.HorizontalScaleBar;
 import uk.ac.babraham.redotable.displays.scaleBars.VerticalScaleBar;
+import uk.ac.babraham.redotable.preferences.PreferencesListener;
+import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
-public class DotPlotPanel extends JPanel {
+public class DotPlotPanel extends JPanel implements PreferencesListener {
 
 	private HorizontalScaleBar xScale;
 	private VerticalScaleBar yScale;
 	private JPanel centrePanel;
+	private CollectionAlignmentPanel alignmentPanel;
+	private SequenceCollectionAlignment alignment;
 	
 	private GridBagConstraints gbc;
 	
 	
 	public DotPlotPanel () {
+		
+		redotablePreferences.getInstance().addListener(this);
 		
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
@@ -58,16 +64,26 @@ public class DotPlotPanel extends JPanel {
 	}
 	
 	public void setAlignment (SequenceCollectionAlignment alignment) {
+		this.alignment = alignment;
 		xScale.setLimits(0, alignment.collectionX().length());
 		yScale.setLimits(0, alignment.collectionY().length());
 		
 		remove(centrePanel);
 		validate();
 		
-		centrePanel = new CollectionAlignmentPanel(alignment);
-		add(centrePanel,gbc);
+		alignmentPanel = new CollectionAlignmentPanel(alignment);
+		add(alignmentPanel,gbc);
 		
 		validate();
+		repaint();
+	}
+
+	@Override
+	public void preferencesUpdated() {
+		if (alignment != null) {
+			xScale.setLimits(0, alignment.collectionX().length());
+			yScale.setLimits(0, alignment.collectionY().length());			
+		}
 		repaint();
 	}
 	
