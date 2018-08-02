@@ -26,7 +26,7 @@ public class CollectionAlignmentPanel extends JPanel {
 		for (int x=0;x<xseqs.length;x++) {
 			for (int y=0;y<yseqs.length;y++) {
 				gbc.gridx=x;
-				gbc.gridy=y;
+				gbc.gridy=(yseqs.length-1)-y;
 				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().length());
 				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().length());
 				System.err.println("Adding at "+x+" "+y);
