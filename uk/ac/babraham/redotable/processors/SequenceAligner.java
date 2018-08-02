@@ -92,7 +92,7 @@ public class SequenceAligner extends Progressable implements Runnable, Cancellab
 						Diagonal d = new Diagonal(index-matchCount, (index-offset)-matchCount, matchCount, true);
 						pw.addAlignment(d);
 						
-						pw.printAlignment(d);
+//						pw.printAlignment(d);
 						
 					}
 					matchCount = 0;
