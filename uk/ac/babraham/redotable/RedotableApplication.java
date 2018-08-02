@@ -1,5 +1,6 @@
 package uk.ac.babraham.redotable;
 
+import java.awt.BorderLayout;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -10,7 +11,7 @@ import javax.swing.filechooser.FileFilter;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
-import uk.ac.babraham.redotable.displays.alignment.CollectionAlignmentPanel;
+import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.processors.SequenceAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
@@ -22,11 +23,19 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 	
 	private static RedotableApplication application;
 	
+	private DotPlotPanel dotPanel;
+	
 	
 	private RedotableApplication () {
 		setJMenuBar(new RedotableMenu(this));
 		setTitle("Re-dot-able");
 				
+		
+		dotPanel = new DotPlotPanel();
+		
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(dotPanel, BorderLayout.CENTER);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
 		setLocationRelativeTo(null);
@@ -122,9 +131,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		}
 		else if (command.equals("align")) {
 			System.err.println("Alignment finished");
-			setContentPane(new CollectionAlignmentPanel((SequenceCollectionAlignment)result));
-			getContentPane().validate();
-			getContentPane().repaint();
+			dotPanel.setAlignment((SequenceCollectionAlignment)result);
 		}
 		else {
 			throw new IllegalStateException("Unknown command result "+command);
