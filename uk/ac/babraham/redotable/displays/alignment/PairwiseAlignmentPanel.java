@@ -28,6 +28,10 @@ public class PairwiseAlignmentPanel extends JPanel{
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
+		g.setColor(Color.LIGHT_GRAY);
+		g.drawLine(0, 0, getWidth(), 0);
+		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
+		
 		
 		g.setColor(Color.BLACK);
 		// Draw the diagonals

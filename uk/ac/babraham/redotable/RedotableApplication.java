@@ -96,7 +96,7 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 			return;
 		}
 		
-		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, 50);
+		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, 5);
 		aligner.addListener(new ProgressDialog("Running alignment", aligner));
 		aligner.addListener(this);
 		
@@ -155,11 +155,11 @@ public class RedotableApplication extends JFrame implements ProgressListener {
 		
 		application = new RedotableApplication();
 		
-		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "xseqs");
+		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "xseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 	
-		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/really_small.fa"), "yseqs");
+		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_mouse.fa"), "yseqs");
 		sp.addListener(application);		
 		sp.startParsing();
 		
