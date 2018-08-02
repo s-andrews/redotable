@@ -144,7 +144,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 			BASE: for (int i=0;i<yBases.length-(10+1);i++) {
 			
 				if (i % 1000 == 0) {
-					progressUpdated("Checked "+i+" positions", i, yBases.length);
+					progressUpdated("Checked "+i+" positions in "+y.name(), i, yBases.length);
 				}
 			
 				// We work out the index position for this base.
@@ -205,7 +205,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 
 				    		// Firstly, check the base before.  If it matches then we'll
 				    		// already have recorded this.
-				    		if (matchPositions[p] > 0 && i>0 && reverseXbases[matchPositions[p]-1] == yBases[i-1]) continue;
+				    		if (matchPosition > 0 && i>0 && reverseXbases[matchPosition-1] == yBases[i-1]) continue;
 				    		
 				    		int matchLength = 10;
 				    		while (true) {
@@ -234,9 +234,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 				}
 			    
 			}
-		
-			// TODO: Remove duplicate sections.
-			
+					
 			align.addPairwiseAlignment(pw);
 		}
 	}		
