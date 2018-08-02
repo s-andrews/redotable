@@ -9,11 +9,8 @@ import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 
 public class CollectionAlignmentPanel extends JPanel {
-
-	private SequenceCollectionAlignment alignment;
 	
 	public CollectionAlignmentPanel (SequenceCollectionAlignment alignment) {
-		this.alignment = alignment;
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -30,6 +27,8 @@ public class CollectionAlignmentPanel extends JPanel {
 			for (int y=0;y<yseqs.length;y++) {
 				gbc.gridx=x;
 				gbc.gridy=y;
+				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().length());
+				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().length());
 				System.err.println("Adding at "+x+" "+y);
 				add(new PairwiseAlignmentPanel(alignment.getAlignmentForSequences(xseqs[x], yseqs[y])),gbc);
 			}

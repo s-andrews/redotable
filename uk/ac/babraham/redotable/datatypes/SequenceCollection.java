@@ -36,6 +36,13 @@ public class SequenceCollection {
 		return sequences;
 	}
 	
+	public int length() {
+		int length = 0;
+		for (int i=0;i<sequences.length;i++) {
+			length += sequences[i].length();
+		}
+		return length;
+	}
 	
 	
 }
