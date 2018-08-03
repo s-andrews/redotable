@@ -1,11 +1,9 @@
 package uk.ac.babraham.redotable.displays;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import uk.ac.babraham.redotable.datatypes.RedotabledData;
@@ -23,7 +21,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	private HorizontalScaleBar xScale;
 	private VerticalScaleBar yScale;
-	private JPanel centrePanel;
+	private welcomePanel centrePanel;
 	private CollectionAlignmentPanel alignmentPanel;
 	private RedotabledData data;
 	
@@ -42,10 +40,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		xScale = new HorizontalScaleBar(0, 100);
 		yScale = new VerticalScaleBar(0, 100);
 		
-		centrePanel = new JPanel();
-		centrePanel.setBackground(Color.WHITE);
-		centrePanel.setLayout(new BorderLayout());
-		centrePanel.add(new JLabel("No alignment yet",JLabel.CENTER),BorderLayout.CENTER);
+		centrePanel = new welcomePanel();
 		
 		gbc = new GridBagConstraints();
 		gbc.gridx=1;
