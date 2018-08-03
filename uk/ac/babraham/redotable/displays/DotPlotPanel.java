@@ -37,8 +37,8 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
 		
-		xScale = new HorizontalScaleBar(0, 100);
-		yScale = new VerticalScaleBar(0, 100);
+		xScale = new HorizontalScaleBar(0, 0);
+		yScale = new VerticalScaleBar(0, 0);
 		
 		centrePanel = new welcomePanel();
 		
@@ -48,6 +48,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		gbc.weightx=0.999;
 		gbc.weighty=0.001;
 		gbc.fill= GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.SOUTHEAST;
 		
 		add(xScale,gbc);
 		

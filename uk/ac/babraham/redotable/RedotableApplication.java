@@ -25,6 +25,9 @@ import uk.ac.babraham.redotable.utilities.imageSaver.ImageSaver;
 
 public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
 
+	public static final String VERSION = "0.1 devel";
+	
+	
 	private RedotabledData data;
 		
 	private static RedotableApplication application;

@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import uk.ac.babraham.redotable.RedotableApplication;
+
 
 public class welcomePanel extends JPanel {
 
@@ -24,8 +26,10 @@ public class welcomePanel extends JPanel {
 		ImageIcon logo = new ImageIcon(ClassLoader.getSystemResource("uk/ac/babraham/redotable/resources/redotable_logo.png"));
 
 		content.add(new JLabel("",logo,JLabel.CENTER));
-		
-		JLabel program = new SmoothJLabel("re-dot-able Interactive Dot Plot tool",JLabel.CENTER);
+
+		content.add(new JLabel(" "));
+
+		JLabel program = new SmoothJLabel("re-dot-able v"+RedotableApplication.VERSION+" Interactive Dot Plot tool",JLabel.CENTER);
 		program.setFont(new Font("Dialog",Font.BOLD,14));
 		program.setForeground(Color.BLACK);
 		content.add(program);
