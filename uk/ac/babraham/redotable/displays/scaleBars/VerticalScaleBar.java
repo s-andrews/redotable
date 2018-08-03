@@ -61,7 +61,7 @@ public class VerticalScaleBar extends JPanel {
 			
 			if (currentY != axisScale.getStartingValue()) {
 				
-				String text = axisScale.format(currentY);
+				String text = axisScale.formatBP(currentY);
 				g.drawString(text, getWidth()-(15+g.getFontMetrics().stringWidth(text)), y+(g.getFontMetrics().getAscent()/2));
 			}
 			

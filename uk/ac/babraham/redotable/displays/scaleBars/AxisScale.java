@@ -86,6 +86,29 @@ public class AxisScale {
 		
 	}
 	
+	public String formatBP (double number) {
+		
+		String scaleSuffix;
+		double division = 1;
+		
+		if (number >= 1000000) {
+			scaleSuffix = "Mb";
+			division = 1000000;
+		}
+		else if (number >= 10000) {
+			scaleSuffix = "kb";
+			division = 1000;
+		}
+		else {
+			scaleSuffix = "bp";
+			division = 1;
+		}
+
+		return(format(number/division)+" "+scaleSuffix);
+		
+	}
+	
+	
 	public String format (double number) {
 		if (df == null) {
 			if (interval == (int)interval) {
@@ -123,9 +146,4 @@ public class AxisScale {
 		return max;
 	}
 	
-	public static void main (String [] args) {
-		AxisScale as = new AxisScale(-4.75, 4.52);
-		
-		System.out.println("Scale is "+as.getMin()+"-"+as.getMax()+" starts at "+as.getStartingValue()+" with interval "+as.getInterval());
-	}
 }

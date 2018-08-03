@@ -41,7 +41,7 @@ public class HorizontalScaleBar extends VerticalScaleBar {
 		
 		g.drawLine(0, 5, getWidth(), 5);
 		
-		double currentX = axisScale.getStartingValue();
+		double currentX = axisScale.getStartingValue()+axisScale.getInterval();
 		
 		while (currentX < axisScale.getMax()) {
 			
@@ -49,7 +49,7 @@ public class HorizontalScaleBar extends VerticalScaleBar {
 			
 			g.drawLine(x, 5, x ,8);
 			
-			String text = axisScale.format(currentX);
+			String text = axisScale.formatBP(currentX);
 			
 			g.drawString(text, x-(g.getFontMetrics().getAscent()/2), 25);
 			
