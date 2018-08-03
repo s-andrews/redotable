@@ -8,15 +8,28 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import uk.ac.babraham.redotable.datatypes.Sequence;
+import uk.ac.babraham.redotable.datatypes.SequenceCollection;
+import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
+import uk.ac.babraham.redotable.datatypes.redotableDataListener;
 import uk.ac.babraham.redotable.displays.preferences.EditPreferencesDialog;
 import uk.ac.babraham.redotable.displays.sequenceProperties.SequencePropertiesDialog;
 
-public class RedotableMenu extends JMenuBar implements ActionListener {
+public class RedotableMenu extends JMenuBar implements ActionListener, redotableDataListener {
 
 	private RedotableApplication application;
 	
+	// Some items can be disabled until we either have sequences
+	// or alignments.
+	
+	JMenuItem fileSaveDotplot;
+	JMenuItem startAlignment;
+	
+	JMenuItem editProperties;
+	
 	public RedotableMenu (RedotableApplication application) {
 		this.application = application;
+		application.data().addDataListener(this);
 		
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -33,14 +46,14 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 
 		fileMenu.addSeparator();
 		
-		JMenuItem fileSaveDotplot = new JMenuItem("Save dotplot...");
+		fileSaveDotplot = new JMenuItem("Save dotplot...");
 		fileSaveDotplot.setActionCommand("save_dotplot");
 		fileSaveDotplot.addActionListener(this);
 		fileMenu.add(fileSaveDotplot);
 		
 		fileMenu.addSeparator();
 		
-		JMenuItem startAlignment = new JMenuItem("Start Aligning...");
+		startAlignment = new JMenuItem("Start Aligning...");
 		startAlignment.setActionCommand("align");
 		startAlignment.addActionListener(this);
 		fileMenu.add(startAlignment);
@@ -56,7 +69,7 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		
 		JMenu editMenu = new JMenu("Edit");
 		
-		JMenuItem editProperties = new JMenuItem("Sequence Properties...");
+		editProperties = new JMenuItem("Sequence Properties...");
 		editProperties.setActionCommand("edit_properties");
 		editProperties.addActionListener(this);
 		editMenu.add(editProperties);
@@ -68,6 +81,8 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		editMenu.add(editPreferences);
 		
 		add(editMenu);
+		
+		checkEnableItems();
 		
 	}
 
@@ -100,6 +115,56 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 			throw new IllegalStateException("Unknown menu command "+ae.getActionCommand());
 		}
 		
+	}
+	
+	private void checkEnableItems () {
+		
+		// Any sequence is enough to let us look at the sequence properties.
+		if (application.data().xSequences() != null || application.data().ySequences() != null) {
+			editProperties.setEnabled(true);
+		}
+		else {
+			editProperties.setEnabled(false);
+		}
+		
+		
+		// Both sequences and we can do an alignment.
+		if (application.data().xSequences() != null && application.data().ySequences() != null) {
+			startAlignment.setEnabled(true);
+		}
+		else {
+			startAlignment.setEnabled(false);
+		}
+
+		// If there is an alignment then we can save it
+		if (application.data().alignment() != null) {
+			fileSaveDotplot.setEnabled(true);
+		}
+		else {
+			fileSaveDotplot.setEnabled(false);
+		}
+		
+	}
+	
+
+	@Override
+	public void xSequencesReplaced(SequenceCollection seqs) {
+		checkEnableItems();
+	}
+
+	@Override
+	public void ySequencesReplaced(SequenceCollection seqs) {
+		checkEnableItems();
+	}
+
+	@Override
+	public void newAlignment(SequenceCollectionAlignment alignment) {
+		checkEnableItems();
+	}
+
+	@Override
+	public void sequenceChanged(Sequence seq) {
+		checkEnableItems();	
 	}
 	
 	

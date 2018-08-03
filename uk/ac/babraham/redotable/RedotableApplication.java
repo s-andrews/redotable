@@ -34,13 +34,14 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 	
 	
 	private RedotableApplication () {
-		setJMenuBar(new RedotableMenu(this));
 		setTitle("Re-dot-able");
 		setIconImage(new ImageIcon(ClassLoader.getSystemResource("uk/ac/babraham/redotable/resources/redotable_icon.png")).getImage());
 
 				
 		data = new RedotabledData();
-		
+
+		setJMenuBar(new RedotableMenu(this));
+
 		dotPanel = new DotPlotPanel(data);
 		
 		windowSlider = new JSlider(SwingConstants.VERTICAL, 0, 1000, 0);
