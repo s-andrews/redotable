@@ -43,6 +43,12 @@ public class redotablePreferences {
 		updateListeners();
 	}
 	
+	public void setWindowSearchSize (int newSize) {
+		windowSearchSize = newSize;
+		windowDisplaySize = newSize;
+		updateListeners();
+	}
+	
 	
 	public void addListener (PreferencesListener l) {
 		if (l != null && ! listeners.contains(l)) 

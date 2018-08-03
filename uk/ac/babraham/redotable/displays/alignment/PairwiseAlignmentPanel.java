@@ -56,11 +56,35 @@ public class PairwiseAlignmentPanel extends JPanel{
 			if (diagonals[d].length() < windowSize) continue;
 			if (diagonals[d].forward()) {
 				g.setColor(Color.RED);
-				g.drawLine(getX(diagonals[d].xStart()), getY(diagonals[d].yStart()), getX(diagonals[d].xEnd()),getY(diagonals[d].yEnd()));
+				int xStart = getX(diagonals[d].xStart());
+				int yStart = getY(diagonals[d].yStart());
+				int xEnd = getX(diagonals[d].xEnd());
+				int yEnd = getY(diagonals[d].yEnd());
+				
+				// Make sure nothing is invisible
+				if (xStart == xEnd && yStart == yEnd) {
+					xEnd +=1;
+					yEnd -=1;
+				}
+				
+				g.drawLine(xStart, yStart, xEnd, yEnd);
 			}
 			else {
 				g.setColor(Color.BLUE);
-				g.drawLine(getX(diagonals[d].xStart()), getY(diagonals[d].yStart()), getX(diagonals[d].xEnd()),getY(diagonals[d].yEnd()));
+				
+				int xStart = getX(diagonals[d].xStart());
+				int yStart = getY(diagonals[d].yStart());
+				int xEnd = getX(diagonals[d].xEnd());
+				int yEnd = getY(diagonals[d].yEnd());
+
+				// Make sure nothing is invisible
+				if (xStart == xEnd && yStart == yEnd) {
+					xEnd -=1;
+					yEnd +=1;
+				}
+
+				
+				g.drawLine(xStart, yStart, xEnd, yEnd);
 			}
 		}
 

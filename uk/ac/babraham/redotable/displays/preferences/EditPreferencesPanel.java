@@ -42,7 +42,7 @@ public class EditPreferencesPanel extends JPanel {
 	
 	public void savePrefs() {
 		if (searchWindowSizeField.getText().length() > 0) {
-			prefs.setWindowDisplaySize(Integer.parseInt(searchWindowSizeField.getText()));
+			prefs.setWindowSearchSize(Integer.parseInt(searchWindowSizeField.getText()));
 		}
 	}
 	
