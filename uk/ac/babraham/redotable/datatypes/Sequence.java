@@ -6,6 +6,8 @@ public class Sequence {
 
 	private String name;
 	private String description;
+	
+	private boolean highlight = false;
 		
 	// We encode sequence in a byte array to make things
 	// as efficient as possible.
@@ -54,6 +56,14 @@ public class Sequence {
 			}
 		}
 		
+	}
+	
+	public boolean highlight () {
+		return highlight;
+	}
+	
+	protected void setHighlight (boolean highlight) {
+		this.highlight = highlight;
 	}
 	
 	public int length () {
