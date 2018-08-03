@@ -3,6 +3,7 @@ package uk.ac.babraham.redotable;
 import java.awt.BorderLayout;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
@@ -35,6 +36,8 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 	private RedotableApplication () {
 		setJMenuBar(new RedotableMenu(this));
 		setTitle("Re-dot-able");
+		setIconImage(new ImageIcon(ClassLoader.getSystemResource("uk/ac/babraham/redotable/resources/redotable_icon.png")).getImage());
+
 				
 		data = new RedotabledData();
 		
