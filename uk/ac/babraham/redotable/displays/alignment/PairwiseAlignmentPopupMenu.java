@@ -24,6 +24,8 @@ public class PairwiseAlignmentPopupMenu extends JPopupMenu implements ActionList
 		hideY.setActionCommand("hidey");
 		hideY.addActionListener(this);
 		add(hideY);
+		
+		addSeparator();
 	
 		JMenuItem highlightX = new JMenuItem("Highlight X Sequence");
 		highlightX.setActionCommand("highlightx");
@@ -34,6 +36,30 @@ public class PairwiseAlignmentPopupMenu extends JPopupMenu implements ActionList
 		highlightY.setActionCommand("highlighty");
 		highlightY.addActionListener(this);
 		add(highlightY);
+		
+		addSeparator();
+		
+		JMenuItem raiseX = new JMenuItem("Raise X Sequence");
+		raiseX.setActionCommand("raisex");
+		raiseX.addActionListener(this);
+		add(raiseX);
+
+		JMenuItem lowerX = new JMenuItem("Lower X Sequence");
+		lowerX.setActionCommand("lowerx");
+		lowerX.addActionListener(this);
+		add(lowerX);
+		
+		addSeparator();
+		
+		JMenuItem raiseY = new JMenuItem("Raise Y Sequence");
+		raiseY.setActionCommand("raisey");
+		raiseY.addActionListener(this);
+		add(raiseY);
+		
+		JMenuItem lowerY = new JMenuItem("Lower Y Sequence");
+		lowerY.setActionCommand("lowery");
+		lowerY.addActionListener(this);
+		add(lowerY);
 		
 	}
 
@@ -54,6 +80,19 @@ public class PairwiseAlignmentPopupMenu extends JPopupMenu implements ActionList
 		else if (command.equals("highlighty")) {
 			align.sequenceY().setHighlight(!align.sequenceY().highlight());
 		}
+		else if (command.equals("raisex")) {
+			align.sequenceX().raise();
+		}
+		else if (command.equals("raisey")) {
+			align.sequenceY().raise();
+		}
+		else if (command.equals("lowerx")) {
+			align.sequenceX().lower();
+		}
+		else if (command.equals("lowery")) {
+			align.sequenceY().lower();
+		}
+
 		else {
 			throw new IllegalStateException("Unknown action "+command);
 		}

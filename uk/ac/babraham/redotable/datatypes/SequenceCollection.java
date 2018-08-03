@@ -24,6 +24,52 @@ public class SequenceCollection {
 		return data;
 	}
 
+	protected void lowerSequence (Sequence s) {
+		
+		for (int i=0;i<sequences.length;i++) {
+			if (sequences[i] == s) {
+				// We need to move this up one, so we just swap it
+				// with the next sequence down.
+				
+				if (i>0) {
+					Sequence temp = sequences[i-1];
+					sequences[i-1] = sequences[i];
+					sequences[i] = temp;
+				}
+					
+				if (data != null) {
+					data.fireSequenceChanged(s);
+				}
+				
+				break;
+			}
+		}
+	}
+
+	
+	protected void raiseSequence (Sequence s) {
+		
+		for (int i=0;i<sequences.length;i++) {
+			if (sequences[i] == s) {
+				// We need to move this up down, so we just swap it
+				// with the next sequence down.
+				
+				if (i<sequences.length-1) {
+					Sequence temp = sequences[i+1];
+					sequences[i+1] = sequences[i];
+					sequences[i] = temp;
+				}
+					
+				if (data != null) {
+					data.fireSequenceChanged(s);
+				}
+				
+				break;
+			}
+		}
+	}
+
+	
 	public void startNewSequence (String name, String description) {
 		currentSequence = new Sequence(name, description);
 

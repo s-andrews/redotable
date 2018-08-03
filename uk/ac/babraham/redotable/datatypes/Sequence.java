@@ -89,6 +89,19 @@ public class Sequence {
 		}
 	}
 	
+	public void raise() {
+		if (collection != null) {
+			collection.raiseSequence(this);
+		}		
+	}
+
+	public void lower() {
+		if (collection != null) {
+			collection.lowerSequence(this);
+		}		
+	}
+
+	
 	public int length () {
 		return bases.length();
 	}
