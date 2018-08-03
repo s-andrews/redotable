@@ -11,6 +11,7 @@ public class Sequence {
 	
 	private boolean highlight = false;
 	private boolean hidden = false;
+	private boolean revcomp = false;
 		
 	// We encode sequence in a byte array to make things
 	// as efficient as possible.
@@ -88,6 +89,19 @@ public class Sequence {
 			collection.data().fireSequenceChanged(this);
 		}
 	}
+	
+	public boolean revcomp () {
+		return revcomp;
+	}
+	
+	public void setRevcomp (boolean revcomp) {
+		this.revcomp = revcomp;
+		
+		if (collection != null && collection.data() != null) {
+			collection.data().fireSequenceChanged(this);
+		}
+	}
+	
 	
 	public void raise() {
 		if (collection != null) {

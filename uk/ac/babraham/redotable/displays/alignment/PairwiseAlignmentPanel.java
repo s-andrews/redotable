@@ -103,12 +103,23 @@ public class PairwiseAlignmentPanel extends JPanel{
 		
 	private int getX (int base) {
 		double proportion = base/(double)align.xLength();
-		return((int)((getWidth())*proportion));
+		int value = (int)((getWidth())*proportion);
+
+		if (align.sequenceX().revcomp()) {
+			return(getWidth()-value);
+		}
+		return value;
 	}
 
 	private int getY (int base) {
 		double proportion = base/(double)align.yLength();
-		return((getHeight()) - (int)(getHeight()*proportion));
+		
+		int value = (getHeight()) - (int)(getHeight()*proportion);
+		
+		if (align.sequenceY().revcomp()) {
+			return(getHeight()-value);
+		}
+		return value;
 	}
 
 	

@@ -61,6 +61,18 @@ public class PairwiseAlignmentPopupMenu extends JPopupMenu implements ActionList
 		lowerY.addActionListener(this);
 		add(lowerY);
 		
+		addSeparator();
+		
+		JMenuItem revcompX = new JMenuItem("Rev Comp X Sequence");
+		revcompX.setActionCommand("revcompx");
+		revcompX.addActionListener(this);
+		add(revcompX);
+		
+		JMenuItem revcompY = new JMenuItem("Rev Comp Y Sequence");
+		revcompY.setActionCommand("revcompy");
+		revcompY.addActionListener(this);
+		add(revcompY);
+		
 	}
 
 	@Override
@@ -91,6 +103,12 @@ public class PairwiseAlignmentPopupMenu extends JPopupMenu implements ActionList
 		}
 		else if (command.equals("lowery")) {
 			align.sequenceY().lower();
+		}
+		else if (command.equals("revcompx")) {
+			align.sequenceX().setRevcomp(!align.sequenceX().revcomp());;
+		}
+		else if (command.equals("revcompy")) {
+			align.sequenceY().setRevcomp(!align.sequenceY().revcomp());;
 		}
 
 		else {

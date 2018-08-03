@@ -35,7 +35,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 				"Description",
 				"Length",
 				"G/A/T/C/N",
-				"Inverted",
+				"RevComp",
 				"Highlighted",
 				"Hidden",
 				"Raise",
@@ -87,7 +87,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 			case 2: return seqs[r].description();
 			case 3: return seqs[r].length();
 			case 4: return seqs[r].gatcn();
-			case 5: return false;
+			case 5: return seqs[r].revcomp();
 			case 6: return seqs[r].highlight();
 			case 7: return seqs[r].hidden();
 			case 8: return true;
@@ -110,6 +110,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 	public void setValueAt (Object value, int r, int c) {
 
 		switch (c) {
+		case 5: seqs[r].setRevcomp((Boolean)value);break; 	    // Revcomp
 		case 6: seqs[r].setHighlight((Boolean)value);break; 	// Highlight
 		case 7: seqs[r].setHidden((Boolean)value);break;    	// Hidden
 		case 8: seqs[r].raise();fireTableDataChanged();break;	// Raise
