@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,6 +17,7 @@ public class EditPreferencesPanel extends JPanel {
 	private redotablePreferences prefs = redotablePreferences.getInstance();
 
 	private JTextField searchWindowSizeField;
+	private JCheckBox displaySequenceEdgesBox;
 	
 	public EditPreferencesPanel () {
 		
@@ -37,13 +39,25 @@ public class EditPreferencesPanel extends JPanel {
 		searchWindowSizeField.addKeyListener(new NumberKeyListener(false, false, 500));
 		add(searchWindowSizeField,gbc);
 		
+		gbc.weightx = 0.001;
+		gbc.gridx=0;
+		gbc.gridy++;
 		
+		add(new JLabel("Display Sequence Edges"),gbc);
+		gbc.weightx=0.999;
+		gbc.gridx=1;
+		
+		displaySequenceEdgesBox = new JCheckBox("",prefs.displaySequenceEdges());
+		add(displaySequenceEdgesBox,gbc);
 	}
 	
 	public void savePrefs() {
 		if (searchWindowSizeField.getText().length() > 0) {
 			prefs.setWindowSearchSize(Integer.parseInt(searchWindowSizeField.getText()));
 		}
+		
+		prefs.setDisplaySequenceEdges(displaySequenceEdgesBox.isSelected());
+		
 	}
 	
 	
