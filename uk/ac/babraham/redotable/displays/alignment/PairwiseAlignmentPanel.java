@@ -23,6 +23,7 @@ public class PairwiseAlignmentPanel extends JPanel{
 		this.align=align;
 		diagonals = align.getDiagonals();
 		setToolTipText(align.sequenceX().name()+" vs "+align.sequenceY().name());
+		setComponentPopupMenu(new PairwiseAlignmentPopupMenu(align));
 	}
 	
 	public Dimension getPreferredSize() {
