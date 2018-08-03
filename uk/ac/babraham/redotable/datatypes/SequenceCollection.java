@@ -6,6 +6,7 @@ public class SequenceCollection {
 	private Sequence [] sequences = new Sequence [0];
 	private Sequence currentSequence;
 	
+	private RedotabledData data;
 	
 	public SequenceCollection (String name) {
 		this.name = name;
@@ -15,9 +16,19 @@ public class SequenceCollection {
 		return name;
 	}
 	
+	protected void setRedotableData (RedotabledData data) {
+		this.data = data;
+	}
+	
+	protected RedotabledData data () {
+		return data;
+	}
+
 	public void startNewSequence (String name, String description) {
 		currentSequence = new Sequence(name, description);
-		
+
+		currentSequence.setCollection(this);
+
 		Sequence [] newSequences = new Sequence[sequences.length+1];
 		for (int i=0;i<sequences.length;i++) {
 			newSequences[i] = sequences[i];		

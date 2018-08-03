@@ -31,7 +31,11 @@ public class RedotabledData {
 	}
 	
 	public void setXSequences (SequenceCollection seqs) {
+		if (xSequences != null) {
+			xSequences.setRedotableData(null);
+		}
 		xSequences = seqs;
+		xSequences.setRedotableData(this);
 		alignment = null;
 		
 		Iterator<redotableDataListener> it = listeners.iterator();
@@ -42,7 +46,11 @@ public class RedotabledData {
 	
 
 	public void setYSequences (SequenceCollection seqs) {
+		if (ySequences != null) {
+			ySequences.setRedotableData(null);
+		}
 		ySequences = seqs;
+		ySequences.setRedotableData(this);
 		alignment = null;
 		
 		Iterator<redotableDataListener> it = listeners.iterator();
@@ -76,6 +84,17 @@ public class RedotabledData {
 		if (l != null && listeners.contains(l)) {
 			listeners.remove(l);
 		}
+	}
+	
+	public void fireSequenceChanged (Sequence s) {
+		// TODO: Check s is still valid?
+		
+		Iterator<redotableDataListener> it = listeners.iterator();
+		while (it.hasNext()) {
+			it.next().sequenceChanged(s);
+		}
+		
+		
 	}
 	
 }

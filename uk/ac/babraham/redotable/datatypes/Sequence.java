@@ -7,6 +7,8 @@ public class Sequence {
 	private String name;
 	private String description;
 	
+	private SequenceCollection collection;
+	
 	private boolean highlight = false;
 		
 	// We encode sequence in a byte array to make things
@@ -30,6 +32,10 @@ public class Sequence {
 	public Sequence (String name, String description) {
 		this.name = name;
 		this.description = description;
+	}
+	
+	protected void setCollection (SequenceCollection collection) {
+		this.collection = collection;
 	}
 	
 	
@@ -64,6 +70,11 @@ public class Sequence {
 	
 	protected void setHighlight (boolean highlight) {
 		this.highlight = highlight;
+		
+		if (collection != null && collection.data() != null) {
+			collection.data().fireSequenceChanged(this);
+		}
+		
 	}
 	
 	public int length () {
