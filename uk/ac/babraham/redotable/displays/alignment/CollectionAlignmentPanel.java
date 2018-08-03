@@ -22,13 +22,16 @@ public class CollectionAlignmentPanel extends JPanel {
 		
 		Sequence [] xseqs = alignment.collectionX().sequences();
 		Sequence [] yseqs = alignment.collectionY().sequences();
-		
+				
 		for (int x=0;x<xseqs.length;x++) {
 			for (int y=0;y<yseqs.length;y++) {
+				
+				if (xseqs[x].hidden() || yseqs[y].hidden()) continue;
+				
 				gbc.gridx=x;
 				gbc.gridy=(yseqs.length-1)-y;
-				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().length());
-				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().length());
+				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().visibleLength());
+				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().visibleLength());
 				add(new PairwiseAlignmentPanel(alignment.getAlignmentForSequences(xseqs[x], yseqs[y])),gbc);
 			}
 		}

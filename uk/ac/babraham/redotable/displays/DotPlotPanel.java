@@ -77,7 +77,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	@Override
 	public void xSequencesReplaced(SequenceCollection seqs) {
-		xScale.setLimits(0, seqs.length());
+		xScale.setLimits(0, seqs.visibleLength());
 
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);
@@ -95,7 +95,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	@Override
 	public void ySequencesReplaced(SequenceCollection seqs) {
-		yScale.setLimits(0, seqs.length());
+		yScale.setLimits(0, seqs.visibleLength());
 		
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);
@@ -111,6 +111,23 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	}
 
+	private void rebuildAlignment () {
+		if (alignmentPanel != null) {
+			xScale.setLimits(0, data.xSequences().visibleLength());
+			yScale.setLimits(0, data.ySequences().visibleLength());
+
+			remove(alignmentPanel);
+			validate();
+			repaint();
+			
+			alignmentPanel = new CollectionAlignmentPanel(data.alignment());
+			add(alignmentPanel,gbc);
+			
+			validate();
+			repaint();
+		}
+	}
+	
 	@Override
 	public void newAlignment(SequenceCollectionAlignment alignment) {
 		
@@ -132,7 +149,10 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	@Override
 	public void sequenceChanged(Sequence seq) {
-		repaint();
+		// We can't be sure that this is only cosmetic (eg highlighting) so
+		// we have to rebuild the table.
+		
+		rebuildAlignment();
 	}
 	
 }

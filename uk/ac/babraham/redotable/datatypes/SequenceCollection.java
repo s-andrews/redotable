@@ -55,5 +55,15 @@ public class SequenceCollection {
 		return length;
 	}
 	
+	public int visibleLength() {
+		int length = 0;
+		for (int i=0;i<sequences.length;i++) {
+			if (!sequences[i].hidden())
+				length += sequences[i].length();
+		}
+		return length;
+	}
+
+	
 	
 }

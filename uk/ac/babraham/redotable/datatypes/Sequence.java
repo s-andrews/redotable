@@ -10,6 +10,7 @@ public class Sequence {
 	private SequenceCollection collection;
 	
 	private boolean highlight = false;
+	private boolean hidden = false;
 		
 	// We encode sequence in a byte array to make things
 	// as efficient as possible.
@@ -74,7 +75,18 @@ public class Sequence {
 		if (collection != null && collection.data() != null) {
 			collection.data().fireSequenceChanged(this);
 		}
+	}
+	
+	public boolean hidden () {
+		return hidden;
+	}
+	
+	public void setHidden (boolean hidden) {
+		this.hidden = hidden;
 		
+		if (collection != null && collection.data() != null) {
+			collection.data().fireSequenceChanged(this);
+		}
 	}
 	
 	public int length () {

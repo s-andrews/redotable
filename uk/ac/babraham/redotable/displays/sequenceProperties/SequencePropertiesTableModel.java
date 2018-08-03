@@ -22,7 +22,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 				"G/A/T/C/N",
 				"Inverted",
 				"Highlighted",
-				"Visible",
+				"Hidden",
 		};
 		
 		classes = new Class [] {
@@ -68,7 +68,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 			case 3: return seqs.sequences()[r].gatcn();
 			case 4: return false;
 			case 5: return seqs.sequences()[r].highlight();
-			case 6: return false;
+			case 6: return seqs.sequences()[r].hidden();
 		}
 		
 		return null;
@@ -88,6 +88,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 
 		switch (c) {
 		case 5: seqs.sequences()[r].setHighlight((Boolean)value); // Highlight
+		case 6: seqs.sequences()[r].setHidden((Boolean)value);    // Hidden
 	}
 
 	}
