@@ -20,6 +20,7 @@ import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.HashingAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
+import uk.ac.babraham.redotable.utilities.imageSaver.ImageSaver;
 
 public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
 
@@ -98,6 +99,11 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		sp.startParsing();
 
 	}
+	
+	public void saveDotplot() {
+		ImageSaver.saveImage(dotPanel);
+	}
+	
 	
 	public void align() {
 		

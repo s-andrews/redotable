@@ -1,5 +1,6 @@
 package uk.ac.babraham.redotable.preferences;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -9,6 +10,9 @@ public class redotablePreferences {
 	private int windowSearchSize = 50;
 	private int windowDisplaySize = 50;
 	
+	private File defaultLocation = null;
+	
+	
 	private static redotablePreferences instance = new redotablePreferences();
 	
 	public static redotablePreferences getInstance () {
@@ -17,6 +21,14 @@ public class redotablePreferences {
 
 	private redotablePreferences () {}
 	
+	
+	public File defaultLocation() {
+		return defaultLocation;
+	}
+	
+	public void setDefaultLocation (File file) {
+		defaultLocation = file;
+	}
 	
 	public int windowSearchSize () {
 		return windowSearchSize;

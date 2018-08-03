@@ -36,7 +36,9 @@ public class PairwiseAlignmentPanel extends JPanel{
 	public void paintComponent (Graphics g) {
 		super.paintComponent(g);
 		
-		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		if (g instanceof Graphics2D) {
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		}
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());

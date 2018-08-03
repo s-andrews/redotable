@@ -30,6 +30,13 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 
 		fileMenu.addSeparator();
 		
+		JMenuItem fileSaveDotplot = new JMenuItem("Save dotplot...");
+		fileSaveDotplot.setActionCommand("save_dotplot");
+		fileSaveDotplot.addActionListener(this);
+		fileMenu.add(fileSaveDotplot);
+		
+		fileMenu.addSeparator();
+		
 		JMenuItem startAlignment = new JMenuItem("Start Aligning...");
 		startAlignment.setActionCommand("align");
 		startAlignment.addActionListener(this);
@@ -54,6 +61,9 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		}
 		else if (ae.getActionCommand().equals("openy")) {
 			application.openyseqs();
+		}
+		else if (ae.getActionCommand().equals("save_dotplot")) {
+			application.saveDotplot();
 		}
 		else if (ae.getActionCommand().equals("exit")) {
 			System.exit(0);
