@@ -8,6 +8,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import uk.ac.babraham.redotable.displays.preferences.EditPreferencesDialog;
+
 public class RedotableMenu extends JMenuBar implements ActionListener {
 
 	private RedotableApplication application;
@@ -51,6 +53,16 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 
 		add(fileMenu);
 		
+		JMenu editMenu = new JMenu("Edit");
+		
+		JMenuItem editPreferences = new JMenuItem("Preferences...");
+		editPreferences.setActionCommand("edit_preferences");
+		editPreferences.addActionListener(this);
+		
+		editMenu.add(editPreferences);
+		
+		add(editMenu);
+		
 	}
 
 	@Override
@@ -70,6 +82,9 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		}
 		else if (ae.getActionCommand().equals("align")) {
 			application.align();
+		}
+		else if (ae.getActionCommand().equals("edit_preferences")) {
+			new EditPreferencesDialog();
 		}
 
 		else {
