@@ -11,11 +11,8 @@ import javax.swing.JScrollPane;
 import uk.ac.babraham.redotable.datatypes.RedotabledData;;
 
 public class SequencePropertiesPanel extends JPanel {
-	
-	private RedotabledData data;
-	
+		
 	public SequencePropertiesPanel (RedotabledData data) {
-		this.data = data;
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
