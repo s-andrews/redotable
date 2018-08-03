@@ -20,8 +20,6 @@ public class SequencePropertiesDialog extends JDialog {
 		super(RedotableApplication.getInstance(),"Sequence Properties");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
-		setModal(true);
-		
 		panel = new SequencePropertiesPanel(data);
 
 		getContentPane().setLayout(new BorderLayout());
