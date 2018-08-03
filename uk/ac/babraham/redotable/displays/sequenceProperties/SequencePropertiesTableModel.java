@@ -67,11 +67,30 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 			case 2: return seqs.sequences()[r].length();
 			case 3: return seqs.sequences()[r].gatcn();
 			case 4: return false;
-			case 5: return false;
+			case 5: return seqs.sequences()[r].highlight();
 			case 6: return false;
 		}
 		
 		return null;
 	}
+	
+	@Override
+	public boolean isCellEditable (int r, int c) {
+		if (c==4 || c==5 || c==6) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public void setValueAt (Object value, int r, int c) {
+
+		switch (c) {
+		case 5: seqs.sequences()[r].setHighlight((Boolean)value); // Highlight
+	}
+
+	}
+	
 
 }

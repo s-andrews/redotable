@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
+import uk.ac.babraham.redotable.displays.preferences.ColourScheme;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
 public class PairwiseAlignmentPanel extends JPanel{
@@ -40,11 +41,18 @@ public class PairwiseAlignmentPanel extends JPanel{
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 		
+		// Shade the background, taking into account any highlighting which might be relevant
 		g.setColor(Color.WHITE);
+		if (align.sequenceX().highlight() && align.sequenceY().highlight()) {
+			g.setColor(ColourScheme.DOUBLE_HIGHLIGHT);
+		}
+		else if (align.sequenceX().highlight() || align.sequenceY().highlight()) {
+			g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
+		}
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		if (redotablePreferences.getInstance().displaySequenceEdges()) {
-			g.setColor(Color.LIGHT_GRAY);
+			g.setColor(ColourScheme.SEQUENCE_EDGE);
 			g.drawLine(0, 0, getWidth(), 0);
 			g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
 		}
@@ -57,7 +65,7 @@ public class PairwiseAlignmentPanel extends JPanel{
 		for (int d=0;d<diagonals.length;d++) {
 			if (diagonals[d].length() < windowSize) continue;
 			if (diagonals[d].forward()) {
-				g.setColor(Color.RED);
+				g.setColor(ColourScheme.FORWARD);
 				int xStart = getX(diagonals[d].xStart());
 				int yStart = getY(diagonals[d].yStart());
 				int xEnd = getX(diagonals[d].xEnd());
@@ -72,7 +80,7 @@ public class PairwiseAlignmentPanel extends JPanel{
 				g.drawLine(xStart, yStart, xEnd, yEnd);
 			}
 			else {
-				g.setColor(Color.BLUE);
+				g.setColor(ColourScheme.REVERSE);
 				
 				int xStart = getX(diagonals[d].xStart());
 				int yStart = getY(diagonals[d].yStart());

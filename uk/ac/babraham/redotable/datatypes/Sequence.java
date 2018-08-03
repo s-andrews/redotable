@@ -68,7 +68,7 @@ public class Sequence {
 		return highlight;
 	}
 	
-	protected void setHighlight (boolean highlight) {
+	public void setHighlight (boolean highlight) {
 		this.highlight = highlight;
 		
 		if (collection != null && collection.data() != null) {
