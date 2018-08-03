@@ -87,8 +87,8 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 	public void setValueAt (Object value, int r, int c) {
 
 		switch (c) {
-		case 5: seqs.sequences()[r].setHighlight((Boolean)value); // Highlight
-		case 6: seqs.sequences()[r].setHidden((Boolean)value);    // Hidden
+		case 5: seqs.sequences()[r].setHighlight((Boolean)value);break; // Highlight
+		case 6: seqs.sequences()[r].setHidden((Boolean)value);break;    // Hidden
 	}
 
 	}
