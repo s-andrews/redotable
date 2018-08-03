@@ -69,6 +69,13 @@ public class SequenceCollection {
 		}
 	}
 
+	public int getIndexForSequence (Sequence s) {
+		for (int i=0;i<sequences.length;i++) {
+			if (sequences[i] == s) return i;
+		}
+		
+		return -1;
+	}
 	
 	public void startNewSequence (String name, String description) {
 		currentSequence = new Sequence(name, description);

@@ -2,20 +2,35 @@ package uk.ac.babraham.redotable.displays.sequenceProperties;
 
 import javax.swing.table.AbstractTableModel;
 
+import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 
 public class SequencePropertiesTableModel extends AbstractTableModel {
 
-	private SequenceCollection seqs;
+	private SequenceCollection collection;
+
+	Sequence [] seqs;
 	
 	private String [] headers;
 	private Class [] classes;
 	
 	
-	public SequencePropertiesTableModel (SequenceCollection seqs) {
-		this.seqs = seqs;
+	
+	public SequencePropertiesTableModel (SequenceCollection collection) {
+		this.collection = collection;
+		
+		// We make a copy of the sequence array so that things don't 
+		// change under us if the order of the sequences is modified.
+		Sequence [] tempSeqs = collection.sequences();
+		seqs = new Sequence[tempSeqs.length];
+		for (int i=0;i<seqs.length;i++) {
+			seqs[i] = tempSeqs[i];
+		}
+		
+		tempSeqs = null;
 		
 		headers = new String [] {
+				"Index",
 				"Name",
 				"Description",
 				"Length",
@@ -23,13 +38,18 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 				"Inverted",
 				"Highlighted",
 				"Hidden",
+				"Raise",
+				"Lower"
 		};
 		
 		classes = new Class [] {
+				Integer.class,
 				String.class,
 				String.class,
 				Integer.class,
 				String.class,
+				Boolean.class,
+				Boolean.class,
 				Boolean.class,
 				Boolean.class,
 				Boolean.class,
@@ -56,19 +76,22 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return seqs.sequences().length;
+		return seqs.length;
 	}
 
 	@Override
 	public Object getValueAt(int r, int c) {
 		switch (c) {
-			case 0: return seqs.sequences()[r].name();
-			case 1: return seqs.sequences()[r].description();
-			case 2: return seqs.sequences()[r].length();
-			case 3: return seqs.sequences()[r].gatcn();
-			case 4: return false;
-			case 5: return seqs.sequences()[r].highlight();
-			case 6: return seqs.sequences()[r].hidden();
+		    case 0: return collection.getIndexForSequence(seqs[r]);
+			case 1: return seqs[r].name();
+			case 2: return seqs[r].description();
+			case 3: return seqs[r].length();
+			case 4: return seqs[r].gatcn();
+			case 5: return false;
+			case 6: return seqs[r].highlight();
+			case 7: return seqs[r].hidden();
+			case 8: return true;
+			case 9: return true;
 		}
 		
 		return null;
@@ -76,7 +99,7 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 	
 	@Override
 	public boolean isCellEditable (int r, int c) {
-		if (c==4 || c==5 || c==6) {
+		if (c>=5) {
 			return true;
 		}
 		
@@ -87,8 +110,10 @@ public class SequencePropertiesTableModel extends AbstractTableModel {
 	public void setValueAt (Object value, int r, int c) {
 
 		switch (c) {
-		case 5: seqs.sequences()[r].setHighlight((Boolean)value);break; // Highlight
-		case 6: seqs.sequences()[r].setHidden((Boolean)value);break;    // Hidden
+		case 6: seqs[r].setHighlight((Boolean)value);break; 	// Highlight
+		case 7: seqs[r].setHidden((Boolean)value);break;    	// Hidden
+		case 8: seqs[r].raise();fireTableDataChanged();break;	// Raise
+		case 9: seqs[r].lower();fireTableDataChanged();break;	// Lower
 	}
 
 	}
