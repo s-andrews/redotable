@@ -18,6 +18,12 @@ public class Sequence {
 	public static final byte T = 3;
 	public static final byte C = 4;
 	
+	private int g_count = 0;
+	private int a_count = 0;
+	private int t_count = 0;
+	private int c_count = 0;
+	private int n_count = 0;
+	
 	
 	public Sequence (String name, String description) {
 		this.name = name;
@@ -39,12 +45,12 @@ public class Sequence {
 		
 		for (int i=0;i<s.length();i++) {
 			switch(s.charAt(i)) {
-			case 'G': bases.add(G);break;
-			case 'A': bases.add(A);break;
-			case 'T': bases.add(T);break;
-			case 'U': bases.add(T);break;
-			case 'C': bases.add(C);break;
-			default: bases.add(N);
+			case 'G': bases.add(G);++g_count;break;
+			case 'A': bases.add(A);++a_count;break;
+			case 'T': bases.add(T);++t_count;break;
+			case 'U': bases.add(T);++t_count;break;
+			case 'C': bases.add(C);++c_count;break;
+			default: bases.add(N);++n_count;
 			}
 		}
 		
@@ -74,6 +80,30 @@ public class Sequence {
 		 }
 		 
 		 return(reverse);
+	}
+	
+	public int g_count () {
+		return g_count;
+	}
+
+	public int a_count () {
+		return a_count;
+	}
+
+	public int t_count () {
+		return t_count;
+	}
+
+	public int c_count () {
+		return c_count;
+	}
+
+	public int n_count () {
+		return n_count;
+	}
+	
+	public String gatcn () {
+		return g_count+"/"+a_count+"/"+t_count+"/"+c_count+"/"+n_count;
 	}
 
 	

@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import uk.ac.babraham.redotable.displays.preferences.EditPreferencesDialog;
+import uk.ac.babraham.redotable.displays.sequenceProperties.SequencePropertiesDialog;
 
 public class RedotableMenu extends JMenuBar implements ActionListener {
 
@@ -55,6 +56,11 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		
 		JMenu editMenu = new JMenu("Edit");
 		
+		JMenuItem editProperties = new JMenuItem("Sequence Properties...");
+		editProperties.setActionCommand("edit_properties");
+		editProperties.addActionListener(this);
+		editMenu.add(editProperties);
+		
 		JMenuItem editPreferences = new JMenuItem("Preferences...");
 		editPreferences.setActionCommand("edit_preferences");
 		editPreferences.addActionListener(this);
@@ -85,6 +91,9 @@ public class RedotableMenu extends JMenuBar implements ActionListener {
 		}
 		else if (ae.getActionCommand().equals("edit_preferences")) {
 			new EditPreferencesDialog();
+		}
+		else if (ae.getActionCommand().equals("edit_properties")) {
+			new SequencePropertiesDialog(RedotableApplication.getInstance().data());
 		}
 
 		else {

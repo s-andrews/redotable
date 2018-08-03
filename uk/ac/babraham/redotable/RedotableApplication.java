@@ -56,6 +56,10 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		
 	}
 	
+	public RedotabledData data () {
+		return data;
+	}
+	
 	public static RedotableApplication getInstance() {
 		return application;
 	}
