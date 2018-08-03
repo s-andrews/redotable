@@ -8,26 +8,32 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import uk.ac.babraham.redotable.datatypes.RedotabledData;
+import uk.ac.babraham.redotable.datatypes.Sequence;
+import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
+import uk.ac.babraham.redotable.datatypes.redotableDataListener;
 import uk.ac.babraham.redotable.displays.alignment.CollectionAlignmentPanel;
 import uk.ac.babraham.redotable.displays.scaleBars.HorizontalScaleBar;
 import uk.ac.babraham.redotable.displays.scaleBars.VerticalScaleBar;
 import uk.ac.babraham.redotable.preferences.PreferencesListener;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
-public class DotPlotPanel extends JPanel implements PreferencesListener {
+public class DotPlotPanel extends JPanel implements PreferencesListener, redotableDataListener {
 
 	private HorizontalScaleBar xScale;
 	private VerticalScaleBar yScale;
 	private JPanel centrePanel;
 	private CollectionAlignmentPanel alignmentPanel;
-	private SequenceCollectionAlignment alignment;
+	private RedotabledData data;
 	
 	private GridBagConstraints gbc;
 	
 	
-	public DotPlotPanel () {
+	public DotPlotPanel (RedotabledData data) {
 		
+		this.data = data;
+		data.addDataListener(this);
 		redotablePreferences.getInstance().addListener(this);
 		
 		setLayout(new GridBagLayout());
@@ -63,10 +69,50 @@ public class DotPlotPanel extends JPanel implements PreferencesListener {
 		add(centrePanel,gbc);
 	}
 	
-	public void setAlignment (SequenceCollectionAlignment alignment) {
-		this.alignment = alignment;
-		xScale.setLimits(0, alignment.collectionX().length());
-		yScale.setLimits(0, alignment.collectionY().length());
+
+	@Override
+	public void preferencesUpdated() {
+		repaint();
+	}
+
+	@Override
+	public void xSequencesReplaced(SequenceCollection seqs) {
+		xScale.setLimits(0, seqs.length());
+
+		if (alignmentPanel != null) {
+			remove(alignmentPanel);
+			alignmentPanel = null;
+			validate();
+			repaint();
+		
+			add(centrePanel,gbc);
+		
+			validate();
+			repaint();
+		}
+
+	}
+
+	@Override
+	public void ySequencesReplaced(SequenceCollection seqs) {
+		yScale.setLimits(0, seqs.length());
+		
+		if (alignmentPanel != null) {
+			remove(alignmentPanel);
+			alignmentPanel = null;
+			validate();
+			repaint();
+		
+			add(centrePanel,gbc);
+		
+			validate();
+			repaint();
+		}
+
+	}
+
+	@Override
+	public void newAlignment(SequenceCollectionAlignment alignment) {
 		
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);
@@ -85,11 +131,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener {
 	}
 
 	@Override
-	public void preferencesUpdated() {
-		if (alignment != null) {
-			xScale.setLimits(0, alignment.collectionX().length());
-			yScale.setLimits(0, alignment.collectionY().length());			
-		}
+	public void sequenceChanged(Sequence seq) {
 		repaint();
 	}
 	

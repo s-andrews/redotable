@@ -3,6 +3,7 @@ package uk.ac.babraham.redotable.processors;
 
 import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
+import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
@@ -13,15 +14,17 @@ import uk.ac.babraham.redotable.utilities.Progressable;
 
 public class HashingAligner extends Progressable implements Runnable, Cancellable {
 
+	private RedotabledData data;
 	private SequenceCollection collectionX;
 	private SequenceCollection collectionY;
 	private boolean cancel = false;
 	private int windowSize;
 	
-	public HashingAligner (SequenceCollection collectionX, SequenceCollection collectionY, int windowSize) {
-		this.collectionX = collectionX;
-		this.collectionY = collectionY;
-		this.windowSize = windowSize;
+	public HashingAligner (RedotabledData data) {
+		this.data = data;
+		collectionX = data.xSequences();
+		collectionY = data.ySequences();
+		windowSize = redotablePreferences.getInstance().windowSearchSize();
 	}
 	
 	public void startAligning() {
@@ -55,6 +58,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		}
 		
 		progressComplete("align", alignment);
+		data.setAlignment(alignment);
 		
 		
 	}
@@ -193,7 +197,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 				    			matchLength++;
 				    		}
 				    		
-				    		if (matchLength >= redotablePreferences.getInstance().windowSearchSize()) {	
+				    		if (matchLength >= windowSize) {	
 				    			Diagonal d = new Diagonal(matchPositions[p], i, matchLength, true);
 				    		
 				    			pw.addAlignment(d);
@@ -221,7 +225,7 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 				    			matchLength++;
 				    		}
 				    		
-				    		if (matchLength >= redotablePreferences.getInstance().windowSearchSize()) {	
+				    		if (matchLength >= windowSize) {	
 				    			Diagonal d = new Diagonal((reverseXbases.length-1)-matchPosition, i, matchLength, false);
 				    		
 				    			pw.addAlignment(d);

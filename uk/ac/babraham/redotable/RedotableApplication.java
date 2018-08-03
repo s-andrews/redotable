@@ -12,8 +12,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 
+import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
-import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
@@ -24,9 +24,8 @@ import uk.ac.babraham.redotable.utilities.imageSaver.ImageSaver;
 
 public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
 
-	private SequenceCollection collectionX;
-	private SequenceCollection collectionY;
-	
+	private RedotabledData data;
+		
 	private static RedotableApplication application;
 	
 	private DotPlotPanel dotPanel;
@@ -37,8 +36,10 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		setJMenuBar(new RedotableMenu(this));
 		setTitle("Re-dot-able");
 				
+		data = new RedotabledData();
 		
-		dotPanel = new DotPlotPanel();
+		dotPanel = new DotPlotPanel(data);
+		
 		windowSlider = new JSlider(SwingConstants.VERTICAL, 0, 1000, 0);
 		windowSlider.setPaintTicks(true);
 		windowSlider.addChangeListener(this);
@@ -108,14 +109,13 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 	public void align() {
 		
 		//TODO: Handle missing sequences better.
-		if (collectionX == null || collectionY == null) {
+		if (data.xSequences() == null || data.ySequences() == null) {
 			return;
 		}
 		
 //		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
-		HashingAligner aligner = new HashingAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
+		HashingAligner aligner = new HashingAligner(data);
 		aligner.addListener(new ProgressDialog("Running alignment", aligner));
-		aligner.addListener(this);
 		
 		aligner.startAligning();
 		
@@ -141,13 +141,10 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 	@Override
 	public void progressComplete(String command, Object result) {
 		if (command.equals("xseqs")) {
-			collectionX = (SequenceCollection)result;
+			data.setXSequences((SequenceCollection)result);
 		}
 		else if (command.equals("yseqs")) {
-			collectionY = (SequenceCollection)result;
-		}
-		else if (command.equals("align")) {
-			dotPanel.setAlignment((SequenceCollectionAlignment)result);
+			data.setYSequences((SequenceCollection)result);
 		}
 		else {
 			throw new IllegalStateException("Unknown command result "+command);
