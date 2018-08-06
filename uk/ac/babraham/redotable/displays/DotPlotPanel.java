@@ -74,6 +74,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	@Override
 	public void xSequencesReplaced(SequenceCollection seqs) {
 		xScale.setLimits(0, seqs.visibleLength());
+		xScale.setName(seqs.name());
 
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);
@@ -92,6 +93,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	@Override
 	public void ySequencesReplaced(SequenceCollection seqs) {
 		yScale.setLimits(0, seqs.visibleLength());
+		yScale.setName(seqs.name());
 		
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);

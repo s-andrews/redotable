@@ -37,6 +37,12 @@ public class HorizontalScaleBar extends VerticalScaleBar {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		
+		// Draw the name
+		if (name != null) {
+			int length = g.getFontMetrics().stringWidth(name);
+			g.drawString(name, (getWidth()/2)-(length/2), getHeight()-5);
+		}
+		
 		double xScale = getWidth() / (double)(axisScale.getMax()-axisScale.getMin());
 		
 		g.drawLine(0, 5, getWidth(), 5);

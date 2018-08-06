@@ -22,12 +22,16 @@ package uk.ac.babraham.redotable.displays.scaleBars;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
 public class VerticalScaleBar extends JPanel {
 
 	protected AxisScale axisScale;
+	protected String name;
 	
 	public VerticalScaleBar (double min, double max) {
 		setLimits(min,max);
@@ -38,14 +42,43 @@ public class VerticalScaleBar extends JPanel {
 		repaint();
 	}
 	
+	public void setName (String name) {
+		this.name = name;
+	}
+	
+	
+	
 	public void paint (Graphics g) {
 		super.paint(g);
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
+
 		
-		// We need a border of 5 at each end
+		if (name !=  null) {
+			// We need to draw the name rotated.  We can't do this in the standard graphics
+			// API so we use Graphics2D.
+			//
+			// This won't work if we use the export to SVG option, so we'll need to have 
+			// a separate case for that.
+		
+			if (g instanceof Graphics2D) {
+				Graphics2D g2D = (Graphics2D) g;
+
+				g2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+				AffineTransform orig = g2D.getTransform();
+
+				double angle = Math.toRadians(90);
+				g2D.rotate(-angle,10,getHeight()/2);
+				int length = g.getFontMetrics().stringWidth(name);
+				g2D.drawString(name, 10, getHeight()/2);
+				g2D.setTransform(orig);
+			}
+		
+		}
+		
 		
 		double yScale = getHeight() / (double)(axisScale.getMax()-axisScale.getMin());
 		
@@ -71,7 +104,7 @@ public class VerticalScaleBar extends JPanel {
 	}
 	
 	public Dimension getPreferredSize () {
-		return new Dimension(50,100);
+		return new Dimension(75,100);
 	}
 	
 	public Dimension getMinimumSize () {
