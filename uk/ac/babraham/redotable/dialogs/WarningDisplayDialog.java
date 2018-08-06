@@ -34,7 +34,6 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import uk.ac.babraham.redotable.RedotableApplication;
-import uk.ac.babraham.redotable.RedotableMenu;
 
 /**
  * The Class WarningDisplayDialog.
