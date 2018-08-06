@@ -29,7 +29,7 @@ import java.io.Serializable;
  */
 public class IntVector implements Serializable {
 
-	private int [] array = new int [1000];
+	private int [] array = new int [10];
 	private int length = 0;
 	private boolean trimmed = false;
 	

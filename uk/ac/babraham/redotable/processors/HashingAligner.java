@@ -136,6 +136,15 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		    hashedPositions[hashValue].add(-1-i);
 		}
 		
+		// To save some memory we can trim the hashed positions.
+		
+		for (int i=0;i<hashedPositions.length;i++) {
+			if (hashedPositions[i] != null) {
+				hashedPositions[i].trim();
+			}
+		}
+		
+		
 		for (int yi=0;yi<ally.length;yi++) {
 			
 			Sequence y = ally[yi];
