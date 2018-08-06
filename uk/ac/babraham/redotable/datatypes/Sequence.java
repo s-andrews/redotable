@@ -118,6 +118,13 @@ public class Sequence {
 			collection.lowerSequence(this);
 		}		
 	}
+	
+	public void setIndexPosition (int index) {
+		if (collection != null) {
+			collection.setIndexForSequence(this,index);
+		}		
+		
+	}
 
 	
 	public int length () {

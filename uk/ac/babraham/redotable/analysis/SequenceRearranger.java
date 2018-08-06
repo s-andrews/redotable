@@ -56,6 +56,8 @@ public class SequenceRearranger extends Progressable implements Runnable {
 		
 		MoveableSequence [] mseqs = new MoveableSequence [moveableSeqs.length];
 		
+		progressUpdated("Rearranging sequences", 0, 1);
+		
 		for (int s=0;s<moveableSeqs.length;s++) {
 			mseqs[s] = getLongestDiagonal(moveableSeqs[s]);
 		}
@@ -68,12 +70,11 @@ public class SequenceRearranger extends Progressable implements Runnable {
 		// supposed to be in.
 		
 		for (int finalIndex = 0; finalIndex <mseqs.length; finalIndex++) {
-			while (mseqs[finalIndex].sequence.index() > finalIndex) {
-				mseqs[finalIndex].sequence.lower();
-			}
+//			System.err.println("For sorted index "+finalIndex+" moving sequence from current index "+mseqs[finalIndex].sequence.index());
+			mseqs[finalIndex].sequence.setIndexPosition(finalIndex);
 		}
 		
-		
+		progressComplete("rearrange", null);
 		
 	}
 	
@@ -119,6 +120,8 @@ public class SequenceRearranger extends Progressable implements Runnable {
 		if (redotablePreferences.getInstance().windowDisplaySize() > 0) {
 			s.setRevcomp(longestIsReversed);
 		}
+		
+//		System.err.println("For "+s.name()+" longest diagonal was "+longestDiagonalLength+" with index "+mseq.refIndex+" at position "+mseq.refStart);
 		
 		return mseq;
 	}

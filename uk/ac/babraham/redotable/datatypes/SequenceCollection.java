@@ -72,6 +72,43 @@ public class SequenceCollection {
 			}
 		}
 	}
+	
+	protected void setIndexForSequence (Sequence s, int newIndex) {
+		
+		for (int i=0;i<sequences.length;i++) {
+			if (sequences[i] == s) {
+				if (i > newIndex) {
+					// We need to move this down
+					Sequence temp = sequences[i];
+
+					for (int j=i;j>newIndex;j--) {
+						sequences[j] = sequences[j-1];
+					}
+					
+					sequences[newIndex] = temp;					
+				}
+				else {
+					// We need to move this up
+					Sequence temp = sequences[i];
+
+					for (int j=i;j<newIndex;j++) {
+						sequences[j] = sequences[j+1];
+					}
+					
+					sequences[newIndex] = temp;
+
+				}
+
+				if (data != null) {
+					data.fireSequenceChanged(s);
+				}
+				
+				break;
+			}
+		}
+	}
+
+	
 
 	public int getIndexForSequence (Sequence s) {
 		for (int i=0;i<sequences.length;i++) {

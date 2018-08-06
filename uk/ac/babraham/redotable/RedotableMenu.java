@@ -8,10 +8,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import uk.ac.babraham.redotable.analysis.SequenceRearranger;
 import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.datatypes.redotableDataListener;
+import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.preferences.EditPreferencesDialog;
 import uk.ac.babraham.redotable.displays.sequenceProperties.SequencePropertiesDialog;
 
@@ -25,8 +27,9 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 	JMenuItem fileSaveDotplot;
 	JMenuItem fileSaveSeqs;
 	JMenuItem startAlignment;
+	JMenu viewArrangeSeqs;
 	
-	JMenuItem editProperties;
+	JMenuItem viewProperties;
 	
 	public RedotableMenu (RedotableApplication application) {
 		this.application = application;
@@ -74,20 +77,41 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 
 		add(fileMenu);
 		
-		JMenu editMenu = new JMenu("Edit");
+		JMenu viewMenu = new JMenu("View");
 		
-		editProperties = new JMenuItem("Sequence Properties...");
-		editProperties.setActionCommand("edit_properties");
-		editProperties.addActionListener(this);
-		editMenu.add(editProperties);
+		viewProperties = new JMenuItem("Sequence Properties...");
+		viewProperties.setActionCommand("view_properties");
+		viewProperties.addActionListener(this);
+		viewMenu.add(viewProperties);
 		
-		JMenuItem editPreferences = new JMenuItem("Preferences...");
-		editPreferences.setActionCommand("edit_preferences");
-		editPreferences.addActionListener(this);
+		JMenuItem viewPreferences = new JMenuItem("Preferences...");
+		viewPreferences.setActionCommand("view_preferences");
+		viewPreferences.addActionListener(this);
 		
-		editMenu.add(editPreferences);
+		viewMenu.add(viewPreferences);
+
+		viewArrangeSeqs = new JMenu("Auto arrange sequences");
 		
-		add(editMenu);
+		JMenuItem viewArrangeSeqsX = new JMenuItem("X Sequences");
+		viewArrangeSeqsX.setActionCommand("view_arrangex");
+		viewArrangeSeqsX.addActionListener(this);
+		viewMenu.add(viewArrangeSeqsX);
+		viewArrangeSeqs.add(viewArrangeSeqsX);
+
+		
+		JMenuItem viewArrangeSeqsY = new JMenuItem("Y Sequences");
+		viewArrangeSeqsY.setActionCommand("view_arrangey");
+		viewArrangeSeqsY.addActionListener(this);
+		viewMenu.add(viewArrangeSeqsY);
+		viewArrangeSeqs.add(viewArrangeSeqsY);
+		
+		viewMenu.add(viewArrangeSeqs);
+		
+		viewMenu.addSeparator();
+		
+		
+		
+		add(viewMenu);
 		
 		checkEnableItems();
 		
@@ -114,11 +138,21 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		else if (ae.getActionCommand().equals("align")) {
 			application.align();
 		}
-		else if (ae.getActionCommand().equals("edit_preferences")) {
+		else if (ae.getActionCommand().equals("view_preferences")) {
 			new EditPreferencesDialog();
 		}
-		else if (ae.getActionCommand().equals("edit_properties")) {
+		else if (ae.getActionCommand().equals("view_properties")) {
 			new SequencePropertiesDialog(RedotableApplication.getInstance().data());
+		}
+		else if (ae.getActionCommand().equals("view_arrangex")) {
+			SequenceRearranger sr = new SequenceRearranger(RedotableApplication.getInstance().data().alignment(),SequenceRearranger.Y_IS_REFERENCE);
+			sr.addListener(new ProgressDialog("Rearranging sequences"));
+			sr.startRearranging();
+		}
+		else if (ae.getActionCommand().equals("view_arrangey")) {
+			SequenceRearranger sr = new SequenceRearranger(RedotableApplication.getInstance().data().alignment(),SequenceRearranger.X_IS_REFERENCE);
+			sr.addListener(new ProgressDialog("Rearranging sequences"));
+			sr.startRearranging();
 		}
 
 		else {
@@ -131,10 +165,10 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		
 		// Any sequence is enough to let us look at the sequence properties.
 		if (application.data().xSequences() != null || application.data().ySequences() != null) {
-			editProperties.setEnabled(true);
+			viewProperties.setEnabled(true);
 		}
 		else {
-			editProperties.setEnabled(false);
+			viewProperties.setEnabled(false);
 		}
 		
 		
@@ -148,12 +182,14 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 			fileSaveSeqs.setEnabled(false);
 		}
 
-		// If there is an alignment then we can save it
+		// If there is an alignment then we can save it or move stuff around
 		if (application.data().alignment() != null) {
 			fileSaveDotplot.setEnabled(true);
+			viewArrangeSeqs.setEnabled(true);
 		}
 		else {
 			fileSaveDotplot.setEnabled(false);
+			viewArrangeSeqs.setEnabled(false);
 		}
 		
 	}

@@ -115,8 +115,8 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 			yScale.setLimits(0, data.ySequences().visibleLength());
 
 			remove(alignmentPanel);
-			validate();
-			repaint();
+//			validate();
+//			repaint();
 			
 			alignmentPanel = new CollectionAlignmentPanel(data.alignment());
 			add(alignmentPanel,gbc);
