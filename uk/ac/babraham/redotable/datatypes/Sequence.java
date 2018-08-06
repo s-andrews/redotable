@@ -102,6 +102,10 @@ public class Sequence {
 		}
 	}
 	
+	public int index () {
+		return collection.getIndexForSequence(this);
+	}
+	
 	
 	public void raise() {
 		if (collection != null) {

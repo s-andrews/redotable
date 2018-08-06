@@ -80,7 +80,7 @@ public class SequenceCollection {
 		
 		return -1;
 	}
-	
+		
 	public void startNewSequence (String name, String description) {
 		currentSequence = new Sequence(name, description);
 
