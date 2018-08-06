@@ -76,7 +76,13 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		
 		BASE: for (int i=0;i<xBases.length-(10+1);i++) {
 			
-			if (i % 1000 == 0) {
+			if (cancel) {
+				progressCancelled();
+				return;
+			}
+
+			
+			if (i % 100000 == 0) {
 				progressUpdated("Hashed "+i+" forward positions", i, xBases.length);
 			}
 			
@@ -107,7 +113,12 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 		byte [] reverseXbases = x.getReverseComplementBases();
 		BASE: for (int i=0;i<reverseXbases.length-(10+1);i++) {
 			
-			if (i % 1000 == 0) {
+			if (cancel) {
+				progressCancelled();
+				return;
+			}
+			
+			if (i % 100000 == 0) {
 				progressUpdated("Hashed "+i+" reverse positions", i, xBases.length);
 			}
 			
@@ -156,7 +167,13 @@ public class HashingAligner extends Progressable implements Runnable, Cancellabl
 
 			BASE: for (int i=0;i<yBases.length-(10+1);i++) {
 			
-				if (i % 1000 == 0) {
+				if (cancel) {
+					progressCancelled();
+					return;
+				}
+
+				
+				if (i % 10000 == 0) {
 					progressUpdated("Checked "+i+" positions in "+y.name(), i, yBases.length);
 				}
 			
