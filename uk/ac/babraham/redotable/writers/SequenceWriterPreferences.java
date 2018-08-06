@@ -9,7 +9,7 @@ public class SequenceWriterPreferences {
 	
 	public boolean omitHidden = true;
 	
-	public boolean mergeEntries = true;
+	public boolean mergeEntries = false;
 	public char seaparationRepeat = 50;	
 	
 }

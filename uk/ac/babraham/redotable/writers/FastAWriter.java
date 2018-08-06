@@ -85,6 +85,8 @@ public class FastAWriter extends Progressable {
 			header.append(seq.description());
 		}
 		
+		pr.println(header.toString());
+		
 		if (prefs.writeSequence) {
 			writeBases(seq.getBases(), pr);
 		}
