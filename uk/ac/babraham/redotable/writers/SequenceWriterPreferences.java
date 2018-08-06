@@ -1,5 +1,7 @@
 package uk.ac.babraham.redotable.writers;
 
+import uk.ac.babraham.redotable.datatypes.SequenceCollection;
+
 public class SequenceWriterPreferences {
 
 	public boolean writeSequence = true;
@@ -10,6 +12,8 @@ public class SequenceWriterPreferences {
 	public boolean omitHidden = true;
 	
 	public boolean mergeEntries = false;
-	public char seaparationRepeat = 50;	
+	public int seaparationRepeat = 50;	
+	
+	public SequenceCollection sequences;
 	
 }

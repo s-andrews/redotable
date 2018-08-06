@@ -11,11 +11,11 @@ import uk.ac.babraham.redotable.utilities.Progressable;
 
 public class FastAWriter extends Progressable {
 
-	public void writeSequences (SequenceCollection collection, File outfile, SequenceWriterPreferences prefs) throws IOException {
+	public void writeSequences (File outfile, SequenceWriterPreferences prefs) throws IOException {
 		
 		PrintWriter pr = new PrintWriter(new FileWriter(outfile));
 		
-		Sequence [] seqs = collection.sequences();
+		Sequence [] seqs = prefs.sequences.sequences();
 		
 		byte [] separationBytes = null;
 		
@@ -29,7 +29,7 @@ public class FastAWriter extends Progressable {
 		int totalLengthSoFar = 0;
 		
 		for (int s=0;s<seqs.length;s++) {
-			progressUpdated("Writing "+seqs[s].name(), totalLengthSoFar, collection.length());
+			progressUpdated("Writing "+seqs[s].name(), totalLengthSoFar, prefs.sequences.length());
 			totalLengthSoFar += seqs[s].length();
 			
 			// Don't bother if this is hidden.

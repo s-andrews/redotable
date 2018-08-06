@@ -2,9 +2,7 @@ package uk.ac.babraham.redotable;
 
 import java.awt.BorderLayout;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -21,16 +19,13 @@ import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
+import uk.ac.babraham.redotable.displays.preferences.SequenceWriterPrefsEditorDialog;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.HashingAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
 import uk.ac.babraham.redotable.utilities.fileFilters.FastAFileFilter;
-import uk.ac.babraham.redotable.utilities.fileFilters.PNGFileFilter;
-import uk.ac.babraham.redotable.utilities.fileFilters.SVGFileFilter;
 import uk.ac.babraham.redotable.utilities.imageSaver.ImageSaver;
-import uk.ac.babraham.redotable.utilities.imageSaver.SVGGenerator;
-import uk.ac.babraham.redotable.utilities.imageSaver.SVGProducer;
 import uk.ac.babraham.redotable.writers.FastAWriter;
 import uk.ac.babraham.redotable.writers.SequenceWriterPreferences;
 
@@ -107,8 +102,6 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 
 			if (file.isDirectory()) return;
 
-			FileFilter filter = chooser.getFileFilter();
-
 			if (! (file.getPath().toLowerCase().endsWith(".fasta") || file.getPath().toLowerCase().endsWith(".fa") || file.getPath().toLowerCase().endsWith(".txt"))) {
 					file = new File(file.getPath()+".fasta");
 			}
@@ -124,9 +117,14 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 			
 			SequenceWriterPreferences writerPrefs = new SequenceWriterPreferences();
 			
+			SequenceWriterPrefsEditorDialog prefDialog = new SequenceWriterPrefsEditorDialog(writerPrefs);
+			
+			if (prefDialog.theyCancelled()) return;
+		
+			
 			FastAWriter writer = new FastAWriter();
 			writer.addListener(new ProgressDialog("Saving Sequences"));
-			writer.writeSequences(data.xSequences(), file, writerPrefs);
+			writer.writeSequences(file, writerPrefs);
 
 		}
 		catch (IOException ioe) {

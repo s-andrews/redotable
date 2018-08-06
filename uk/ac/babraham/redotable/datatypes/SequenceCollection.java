@@ -23,6 +23,10 @@ public class SequenceCollection {
 	protected RedotabledData data () {
 		return data;
 	}
+	
+	public String toString () {
+		return name;
+	}
 
 	protected void lowerSequence (Sequence s) {
 		
