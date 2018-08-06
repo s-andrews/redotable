@@ -23,6 +23,7 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 	// or alignments.
 	
 	JMenuItem fileSaveDotplot;
+	JMenuItem fileSaveSeqs;
 	JMenuItem startAlignment;
 	
 	JMenuItem editProperties;
@@ -45,6 +46,12 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		fileMenu.add(fileOpenY);
 
 		fileMenu.addSeparator();
+
+		fileSaveSeqs = new JMenuItem("Save sequences...");
+		fileSaveSeqs.setActionCommand("save_seqs");
+		fileSaveSeqs.addActionListener(this);
+		fileMenu.add(fileSaveSeqs);
+
 		
 		fileSaveDotplot = new JMenuItem("Save dotplot...");
 		fileSaveDotplot.setActionCommand("save_dotplot");
@@ -95,6 +102,9 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		else if (ae.getActionCommand().equals("openy")) {
 			application.openyseqs();
 		}
+		else if (ae.getActionCommand().equals("save_seqs")) {
+			application.saveseqs();
+		}
 		else if (ae.getActionCommand().equals("save_dotplot")) {
 			application.saveDotplot();
 		}
@@ -131,9 +141,11 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		// Both sequences and we can do an alignment.
 		if (application.data().xSequences() != null && application.data().ySequences() != null) {
 			startAlignment.setEnabled(true);
+			fileSaveSeqs.setEnabled(true);
 		}
 		else {
 			startAlignment.setEnabled(false);
+			fileSaveSeqs.setEnabled(false);
 		}
 
 		// If there is an alignment then we can save it
