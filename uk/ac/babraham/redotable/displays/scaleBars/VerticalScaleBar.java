@@ -72,7 +72,6 @@ public class VerticalScaleBar extends JPanel {
 
 				double angle = Math.toRadians(90);
 				g2D.rotate(-angle,10,getHeight()/2);
-				int length = g.getFontMetrics().stringWidth(name);
 				g2D.drawString(name, 10, getHeight()/2);
 				g2D.setTransform(orig);
 			}
