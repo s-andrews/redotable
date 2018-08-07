@@ -62,7 +62,9 @@ public class PairwiseAlignmentPanel{
 				int yStart = getY(diagonals[d].yStart(),minY,maxY);
 				int xEnd = getX(diagonals[d].xEnd(),minX,maxX);
 				int yEnd = getY(diagonals[d].yEnd(),minY,maxY);
-				
+
+//				System.err.println("For Minx="+minX+" minY="+minY+" maxX="+maxX+" maxY="+maxY+" xs="+diagonals[d].xStart()+" xe="+diagonals[d].xEnd()+" ys="+diagonals[d].yStart()+" ye="+diagonals[d].yEnd()+" coord="+xStart+","+xEnd+","+yStart+","+yEnd);
+
 				// Make sure nothing is invisible
 				if (xStart == xEnd && yStart == yEnd) {
 					xEnd +=1;
@@ -78,6 +80,8 @@ public class PairwiseAlignmentPanel{
 				int yStart = getY(diagonals[d].yStart(),minY,maxY);
 				int xEnd = getX(diagonals[d].xEnd(),minX,maxX);
 				int yEnd = getY(diagonals[d].yEnd(),minY,maxY);
+
+//				System.err.println("Rev Minx="+minX+" minY="+minY+" maxX="+maxX+" maxY="+maxY+" xs="+diagonals[d].xStart()+" xe="+diagonals[d].xEnd()+" ys="+diagonals[d].yStart()+" ye="+diagonals[d].yEnd()+" coord="+xStart+","+xEnd+","+yStart+","+yEnd);
 
 				// Make sure nothing is invisible
 				if (xStart == xEnd && yStart == yEnd) {
@@ -97,20 +101,19 @@ public class PairwiseAlignmentPanel{
 		int value = (int)((maxX - minX)*proportion);
 
 		if (align.sequenceX().revcomp()) {
-			return((maxX-minX)-value);
+			return(maxX-value);
 		}
 		return minX+value;
 	}
 
 	private int getY (int base, int minY, int maxY) {
 		double proportion = base/(double)align.yLength();
-		
-		int value = (maxY-minY) - (int)((maxY-minY)*proportion);
-		
+		int value = (int)((minY - maxY)*proportion);
+
 		if (align.sequenceY().revcomp()) {
-			return((maxY-minY)-value);
+			return(maxY+value);
 		}
-		return minY+value;
+		return minY-value;
 	}
 
 	
