@@ -134,9 +134,7 @@ public class CollectionAlignmentPanel extends JPanel {
 				int yStart = getY(lastYSum);
 				lastYSum += yseqs[y].length();
 				int yEnd = getY(lastYSum);
-				
-				System.err.println("Y index "+y+" from "+yStart+" to "+yEnd+" from height="+getHeight());
-				
+								
 				if (redotablePreferences.getInstance().displaySequenceEdgesY() && lastXSum == xseqs[x].length()) {
 					g.setColor(ColourScheme.SEQUENCE_EDGE);
 					g.drawLine(0, yEnd, getWidth(), yEnd);
