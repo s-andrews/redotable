@@ -1,9 +1,6 @@
 package uk.ac.babraham.redotable.displays.alignment;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 
 import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;

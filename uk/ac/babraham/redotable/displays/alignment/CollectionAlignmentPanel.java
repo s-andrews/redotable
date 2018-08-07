@@ -2,8 +2,6 @@ package uk.ac.babraham.redotable.displays.alignment;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,12 +47,12 @@ public class CollectionAlignmentPanel extends JPanel {
 		Sequence [] yseqs = alignment.collectionY().sequences();
 		
 		int lastXSum = 0;
-				
-		for (int x=0;x<xseqs.length;x++) {
-//			for (int x=0;x<1;x++) {
-			if (xseqs[x].hidden()) continue;
-			
 		
+		// First do the X highlights
+		for (int x=0;x<xseqs.length;x++) {
+
+			if (xseqs[x].hidden()) continue;
+						
 			int xStart = getX(lastXSum);
 			lastXSum += xseqs[x].length();
 			int xEnd = getX(lastXSum);
@@ -63,7 +61,64 @@ public class CollectionAlignmentPanel extends JPanel {
 				g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
 				g.fillRect(xStart, 0, xEnd-xStart, getHeight());
 			}
+
+		}
+
+		// Then do the Y highlights
+		int lastYSum = 0;
+		for (int y=0;y<yseqs.length;y++) {
+			if (yseqs[y].hidden()) continue;
 			
+			int yStart = getY(lastYSum);
+			lastYSum += yseqs[y].length();
+			int yEnd = getY(lastYSum);
+			
+			if (yseqs[y].highlight() && yStart != yEnd) {
+				g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
+				g.fillRect(0, yEnd, getWidth(), yStart-yEnd);
+			}
+		}
+		
+		// Finally, the double highlights
+		lastXSum = 0;
+		
+		// First do the X highlights
+		for (int x=0;x<xseqs.length;x++) {
+
+			if (xseqs[x].hidden()) continue;
+						
+			int xStart = getX(lastXSum);
+			lastXSum += xseqs[x].length();
+			int xEnd = getX(lastXSum);
+			
+			if (!xseqs[x].highlight() || xEnd==xStart) continue;
+		
+			lastYSum = 0;
+			for (int y=0;y<yseqs.length;y++) {
+				if (yseqs[y].hidden()) continue;
+				
+				int yStart = getY(lastYSum);
+				lastYSum += yseqs[y].length();
+				int yEnd = getY(lastYSum);
+				
+				if (yseqs[y].highlight() && yStart != yEnd) {
+					g.setColor(ColourScheme.DOUBLE_HIGHLIGHT);
+					g.fillRect(xStart, yEnd, xEnd-xStart, yStart-yEnd);
+				}
+			}	
+		}
+
+		
+		// Now we draw the diagonals.
+		lastXSum = 0;
+		for (int x=0;x<xseqs.length;x++) {
+			if (xseqs[x].hidden()) continue;
+			
+		
+			int xStart = getX(lastXSum);
+			lastXSum += xseqs[x].length();
+			int xEnd = getX(lastXSum);
+						
 			if (redotablePreferences.getInstance().displaySequenceEdgesX()) {
 				g.setColor(ColourScheme.SEQUENCE_EDGE);
 				g.drawLine(xEnd, 0, xEnd, getHeight());
@@ -72,9 +127,8 @@ public class CollectionAlignmentPanel extends JPanel {
 			
 			if (xEnd == xStart) continue;
 
-			int lastYSum = 0;
+			lastYSum = 0;
 			for (int y=0;y<yseqs.length;y++) {
-//				for (int y=0;y<1;y++) {
 				if (yseqs[y].hidden()) continue;
 				
 				int yStart = getY(lastYSum);
@@ -82,15 +136,8 @@ public class CollectionAlignmentPanel extends JPanel {
 				int yEnd = getY(lastYSum);
 				
 				System.err.println("Y index "+y+" from "+yStart+" to "+yEnd+" from height="+getHeight());
-
-				if (yseqs[y].highlight() && yStart != yEnd && lastXSum == xseqs[x].length()) {
-					g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
-					g.fillRect(0, yEnd, getWidth(), yStart-yEnd);
-				}
-
-				// TODO: Double highlight
 				
-				if (redotablePreferences.getInstance().displaySequenceEdgesY()) {
+				if (redotablePreferences.getInstance().displaySequenceEdgesY() && lastXSum == xseqs[x].length()) {
 					g.setColor(ColourScheme.SEQUENCE_EDGE);
 					g.drawLine(0, yEnd, getWidth(), yEnd);
 				}
