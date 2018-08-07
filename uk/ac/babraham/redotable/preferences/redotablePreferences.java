@@ -9,7 +9,8 @@ public class redotablePreferences {
 	private Vector<PreferencesListener> listeners = new Vector<PreferencesListener>();
 	private int windowSearchSize = 50;
 	private int windowDisplaySize = 50;
-	private boolean displaySequenceEdges = true;
+	private boolean displaySequenceEdgesX = true;
+	private boolean displaySequenceEdgesY = true;
 	
 	private File defaultLocation = null;
 	
@@ -50,15 +51,26 @@ public class redotablePreferences {
 		updateListeners();
 	}
 	
-	public boolean displaySequenceEdges () {
-		return displaySequenceEdges;
+	public boolean displaySequenceEdgesX () {
+		return displaySequenceEdgesX;
 	}
+
+	public boolean displaySequenceEdgesY () {
+		return displaySequenceEdgesY;
+	}
+
 	
-	public void setDisplaySequenceEdges (boolean display) {
-		displaySequenceEdges = display;
+	public void setDisplaySequenceEdgesX (boolean display) {
+		displaySequenceEdgesX = display;
 		updateListeners();
 	}
+
 	
+	public void setDisplaySequenceEdgesY (boolean display) {
+		displaySequenceEdgesY = display;
+		updateListeners();
+	}
+
 	public void addListener (PreferencesListener l) {
 		if (l != null && ! listeners.contains(l)) 
 			listeners.add(l);

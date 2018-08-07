@@ -1,44 +1,82 @@
 package uk.ac.babraham.redotable.displays.alignment;
 
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
 import uk.ac.babraham.redotable.datatypes.Sequence;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 
 public class CollectionAlignmentPanel extends JPanel {
 	
+	private HashMap<List<Sequence>, PairwiseAlignmentPanel> panels = new HashMap<List<Sequence>,PairwiseAlignmentPanel>();
+	private SequenceCollectionAlignment alignment;
+	
 	public CollectionAlignmentPanel (SequenceCollectionAlignment alignment) {
 		
-		setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx=0;
-		gbc.gridy=0;
-		gbc.weightx=0.5;
-		gbc.weighty=0.5;
-		gbc.fill = GridBagConstraints.BOTH;
+		this.alignment = alignment;
 		
 		Sequence [] xseqs = alignment.collectionX().sequences();
 		Sequence [] yseqs = alignment.collectionY().sequences();
 				
 		for (int x=0;x<xseqs.length;x++) {
 			for (int y=0;y<yseqs.length;y++) {
-				
-				if (xseqs[x].hidden() || yseqs[y].hidden()) continue;
-				
-				gbc.gridx=x;
-				gbc.gridy=(yseqs.length-1)-y;
-				gbc.weightx = (xseqs[x].length()/(double)alignment.collectionX().visibleLength());
-				gbc.weighty = (yseqs[y].length()/(double)alignment.collectionY().visibleLength());
-				add(new PairwiseAlignmentPanel(alignment.getAlignmentForSequences(xseqs[x], yseqs[y])),gbc);
+				PairwiseAlignment pw = alignment.getAlignmentForSequences(xseqs[x], yseqs[y]);
+				panels.put(Collections.unmodifiableList(Arrays.asList(pw.sequenceX(),pw.sequenceY())),new PairwiseAlignmentPanel(pw));
 			}
 		}
 		
-		repaint();
+	}
+	
+	public void paintComponent(Graphics g) {
+		Sequence [] xseqs = alignment.collectionX().sequences();
+		Sequence [] yseqs = alignment.collectionY().sequences();
+		
+		int lastXSum = 0;
+		int lastYSum = 0;
+				
+		for (int x=0;x<xseqs.length;x++) {
+			if (xseqs[x].hidden()) continue;
+		
+			int xStart = getX(lastXSum);
+			lastXSum += xseqs[x].length();
+			int xEnd = getX(lastXSum);
+			
+			if (xEnd == xStart) continue;
+			
+			for (int y=0;y<yseqs.length;y++) {
+				if (yseqs[y].hidden()) continue;
+				
+				int yStart = getY(lastYSum);
+				lastYSum += yseqs[y].length();
+				int yEnd = getY(lastYSum);
+				
+				if (yEnd == yStart) continue;
+
+				panels.get(Arrays.asList(xseqs[x],yseqs[y])).paintComponent(g, xStart, xEnd, yStart, yEnd);
+				
+			}
+		}
+	}
+	
+	private int getX (int value) {
+		double proportion = value/(double)alignment.collectionX().visibleLength();
+		
+		return (int)(getWidth()*proportion);
 		
 	}
 	
+	private int getY (int value) {
+		double proportion = value/(double)alignment.collectionY().visibleLength();
+		
+		return (int)(getHeight()*proportion);
+	}	
 	
 }

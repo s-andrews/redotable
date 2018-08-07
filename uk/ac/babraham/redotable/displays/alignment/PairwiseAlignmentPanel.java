@@ -1,19 +1,16 @@
 package uk.ac.babraham.redotable.displays.alignment;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-import javax.swing.JPanel;
 
 import uk.ac.babraham.redotable.datatypes.Diagonal;
 import uk.ac.babraham.redotable.datatypes.PairwiseAlignment;
 import uk.ac.babraham.redotable.displays.preferences.ColourScheme;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
-public class PairwiseAlignmentPanel extends JPanel{
+public class PairwiseAlignmentPanel{
 
 	private PairwiseAlignment align;
 	private Diagonal [] diagonals;
@@ -22,41 +19,35 @@ public class PairwiseAlignmentPanel extends JPanel{
 	public PairwiseAlignmentPanel (PairwiseAlignment align) {
 		this.align=align;
 		diagonals = align.getDiagonals();
-		setToolTipText(align.sequenceX().name()+" vs "+align.sequenceY().name());
-		setComponentPopupMenu(new PairwiseAlignmentPopupMenu(align));
-	}
-	
-	public Dimension getPreferredSize() {
-		return(new Dimension(1,1));
-	}
-	
-	public Dimension getMinimumSize () {
-		return (new Dimension(0,0));
 	}
 	
 	
-	public void paintComponent (Graphics g) {
-		super.paintComponent(g);
+	public void paintComponent (Graphics g, int minX, int maxX, int minY, int maxY) {
 		
 		if (g instanceof Graphics2D) {
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 		
 		// Shade the background, taking into account any highlighting which might be relevant
-		g.setColor(Color.WHITE);
-		if (align.sequenceX().highlight() && align.sequenceY().highlight()) {
-			g.setColor(ColourScheme.DOUBLE_HIGHLIGHT);
-		}
-		else if (align.sequenceX().highlight() || align.sequenceY().highlight()) {
-			g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
-		}
-		g.fillRect(0, 0, getWidth(), getHeight());
-		
-		if (redotablePreferences.getInstance().displaySequenceEdges()) {
-			g.setColor(ColourScheme.SEQUENCE_EDGE);
-			g.drawLine(0, 0, getWidth(), 0);
-			g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
-		}
+//		g.setColor(Color.WHITE);
+//		if (align.sequenceX().highlight() && align.sequenceY().highlight()) {
+//			g.setColor(ColourScheme.DOUBLE_HIGHLIGHT);
+//		}
+//		else if (align.sequenceX().highlight() || align.sequenceY().highlight()) {
+//			g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
+//		}
+//		g.fillRect(minX, minY, maxX-minX, maxY-minY);
+//		
+//		if (redotablePreferences.getInstance().displaySequenceEdgesY()) {
+//			g.setColor(ColourScheme.SEQUENCE_EDGE);
+//			g.drawLine(0, 0, getWidth(), 0);
+//		}
+//
+//		if (redotablePreferences.getInstance().displaySequenceEdgesX()) {
+//			g.setColor(ColourScheme.SEQUENCE_EDGE);
+//			g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
+//		}
+
 		
 		g.setColor(Color.BLACK);
 				
@@ -67,10 +58,10 @@ public class PairwiseAlignmentPanel extends JPanel{
 			if (diagonals[d].length() < windowSize) continue;
 			if (diagonals[d].forward()) {
 				g.setColor(ColourScheme.FORWARD);
-				int xStart = getX(diagonals[d].xStart());
-				int yStart = getY(diagonals[d].yStart());
-				int xEnd = getX(diagonals[d].xEnd());
-				int yEnd = getY(diagonals[d].yEnd());
+				int xStart = getX(diagonals[d].xStart(),minX,maxX);
+				int yStart = getY(diagonals[d].yStart(),minY,maxY);
+				int xEnd = getX(diagonals[d].xEnd(),minX,maxX);
+				int yEnd = getY(diagonals[d].yEnd(),minY,maxY);
 				
 				// Make sure nothing is invisible
 				if (xStart == xEnd && yStart == yEnd) {
@@ -83,10 +74,10 @@ public class PairwiseAlignmentPanel extends JPanel{
 			else {
 				g.setColor(ColourScheme.REVERSE);
 				
-				int xStart = getX(diagonals[d].xStart());
-				int yStart = getY(diagonals[d].yStart());
-				int xEnd = getX(diagonals[d].xEnd());
-				int yEnd = getY(diagonals[d].yEnd());
+				int xStart = getX(diagonals[d].xStart(),minX,maxX);
+				int yStart = getY(diagonals[d].yStart(),minY,maxY);
+				int xEnd = getX(diagonals[d].xEnd(),minX,maxX);
+				int yEnd = getY(diagonals[d].yEnd(),minY,maxY);
 
 				// Make sure nothing is invisible
 				if (xStart == xEnd && yStart == yEnd) {
@@ -101,25 +92,25 @@ public class PairwiseAlignmentPanel extends JPanel{
 
 	}
 		
-	private int getX (int base) {
+	private int getX (int base, int minX, int maxX) {
 		double proportion = base/(double)align.xLength();
-		int value = (int)((getWidth())*proportion);
+		int value = (int)((maxX - minX)*proportion);
 
 		if (align.sequenceX().revcomp()) {
-			return(getWidth()-value);
+			return((maxX-minX)-value);
 		}
-		return value;
+		return minX+value;
 	}
 
-	private int getY (int base) {
+	private int getY (int base, int minY, int maxY) {
 		double proportion = base/(double)align.yLength();
 		
-		int value = (getHeight()) - (int)(getHeight()*proportion);
+		int value = (maxY-minY) - (int)((maxY-minY)*proportion);
 		
 		if (align.sequenceY().revcomp()) {
-			return(getHeight()-value);
+			return((maxY-minY)-value);
 		}
-		return value;
+		return minY+value;
 	}
 
 	
