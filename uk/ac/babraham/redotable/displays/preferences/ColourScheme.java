@@ -10,4 +10,6 @@ public class ColourScheme {
 	public static Color SINGLE_HIGHLIGHT = Color.YELLOW;
 	public static Color DOUBLE_HIGHLIGHT = Color.ORANGE;
 	
+	public static Color DRAG_HIGHLIGHT = Color.GREEN;
+	
 }

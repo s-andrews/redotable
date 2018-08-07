@@ -25,11 +25,15 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	private CollectionAlignmentPanel alignmentPanel;
 	private RedotabledData data;
 	
+	private int minVisibleX = 0;
+	private int maxVisibleX = 0;
+	private int minVisibleY = 0;
+	private int maxVisibleY = 0;
+	
 	private GridBagConstraints gbc;
 	
 	
 	public DotPlotPanel (RedotabledData data) {
-		
 		this.data = data;
 		data.addDataListener(this);
 		redotablePreferences.getInstance().addListener(this);
@@ -65,9 +69,58 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		add(centrePanel,gbc);
 	}
 	
+	public int minVisibleX () {
+		return minVisibleX;
+	}
+	
+	public int maxVisibleX () {
+		return maxVisibleX;
+	}
+	
+	public int minVisibleY () {
+		return minVisibleY;
+	}
+	
+	public int maxVisibleY () {
+		return maxVisibleY;
+	}
+	
+	public void zoomOut () {
+		int xChange = (maxVisibleX-minVisibleX)/2;
+		if (xChange < 2) xChange = 2;
+
+		int yChange = (maxVisibleY-minVisibleY)/2;
+		if (yChange < 2) yChange = 2;
+		
+		setVisibleArea(minVisibleX-xChange, maxVisibleX+xChange, minVisibleY-yChange, maxVisibleY+yChange);
+	}
+	
+	public void setVisibleArea (int minX, int maxX, int minY, int maxY) {
+		minVisibleX = minX;
+		minVisibleY = minY;
+		maxVisibleX = maxX;
+		maxVisibleY = maxY;
+		
+		trimVisible();
+		repaint();
+	}
+	
+	public void trimVisible () {
+		// This adjusts the visible area to make sure we don't exceed the
+		// actual visible size.
+		minVisibleX = Math.max(minVisibleX,0);
+		minVisibleY = Math.max(minVisibleY,0);
+		maxVisibleX = Math.min(maxVisibleX,data.xSequences().visibleLength());
+		maxVisibleY = Math.min(maxVisibleY,data.ySequences().visibleLength());
+		
+		xScale.setLimits(minVisibleX, maxVisibleX);
+		yScale.setLimits(minVisibleY, maxVisibleY);
+	}
+	
 
 	@Override
 	public void preferencesUpdated() {
+		trimVisible();
 		repaint();
 	}
 
@@ -112,6 +165,11 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	@Override
 	public void newAlignment(SequenceCollectionAlignment alignment) {
 		
+		minVisibleX = 0;
+		maxVisibleX = alignment.collectionX().visibleLength();
+		minVisibleY = 0;
+		maxVisibleY = alignment.collectionY().visibleLength();
+		
 		if (alignmentPanel != null) {
 			remove(alignmentPanel);
 		}
@@ -121,7 +179,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		validate();
 		repaint();
 		
-		alignmentPanel = new CollectionAlignmentPanel(alignment);
+		alignmentPanel = new CollectionAlignmentPanel(alignment,this);
 		add(alignmentPanel,gbc);
 		
 		validate();
@@ -134,5 +192,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 			repaint();
 		}
 	}
+
+
 	
 }
