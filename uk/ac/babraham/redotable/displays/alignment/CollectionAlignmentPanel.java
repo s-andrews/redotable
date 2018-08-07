@@ -76,9 +76,7 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 		minVisibleY = dotpanel.minVisibleY();
 		maxVisibleX = dotpanel.maxVisibleX();
 		maxVisibleY = dotpanel.maxVisibleY();
-		
-		System.err.println("Visible area is x="+minVisibleX+","+maxVisibleX+" y="+minVisibleY+","+maxVisibleY);
-		
+				
 		if (g instanceof Graphics2D) {
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		}
@@ -122,8 +120,8 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 			lastYSum += yseqs[y].length();
 			int yEnd = getY(lastYSum);
 			
-			if (yEnd < 0) continue;
-			if (yStart > getHeight()) continue;
+			if (yStart < 0) continue;
+			if (yEnd > getHeight()) continue;
 
 			
 			if (yseqs[y].highlight() && yStart != yEnd) {
@@ -158,8 +156,8 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 				lastYSum += yseqs[y].length();
 				int yEnd = getY(lastYSum);
 				
-				if (yEnd < 0) continue;
-				if (yStart > getHeight()) continue;
+				if (yStart < 0) continue;
+				if (yEnd > getHeight()) continue;
 
 				
 				if (yseqs[y].highlight() && yStart != yEnd) {
@@ -201,8 +199,8 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 				lastYSum += yseqs[y].length();
 				int yEnd = getY(lastYSum);
 				
-				if (yEnd < 0) continue;
-				if (yStart > getHeight()) continue;
+				if (yStart < 0) continue;
+				if (yEnd > getHeight()) continue;
 								
 				if (redotablePreferences.getInstance().displaySequenceEdgesY() && lastXSum == xseqs[x].length()) {
 					g.setColor(ColourScheme.SEQUENCE_EDGE);
@@ -219,17 +217,11 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 	
 	private int getX (int value) {
 		double proportion = (value-minVisibleX)/(double)(maxVisibleX-minVisibleX);
-
-//		System.err.println("Proprotion for x="+value+" is "+proportion);
-		
 		return (int)(getWidth()*proportion);
 	}
 	
 	private int getY (int value) {
 		double proportion = (value-minVisibleY)/(double)(maxVisibleY-minVisibleY);
-
-//		System.err.println("Proprotion for y="+value+" is "+proportion);
-		
 		return getHeight()-(int)(getHeight()*proportion);
 	}
 	
@@ -284,19 +276,19 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		dotpanel.setVisibleArea(getXDistance(Math.min(dragXStart, dragXEnd)),getXDistance(Math.max(dragXStart, dragXEnd)), getYDistance(Math.max(dragYStart, dragYEnd)), getYDistance(Math.min(dragYStart, dragYEnd)));
 
+		if (dragXStart == null) return;
+		
+		if (Math.abs(dragXEnd-dragXStart) >= 5 && Math.abs(dragYEnd-dragYStart) >= 5) {
+			dotpanel.setVisibleArea(getXDistance(Math.min(dragXStart, dragXEnd)),getXDistance(Math.max(dragXStart, dragXEnd)), getYDistance(Math.max(dragYStart, dragYEnd)), getYDistance(Math.min(dragYStart, dragYEnd)));
+		}
 		
 		dragXStart = null;
 		dragXEnd = null;
 		dragYStart = null;
 		dragYEnd = null;
-		
-		
-		System.err.println("Released");
-		
 		repaint();
-		
+						
 	}
 	
 }

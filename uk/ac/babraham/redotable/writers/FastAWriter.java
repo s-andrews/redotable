@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import uk.ac.babraham.redotable.datatypes.Sequence;
-import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.utilities.Progressable;
 
 public class FastAWriter extends Progressable {
