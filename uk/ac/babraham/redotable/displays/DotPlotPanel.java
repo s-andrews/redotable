@@ -108,23 +108,6 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		}
 
 	}
-
-	private void rebuildAlignment () {
-		if (alignmentPanel != null) {
-			xScale.setLimits(0, data.xSequences().visibleLength());
-			yScale.setLimits(0, data.ySequences().visibleLength());
-
-			remove(alignmentPanel);
-//			validate();
-//			repaint();
-			
-			alignmentPanel = new CollectionAlignmentPanel(data.alignment());
-			add(alignmentPanel,gbc);
-			
-			validate();
-			repaint();
-		}
-	}
 	
 	@Override
 	public void newAlignment(SequenceCollectionAlignment alignment) {
@@ -147,10 +130,9 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 
 	@Override
 	public void sequenceChanged(Sequence seq) {
-		// We can't be sure that this is only cosmetic (eg highlighting) so
-		// we have to rebuild the table.
-		
-		rebuildAlignment();
+		if (alignmentPanel != null) {
+			repaint();
+		}
 	}
 	
 }

@@ -17,7 +17,8 @@ public class EditPreferencesPanel extends JPanel {
 	private redotablePreferences prefs = redotablePreferences.getInstance();
 
 	private JTextField searchWindowSizeField;
-	private JCheckBox displaySequenceEdgesBox;
+	private JCheckBox displaySequenceEdgesXBox;
+	private JCheckBox displaySequenceEdgesYBox;
 	
 	public EditPreferencesPanel () {
 		
@@ -43,12 +44,25 @@ public class EditPreferencesPanel extends JPanel {
 		gbc.gridx=0;
 		gbc.gridy++;
 		
-		add(new JLabel("Display Sequence Edges"),gbc);
+		add(new JLabel("Display X Sequence Edges"),gbc);
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		displaySequenceEdgesBox = new JCheckBox("",prefs.displaySequenceEdges());
-		add(displaySequenceEdgesBox,gbc);
+		displaySequenceEdgesXBox = new JCheckBox("",prefs.displaySequenceEdgesX());
+		add(displaySequenceEdgesXBox,gbc);
+
+		gbc.weightx = 0.001;
+		gbc.gridx=0;
+		gbc.gridy++;
+		
+		add(new JLabel("Display Y Sequence Edges"),gbc);
+		gbc.weightx=0.999;
+		gbc.gridx=1;
+		
+		displaySequenceEdgesYBox = new JCheckBox("",prefs.displaySequenceEdgesY());
+		add(displaySequenceEdgesYBox,gbc);
+
+	
 	}
 	
 	public void savePrefs() {
@@ -56,8 +70,10 @@ public class EditPreferencesPanel extends JPanel {
 			prefs.setWindowSearchSize(Integer.parseInt(searchWindowSizeField.getText()));
 		}
 		
-		prefs.setDisplaySequenceEdges(displaySequenceEdgesBox.isSelected());
-		
+		prefs.setDisplaySequenceEdgesX(displaySequenceEdgesXBox.isSelected());
+
+		prefs.setDisplaySequenceEdgesY(displaySequenceEdgesYBox.isSelected());
+
 	}
 	
 	
