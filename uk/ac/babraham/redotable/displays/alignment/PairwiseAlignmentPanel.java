@@ -23,33 +23,6 @@ public class PairwiseAlignmentPanel{
 	
 	
 	public void paintComponent (Graphics g, int minX, int maxX, int minY, int maxY) {
-		
-		if (g instanceof Graphics2D) {
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		}
-		
-		// Shade the background, taking into account any highlighting which might be relevant
-//		g.setColor(Color.WHITE);
-//		if (align.sequenceX().highlight() && align.sequenceY().highlight()) {
-//			g.setColor(ColourScheme.DOUBLE_HIGHLIGHT);
-//		}
-//		else if (align.sequenceX().highlight() || align.sequenceY().highlight()) {
-//			g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
-//		}
-//		g.fillRect(minX, minY, maxX-minX, maxY-minY);
-//		
-//		if (redotablePreferences.getInstance().displaySequenceEdgesY()) {
-//			g.setColor(ColourScheme.SEQUENCE_EDGE);
-//			g.drawLine(0, 0, getWidth(), 0);
-//		}
-//
-//		if (redotablePreferences.getInstance().displaySequenceEdgesX()) {
-//			g.setColor(ColourScheme.SEQUENCE_EDGE);
-//			g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
-//		}
-
-		
-		g.setColor(Color.BLACK);
 				
 		int windowSize = redotablePreferences.getInstance().windowDisplaySize();
 		

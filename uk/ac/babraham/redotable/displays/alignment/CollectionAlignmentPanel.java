@@ -1,8 +1,10 @@
 package uk.ac.babraham.redotable.displays.alignment;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +40,11 @@ public class CollectionAlignmentPanel extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
+		
+		if (g instanceof Graphics2D) {
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		}
+
 		Sequence [] xseqs = alignment.collectionX().sequences();
 		Sequence [] yseqs = alignment.collectionY().sequences();
 		
@@ -76,9 +83,9 @@ public class CollectionAlignmentPanel extends JPanel {
 				
 				System.err.println("Y index "+y+" from "+yStart+" to "+yEnd+" from height="+getHeight());
 
-				if (yseqs[y].highlight() && yStart != yEnd) {
+				if (yseqs[y].highlight() && yStart != yEnd && lastXSum == xseqs[x].length()) {
 					g.setColor(ColourScheme.SINGLE_HIGHLIGHT);
-					g.fillRect(0, yEnd, getWidth(), yEnd-yStart);
+					g.fillRect(0, yEnd, getWidth(), yStart-yEnd);
 				}
 
 				// TODO: Double highlight
