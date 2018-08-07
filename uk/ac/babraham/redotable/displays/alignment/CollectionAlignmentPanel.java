@@ -36,8 +36,7 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 	private Integer dragXStart = null;
 	private Integer dragXEnd = null;
 	private Integer dragYStart = null;
-	private Integer dragYEnd = null;
-	
+	private Integer dragYEnd = null;	
 
 	
 	public CollectionAlignmentPanel (SequenceCollectionAlignment alignment, DotPlotPanel dotpanel) {
@@ -256,7 +255,53 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {}
+	public void mouseMoved(MouseEvent me) {
+		int baseX = getXDistance(me.getX());
+		int baseY = getYDistance(me.getY());
+		
+		Sequence [] xseqs = alignment.collectionX().sequences();
+		Sequence [] yseqs = alignment.collectionY().sequences();
+
+		
+		// Find which X sequence
+		Sequence xSequence = null;
+		int xPos = 0;
+		int currentBase = 0;
+		for (int i=0;i<xseqs.length;i++) {
+			if (xseqs[i].hidden()) continue;
+			int lastBase = currentBase + xseqs[i].length();
+			
+			if (baseX >= currentBase && baseX <=lastBase) {
+				xSequence = xseqs[i];
+				xPos = baseX - currentBase;
+				break;
+			}
+			
+			currentBase = lastBase;
+			
+		}
+
+		// Find which Y sequence
+		Sequence ySequence = null;
+		int yPos = 0;
+		currentBase = 0;
+		for (int i=0;i<yseqs.length;i++) {
+			if (yseqs[i].hidden()) continue;
+			int lastBase = currentBase + yseqs[i].length();
+			
+			if (baseY >= currentBase && baseY <=lastBase) {
+				ySequence = yseqs[i];
+				yPos = baseY - currentBase;
+				break;
+			}
+			
+			currentBase = lastBase;
+			
+		}
+
+		
+		setToolTipText("<html>X="+xSequence.name()+" posx="+xPos+"<br><br>Y="+ySequence.name()+" posy="+yPos);
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
