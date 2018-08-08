@@ -17,7 +17,7 @@ Windows
 -------
 You will need to install the Oracle Java Runtime Environemnt from java.com
 
-Once you have this installed you can download the redotable zip file from the [project web site](www.bioinformatics.babraham.ac.uk/projects/redotable/), and uncompress it somewhere on your machine.
+Once you have this installed you can download the redotable zip file from the [project web site](https://www.bioinformatics.babraham.ac.uk/projects/redotable/), and uncompress it somewhere on your machine.
 
 To start the program just double click on re-dot-able.exe.
 
@@ -25,7 +25,7 @@ OSX
 ---
 To allow redotable to run on OSX you will need to install the Oracle Java Development Kit which you should be able to get from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-Once that is installed you can download the redotable DMG file from the [project web page](www.bioinformatics.babraham.ac.uk/projects/redotable/).  If you double click on this it will open as a virtual disk and you will see the redotable application icon.  To install the program simply drag this icon out of the redotable virtual disk to a location on your computer (for example your Applications folder). You can then run the program by double clicking on the application.
+Once that is installed you can download the redotable DMG file from the [project web page](https://www.bioinformatics.babraham.ac.uk/projects/redotable/).  If you double click on this it will open as a virtual disk and you will see the redotable application icon.  To install the program simply drag this icon out of the redotable virtual disk to a location on your computer (for example your Applications folder). You can then run the program by double clicking on the application.
 
 Linux
 -----
@@ -37,7 +37,7 @@ To install a full JRE you can use:
 
 **CentOS / Redhat** `sudo yum install java-1.8.0-openjdk`
 
-Once this is done you can download and uncompress the windows/linux zip file from the [project web page](www.bioinformatics.babraham.ac.uk/projects/redotable/).
+Once this is done you can download and uncompress the windows/linux zip file from the [project web page](https://www.bioinformatics.babraham.ac.uk/projects/redotable/).
 
 You can then launch the program by using the `redotable` launch script in the root folder of the installation.
 
