@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +25,7 @@ import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.displays.preferences.ColourScheme;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 
-public class CollectionAlignmentPanel extends JPanel implements MouseMotionListener, MouseListener {
+public class CollectionAlignmentPanel extends JPanel implements MouseMotionListener, MouseListener, MouseWheelListener {
 	
 	private HashMap<List<Sequence>, PairwiseAlignmentPanel> panels = new HashMap<List<Sequence>,PairwiseAlignmentPanel>();
 	private SequenceCollectionAlignment alignment;
@@ -46,6 +49,7 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 		
 		minVisibleX = 0;
 		maxVisibleX = alignment.collectionX().visibleLength();
@@ -84,13 +88,7 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 		Sequence [] yseqs = alignment.collectionY().sequences();
 		
 		int lastXSum = 0;
-		
-		// Highlight if they're dragging
-		if (dragXStart != null) {
-			g.setColor(ColourScheme.DRAG_HIGHLIGHT);
-			g.fillRect(Math.min(dragXEnd,dragXStart), Math.min(dragYStart, dragYEnd), Math.abs(dragXEnd-dragXStart), Math.abs(dragYStart-dragYEnd));
-		}
-		
+				
 		// First do the X highlights
 		for (int x=0;x<xseqs.length;x++) {
 
@@ -128,7 +126,7 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 				g.fillRect(0, yEnd, getWidth(), yStart-yEnd);
 			}
 		}
-		
+				
 		// Finally, the double highlights
 		lastXSum = 0;
 		
@@ -164,6 +162,13 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 					g.fillRect(xStart, yEnd, xEnd-xStart, yStart-yEnd);
 				}
 			}	
+		}
+
+		
+		// Highlight if they're dragging
+		if (dragXStart != null) {
+			g.setColor(ColourScheme.DRAG_HIGHLIGHT);
+			g.fillRect(Math.min(dragXEnd,dragXStart), Math.min(dragYStart, dragYEnd), Math.abs(dragXEnd-dragXStart), Math.abs(dragYStart-dragYEnd));
 		}
 
 		
@@ -334,6 +339,44 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 		dragYEnd = null;
 		repaint();
 						
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent mwe) {
+		int count = mwe.getWheelRotation();
+		
+		boolean shiftX = false;
+		if ((mwe.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
+			shiftX = true;
+		}
+		
+		int distanceToMove;
+		
+		if (shiftX) {
+			distanceToMove = ((maxVisibleX-minVisibleX)/50) * count;
+
+			if (minVisibleX-distanceToMove < 0) distanceToMove = minVisibleX;
+			
+			if (maxVisibleX-distanceToMove > alignment.collectionX().visibleLength()) distanceToMove = maxVisibleX - alignment.collectionX().visibleLength();
+
+			dotpanel.setVisibleArea(minVisibleX-distanceToMove, maxVisibleX-distanceToMove, minVisibleY, maxVisibleY);
+					
+		}
+		else {
+			distanceToMove = ((maxVisibleY-minVisibleY)/100) * count;
+			
+			if (minVisibleY-distanceToMove < 0) distanceToMove = minVisibleY;
+			
+			if (maxVisibleY-distanceToMove > alignment.collectionY().visibleLength()) distanceToMove = maxVisibleY - alignment.collectionY().visibleLength();
+
+			dotpanel.setVisibleArea(minVisibleX, maxVisibleX, minVisibleY-distanceToMove, maxVisibleY-distanceToMove);
+
+		}
+		
+		
+		
+		
+		
 	}
 	
 }
