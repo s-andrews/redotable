@@ -1,20 +1,20 @@
 /**
  * Copyright Copyright 2010-18 Simon Andrews
  *
- *    This file is part of SeqMonk.
+ *    This file is part of ReDotAble.
  *
- *    SeqMonk is free software; you can redistribute it and/or modify
+ *    ReDotAble is free software; you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation; either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    SeqMonk is distributed in the hope that it will be useful,
+ *    ReDotAble is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
  *
  *    You should have received a copy of the GNU General Public License
- *    along with SeqMonk; if not, write to the Free Software
+ *    along with ReDotAble; if not, write to the Free Software
  *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 package uk.ac.babraham.redotable.dialogs;
@@ -181,7 +181,7 @@ public class ProgressDialog extends JDialog implements Runnable, ProgressListene
 	}
 
 	/* (non-Javadoc)
-	 * @see uk.ac.babraham.SeqMonk.DataTypes.ProgressListener#progressUpdated(java.lang.String, int, int)
+	 * @see uk.ac.babraham.ReDotAble.DataTypes.ProgressListener#progressUpdated(java.lang.String, int, int)
 	 */
 	public void progressUpdated(String message, int currentPos, int totalPos) {
 		label.setText(message);
@@ -192,7 +192,7 @@ public class ProgressDialog extends JDialog implements Runnable, ProgressListene
 	}
 
 	/* (non-Javadoc)
-	 * @see uk.ac.babraham.SeqMonk.DataTypes.ProgressListener#progressExceptionReceived(java.lang.Exception)
+	 * @see uk.ac.babraham.ReDotAble.DataTypes.ProgressListener#progressExceptionReceived(java.lang.Exception)
 	 */
 	public void progressExceptionReceived(Exception e) {
 		
@@ -210,7 +210,7 @@ public class ProgressDialog extends JDialog implements Runnable, ProgressListene
 
 	
 	/* (non-Javadoc)
-	 * @see uk.ac.babraham.SeqMonk.DataTypes.ProgressListener#progressCancelled()
+	 * @see uk.ac.babraham.ReDotAble.DataTypes.ProgressListener#progressCancelled()
 	 */
 	public void progressCancelled() {
 		setVisible(false);
@@ -218,7 +218,7 @@ public class ProgressDialog extends JDialog implements Runnable, ProgressListene
 	}
 
 	/* (non-Javadoc)
-	 * @see uk.ac.babraham.SeqMonk.DataTypes.ProgressListener#progressComplete(java.lang.String, java.lang.Object)
+	 * @see uk.ac.babraham.ReDotAble.DataTypes.ProgressListener#progressComplete(java.lang.String, java.lang.Object)
 	 */
 	public void progressComplete(String command, Object result) {
 		setVisible(false);
@@ -231,7 +231,7 @@ public class ProgressDialog extends JDialog implements Runnable, ProgressListene
 	}
 
 	/* (non-Javadoc)
-	 * @see uk.ac.babraham.SeqMonk.DataTypes.ProgressListener#progressWarningReceived(java.lang.Exception)
+	 * @see uk.ac.babraham.ReDotAble.DataTypes.ProgressListener#progressWarningReceived(java.lang.Exception)
 	 */
 	public void progressWarningReceived(Exception e) {
 		warningCount++;
