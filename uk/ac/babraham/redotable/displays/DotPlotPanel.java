@@ -25,6 +25,12 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	private CollectionAlignmentPanel alignmentPanel;
 	private RedotabledData data;
 	
+	// To help make things work the way we expect, we keep track of whether
+	// we're zooming at all, as well as where we're zooming to if we are.
+	
+	private boolean zoomingX = false;
+	private boolean zoomingY = false;
+	
 	private int minVisibleX = 0;
 	private int maxVisibleX = 0;
 	private int minVisibleY = 0;
@@ -103,6 +109,9 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	}
 	
 	public void setVisibleArea (int minX, int maxX, int minY, int maxY) {
+		
+		zoomingX = true;
+		zoomingY = true;
 		minVisibleX = minX;
 		minVisibleY = minY;
 		maxVisibleX = maxX;
@@ -119,6 +128,46 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		minVisibleY = Math.max(minVisibleY,0);
 		maxVisibleX = Math.min(maxVisibleX,data.xSequences().visibleLength());
 		maxVisibleY = Math.min(maxVisibleY,data.ySequences().visibleLength());
+		
+		// This can happen when sequences get removed.
+		if (minVisibleX > maxVisibleX) minVisibleX = 0;
+		if (minVisibleY > maxVisibleY) minVisibleY = 0;
+		
+		if (minVisibleX == 0 && maxVisibleX == 0) {
+			maxVisibleX = data.xSequences().visibleLength();
+		}
+
+		if (minVisibleY == 0 && maxVisibleY == 0) {
+			maxVisibleY = data.ySequences().visibleLength();
+		}
+
+//		System.err.println("Setting x="+minVisibleX+" - "+maxVisibleX+" y="+minVisibleY+" - "+maxVisibleY);
+		
+		// See if we can unset a zoom level (we never set it here)
+		if (zoomingX) {
+			if (minVisibleX == 0 && maxVisibleX == data.xSequences().visibleLength()) {
+				zoomingX = false;
+			}
+		}
+
+		if (zoomingY) {
+			if (minVisibleY == 0 && maxVisibleY == data.ySequences().visibleLength()) {
+				zoomingY = false;
+			}
+		}
+
+		
+		// If we're not zooming then we reset the values to cover the
+		// whole scale
+		if (!zoomingX) {
+			minVisibleX = 0;
+			maxVisibleX = data.xSequences().visibleLength();
+		}
+		
+		if (!zoomingY) {
+			minVisibleY = 0;
+			maxVisibleY = data.ySequences().visibleLength();
+		}
 		
 		xScale.setLimits(minVisibleX, maxVisibleX);
 		yScale.setLimits(minVisibleY, maxVisibleY);
