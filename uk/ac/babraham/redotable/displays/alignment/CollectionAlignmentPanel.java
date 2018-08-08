@@ -184,12 +184,12 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 
 		if (minVisibleY > 0) {
 			g.setColor(ColourScheme.ZOOMED_IN);
-			g.fillRect(0, 0, getWidth(), 2);			
+			g.fillRect(0, getHeight()-2, getWidth(), 2);			
 		}
 		
 		if (maxVisibleY < alignment.collectionY().visibleLength()) {
 			g.setColor(ColourScheme.ZOOMED_IN);
-			g.fillRect(0, getHeight()-2, getWidth(), 2);			
+			g.fillRect(0, 0, getWidth(), 2);			
 		}
 
 		
@@ -376,6 +376,11 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent mwe) {
 		int count = mwe.getWheelRotation();
+
+		if ((mwe.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == InputEvent.CTRL_DOWN_MASK) {
+			count  *= 10;
+		}
+
 		
 		boolean shiftX = false;
 		if ((mwe.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
