@@ -171,6 +171,28 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 			g.fillRect(Math.min(dragXEnd,dragXStart), Math.min(dragYStart, dragYEnd), Math.abs(dragXEnd-dragXStart), Math.abs(dragYStart-dragYEnd));
 		}
 
+		// Make it clear if we're zoomed in.
+		if (minVisibleX > 0) {
+			g.setColor(ColourScheme.ZOOMED_IN);
+			g.fillRect(0, 0, 2, getHeight());
+		}
+
+		if (maxVisibleX < alignment.collectionX().visibleLength()) {
+			g.setColor(ColourScheme.ZOOMED_IN);
+			g.fillRect(getWidth()-2, 0, 2, getHeight());
+		}
+
+		if (minVisibleY > 0) {
+			g.setColor(ColourScheme.ZOOMED_IN);
+			g.fillRect(0, 0, getWidth(), 2);			
+		}
+		
+		if (maxVisibleY < alignment.collectionY().visibleLength()) {
+			g.setColor(ColourScheme.ZOOMED_IN);
+			g.fillRect(0, getHeight()-2, getWidth(), 2);			
+		}
+
+		
 		
 		// Now we draw the diagonals.
 		lastXSum = 0;

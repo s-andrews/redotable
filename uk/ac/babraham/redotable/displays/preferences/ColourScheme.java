@@ -12,4 +12,6 @@ public class ColourScheme {
 	
 	public static Color DRAG_HIGHLIGHT = Color.GREEN;
 	
+	public static Color ZOOMED_IN = Color.MAGENTA;
+	
 }
