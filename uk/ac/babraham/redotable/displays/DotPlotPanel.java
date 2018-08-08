@@ -196,6 +196,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	@Override
 	public void sequenceChanged(Sequence seq) {
 		if (alignmentPanel != null) {
+			trimVisible();
 			repaint();
 		}
 	}
