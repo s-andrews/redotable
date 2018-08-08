@@ -81,7 +81,7 @@ public class VerticalScaleBar extends JPanel {
 		
 		double yScale = getHeight() / (double)(axisScale.getMax()-axisScale.getMin());
 		
-		g.drawLine(getWidth()-5, 0, getWidth()-5, getHeight());
+		g.drawLine(getWidth()-1, 0, getWidth()-1, getHeight());
 		
 		double currentY = axisScale.getStartingValue();
 		
@@ -89,12 +89,12 @@ public class VerticalScaleBar extends JPanel {
 			
 			int y = getHeight()-(int)((currentY-axisScale.getMin())*yScale);
 			
-			g.drawLine(getWidth()-5, y, getWidth()-8,y);
+			g.drawLine(getWidth(), y, getWidth()-3,y);
 			
-			if (currentY != axisScale.getStartingValue()) {
+			if (currentY != axisScale.getMin()) {
 				
 				String text = axisScale.formatBP(currentY);
-				g.drawString(text, getWidth()-(15+g.getFontMetrics().stringWidth(text)), y+(g.getFontMetrics().getAscent()/2));
+				g.drawString(text, getWidth()-(10+g.getFontMetrics().stringWidth(text)), y+(g.getFontMetrics().getAscent()/2));
 			}
 			
 			currentY += axisScale.getInterval();
