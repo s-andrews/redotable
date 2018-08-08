@@ -85,12 +85,19 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 		return maxVisibleY;
 	}
 	
-	public void zoomOut () {
-		int xChange = (maxVisibleX-minVisibleX)/2;
-		if (xChange < 2) xChange = 2;
+	public void zoomOut (boolean x, boolean y) {
+		int xChange = 0;
+		if (x) {
+			xChange = (maxVisibleX-minVisibleX)/2;
+			if (xChange < 2) xChange = 2;
+		}
 
-		int yChange = (maxVisibleY-minVisibleY)/2;
-		if (yChange < 2) yChange = 2;
+		int yChange = 0;
+		
+		if (y) {
+			yChange = (maxVisibleY-minVisibleY)/2;
+			if (yChange < 2) yChange = 2;
+		}
 		
 		setVisibleArea(minVisibleX-xChange, maxVisibleX+xChange, minVisibleY-yChange, maxVisibleY+yChange);
 	}

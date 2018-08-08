@@ -311,7 +311,17 @@ public class CollectionAlignmentPanel extends JPanel implements MouseMotionListe
 	@Override
 	public void mouseClicked(MouseEvent me) {
 		if (SwingUtilities.isRightMouseButton(me)) {
-			dotpanel.zoomOut();
+			boolean zoomx = true;
+			boolean zoomy = true;
+			
+			if ((me.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK ) {
+				zoomy = false;
+			}
+			if ((me.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == InputEvent.CTRL_DOWN_MASK ) {
+				zoomx = false;
+			}
+
+			dotpanel.zoomOut(zoomx,zoomy);
 		}
 	}
 
