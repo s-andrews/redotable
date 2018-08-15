@@ -50,7 +50,7 @@ import uk.ac.babraham.redotable.writers.SequenceWriterPreferences;
 
 public class RedotableApplication extends JFrame implements ProgressListener, ChangeListener {
 
-	public static final String VERSION = "0.1 devel";
+	public static final String VERSION = "0.1";
 
 
 	private RedotabledData data;
