@@ -1,0 +1,24 @@
+RELEASE NOTES FOR REDOTABLE v0.1
+--------------------------------
+
+This is an initial beta release of the software which now has enough 
+functionality to be useful. There are still major features which are
+absent though, and many other parts may change dramatically over 
+future releases.
+
+Things which do work already are:
+
+- Multi-fastq sequence loading
+- Word based calculation of similarities, with configurable word sizes
+- Interactive visualisation of dotplots, with zooming and filtering
+- Automated restructuring of sequences to match a reference
+- Manual reversing, ordering, hiding and highlighting
+- Saving of re-ordered sequences
+- Exporting graphics as PNG or SVG
+
+Things which don't work:
+
+- Saving dot plot projects
+- Having any help at all
+- Non-interactive mode
+- Editing sequence names
