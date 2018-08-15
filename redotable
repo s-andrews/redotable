@@ -180,7 +180,7 @@ sub determine_optimal_memory {
 		# Add the OSX specific options to use a standard OSX menu bar
 		# and set the program name to something sensible.
 				
-		push @java_args, '-Xdock:name=SeqMonk';
+		push @java_args, '-Xdock:name=re-DOT-able';
 		push @java_args, "-Xdock:icon=$RealBin/../Resources/seqmonk.icns";
 		push @java_args, "-Dapple.laf.useScreenMenuBar=true";
 
