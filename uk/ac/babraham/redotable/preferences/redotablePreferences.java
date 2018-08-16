@@ -48,7 +48,12 @@ public class redotablePreferences {
 	}
 	
 	public void setDefaultLocation (File file) {
-		defaultLocation = file;
+		if (file.isFile()) {
+			defaultLocation = file.getParentFile();
+		}
+		else {
+			defaultLocation = file;
+		}
 	}
 	
 	public int windowSearchSize () {

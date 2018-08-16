@@ -140,6 +140,7 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 			
 			if (prefDialog.theyCancelled()) return;
 		
+			redotablePreferences.getInstance().setDefaultLocation(file);
 			
 			FastAWriter writer = new FastAWriter();
 			writer.addListener(new ProgressDialog("Saving Sequences"));
@@ -154,7 +155,7 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 
 
 	private void openseqs(String tag) {
-		JFileChooser chooser = new JFileChooser("C:/Users/andrewss/Desktop/redotable/");
+		JFileChooser chooser = new JFileChooser(redotablePreferences.getInstance().defaultLocation());
 		chooser.setMultiSelectionEnabled(false);
 		chooser.setFileFilter(new FileFilter() {
 
@@ -177,6 +178,7 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		if (result == JFileChooser.CANCEL_OPTION) return;
 
 		File file = chooser.getSelectedFile();
+		redotablePreferences.getInstance().setDefaultLocation(file);
 
 		SequenceParser sp = new SequenceParser(file, tag);
 		sp.addListener(this);
@@ -193,12 +195,10 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 
 	public void align() {
 
-		//TODO: Handle missing sequences better.
 		if (data.xSequences() == null || data.ySequences() == null) {
 			return;
 		}
 
-		//		SequenceAligner aligner = new SequenceAligner(collectionX, collectionY, redotablePreferences.getInstance().windowSearchSize());
 		HashingAligner aligner = new HashingAligner(data);
 		aligner.addListener(new ProgressDialog("Running alignment", aligner));
 
