@@ -99,6 +99,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.gridx=1;
 		
 		separationLength.addKeyListener(new NumberKeyListener(false, false));
+		separationLength.setEnabled(mergeBox.isSelected());
 		separationLength.addKeyListener(new KeyListener() {
 			
 			@Override
