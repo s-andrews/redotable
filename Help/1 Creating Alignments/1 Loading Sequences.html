@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<title>Loading Sequences</title>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+	}
+	li {
+	padding-bottom: 1em
+	}
+ </style>
+</head>
+<body>
+<h1>Loading Sequences</h1>
+<p>
+Re-DOT-able requires two sequence files in order to draw a plot.  Each file must be
+a DNA or RNA sequence file, in FastA format, which can potentially contain several
+sub-seqences.  A so-called multi-fasta file.
+</p>
+
+<p>
+A typical input sequence file for the program will look like this:
+</p>
+
+<pre>
+&gt;seq1 this is the first sequence
+GAGGCTTATGCGGCTATGCGTAGTCGTAGTGCTAGTCGTAGCTAGCTAGTGCA
+ATATGCGTATTATATAAGGCGCGATATCGATCTGATGCTGTATGCTAGCGGTG
+AGGATCTGAGGAGAGGCGCGGATATATATGATGATGTGAGCGATGCGATGTGT
+&gt;seq2 this is the second sequence
+ATATGCGTATTATATAAGGCGCGATATCGATCTGATGCTGTATGCTAGCGGTG
+AGGATCTGAGGAGAGGCGCGGATATATATGATGATGTGAGCGATGCGATGTGT
+&gt;seq3 this is the third sequence
+GCTTATGCGGCTATGCGTAGTCGTAGTGCTAGTCGTAGCTAGCTAGTGCA
+</pre>
+
+<p>
+The main identifier for each sub-sequence will be the first set of non-whitespace
+text after the &gt; sign.  Any further text after that on the header line will be
+retained as the sequence description.  The name for the sequence set as a whole
+will be taken from the filename from which the sequences were loaded.
+<p>
+
+<p>
+You can have as many or as few sequences in each file as you like.  The sequence
+can contain either N bases or ambiguity codes, but these will all be treated as 
+mismatches when calculating alignments.
+</p>
+
+<p>
+Before you can calculate an alignment you must have loaded a sequence file into
+both the x and y axes of the plot.  If you want to compare a sequence against 
+itself then simply load the same file twice.
+</p>
+
+</body>
+
+</html>

@@ -19,13 +19,19 @@
  */
 package uk.ac.babraham.redotable;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import uk.ac.babraham.redotable.analysis.SequenceRearranger;
 import uk.ac.babraham.redotable.datatypes.Sequence;
@@ -33,6 +39,7 @@ import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.datatypes.SequenceCollectionAlignment;
 import uk.ac.babraham.redotable.datatypes.redotableDataListener;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
+import uk.ac.babraham.redotable.displays.help.HelpDialog;
 import uk.ac.babraham.redotable.displays.preferences.EditPreferencesDialog;
 import uk.ac.babraham.redotable.displays.sequenceProperties.SequencePropertiesDialog;
 
@@ -128,9 +135,19 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		
 		viewMenu.addSeparator();
 		
-		
-		
 		add(viewMenu);
+		
+		
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
+
+		JMenuItem helpContents = new JMenuItem("Contents...");
+		helpContents.setActionCommand("help_contents");
+		helpContents.setAccelerator(KeyStroke.getKeyStroke('H', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		helpContents.addActionListener(this);
+		helpContents.setMnemonic(KeyEvent.VK_C);
+		helpMenu.add(helpContents);
+		
 		
 		checkEnableItems();
 		
@@ -173,6 +190,31 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 			sr.addListener(new ProgressDialog("Rearranging sequences"));
 			sr.startRearranging();
 		}
+		
+		else if (ae.getActionCommand().equals("help_contents")) {
+			try {
+
+				// Java has a bug in it which affects the creation of valid URIs from
+				// URLs relating to an windows UNC path.  We therefore have to mung
+				// URLs starting file file:// to add 5 forward slashes so that we
+				// end up with a valid URI.
+
+				URL url = ClassLoader.getSystemResource("Help");
+				if (url.toString().startsWith("file://")) {
+					try {
+						url = new URL(url.toString().replace("file://", "file://///"));
+					} catch (MalformedURLException e) {
+						throw new IllegalStateException(e);
+					}
+				}
+				new HelpDialog(new File(url.toURI()));
+			}
+			catch (URISyntaxException ux) {
+				System.err.println("Couldn't parse URL falling back to path");
+				new HelpDialog(new File(ClassLoader.getSystemResource("Help").getPath()));				
+			}
+		}
+
 
 		else {
 			throw new IllegalStateException("Unknown menu command "+ae.getActionCommand());
