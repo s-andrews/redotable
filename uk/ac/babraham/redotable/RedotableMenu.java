@@ -148,6 +148,8 @@ public class RedotableMenu extends JMenuBar implements ActionListener, redotable
 		helpContents.setMnemonic(KeyEvent.VK_C);
 		helpMenu.add(helpContents);
 		
+		add(helpMenu);
+		
 		
 		checkEnableItems();
 		
