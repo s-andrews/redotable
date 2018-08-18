@@ -1,0 +1,60 @@
+<html>
+
+<head>
+<title>Creating an Alignment</title>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+	}
+	li {
+	padding-bottom: 1em
+	}
+ </style>
+</head>
+<body>
+<h1>Creating an Alignment</h1>
+
+<p>
+Once you have loaded two sets of sequences into the program
+you can create an alignment.  The alignments in re-DOT-able
+are word-based, meaning that it looks for exact matches of 
+a given length or longer.
+</p>
+
+<p>
+There are two values which determine the alignment parameters
+within re-DOT-able.  The main one is the search word size. This
+is the minimum match length which will be reported by the 
+program.  You can interactively increase this cutoff in the 
+interactive view, but the value set when running the alignment
+is the lower bound, which can't be changed without recalculating
+the alignment.
+</p>
+
+<p>
+The default word size for re-DOT-able is 50, but this can be
+lowered by going to View &gt; Preferences.  Any change in 
+setting will take effect when the next alignment is calculated.
+Making the value lower will report shorter matches, and will
+result in a more sensitive (but possibly slower and noisier)
+search.
+</p>
+
+<p>
+The other value which relates to the alignment is the index
+word size.  The search algorithm operates by hashing the 
+k-mer positions in one of the sequences and looking them up
+in the other.  The index word size defines the kmer size used
+for the hashing, and therefore also defines the minimum word
+size which can be used for the search.  Currently re-DOT-able
+uses an index word size of 10, and this isn't currently 
+configurable.
+</p>
+
+<p>
+Once you have set the word size you want to use for your
+search, you can start the alignment using File &gt; Start Aligning.
+
+</body>
+
+</html>
