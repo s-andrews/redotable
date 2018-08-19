@@ -1,0 +1,84 @@
+<html>
+
+<head>
+<title>Modifying Dotplots</title>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+	}
+	li {
+	padding-bottom: 1em
+	}
+ </style>
+</head>
+<body>
+<h1>Modifying Dotplots</h1>
+<p>
+Re-DOT-able offers a number of ways to modify the presentation of your dotplots
+once they have been calculated.
+</p>
+
+<h2>Interactive view</h2>
+<p>
+The main graphical dotplot view is interactive and offers a number of ways
+to alter the display of the dotplot.  Most of the controls are keyboard or
+mouse shortcuts:
+</p>
+
+<ul>
+	<li> Click and drag: Zoom in. The plot will fill the selected area.</li>
+	<li> Mouse scroll wheel: Translate up and down along the y-axis sequence.</li>
+	<li> Shift + Mouse scroll wheel: Translate left and right along the x-axis sequence</li>
+	<li> Pause curor over plot: A popup will appear showing the sequence and position under the cursor</li>
+</ul>
+
+<p>
+To the right of the plot is a slide bar which can be raised to increase the filter
+on the minumum length of alignment segment being shown in the display.  The lowest 
+position will show all calculated alignments, down to the word size set in the preferneces
+when the alignment was calculated.  The highest positions increases the stringency of the
+filter to 10X the original length.
+</p>
+
+<h2>Sequence Properties</h2>
+<p>
+Under View &gt; Sequence Properties you can access a dialog which allows you to 
+change the properties of all of the sequences in your alignment.  Any changes will
+immediately be implemented in the main view.
+</p>
+
+<p>
+The dialog appears as a pair of tables, with the x-sequences on top and the y-sequences
+below.  Clicking on the header of any of the columns will sort the corresponding table
+by the values in that column.
+</p>
+
+<p>
+Properties which you can change are:
+</p>
+
+<ul>
+	<li>The direction of the sequence. Clicking on the revcomp box will reverse
+	complement the sequence and any associated alignments</li>
+	<li>The highlighting of the sequence.  If the highlight box is ticked then
+	the full height or width of the plot covered by that sequence will have a
+	background highlighted in yellow.  If sequences on the x and y axes are both
+	highlighted then the intersecting area will highlight in orange.</li>
+	<li>The position of the sequences.  The &quot;raise&quot; and &quot;lower&quot;
+	buttons will adjust the position of the sequence in the plot</li>
+	
+</ul>
+
+<h2>Display Preferences</h2>
+
+<p>
+There are a couple of options which are set from the main preferences panel,
+these are whether grey lines are drawn up or across the plot to indicate the
+edges of the sub-sequences in the main x or y sequences.  These can be changed
+individually for the x and y axes.
+</p>
+
+
+</body>
+
+</html>
