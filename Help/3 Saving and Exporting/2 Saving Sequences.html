@@ -1,0 +1,80 @@
+<html>
+
+<head>
+<title>Saving Sequences</title>
+<style type="text/css">
+	body {
+		font-family: sans-serif;
+	}
+	li {
+	padding-bottom: 1em
+	}
+ </style>
+</head>
+<body>
+<h1>Saving Sequences</h1>
+<p>
+If you have used re-DOT-able to re-order or assemble your 
+sequences then you will probably want to export out a modified
+version of your sequences.  This option is accessible after a 
+dotplot has been created and can be found at File &gt; Save sequences
+and will save the results to a FastA format sequence file.
+</p>
+
+<h2>Options</h2>
+<p>
+The save sequences tool has a number of options to adjust the
+extent and format of the sequence data saved by the tool.
+</p>
+<h3>Which sequence</h3>
+<p>
+From the drop down list you can select whether you are exporting
+the sequences from the X or Y axes.
+</p>
+<h3>Merge Sequences</h3>
+<p>
+The FastA file format allows for multiple independent sequences
+to be saved into the same file.  If this option is off then 
+your sequences will be written out as independent sub-sequences
+within the file.  If it is turned on then they will be merged
+together into a single sequence entry.
+</p>
+<h3>Separate with polyN length</h3>
+<p>
+This option is only active if you opt to merge sequences together.
+If you do this then the value in this option denotes the number of
+N-bases which will be added between different sequences to denote
+a transition from one sub-sequence to the next. If you just want the
+sequences joined end-to-end then set this value to zero.
+</p>
+<h3>Save bases</h3>
+<p>
+Indicates whether the actual bases of the sequences will be written
+out.  If this is option is not selected then only the sequence 
+headers will be written, and not the actual data.
+</p>
+<h3>Add description</h3>
+<p>
+If this is selected then if the originally imported sequences had
+description text after the main sequence identifier, then this will
+be added back to the sequence headers when they are written out again.
+</p>
+<h3>Annotate length</h3>
+<p>
+If this is selected then the length, in base pairs, of each sequence
+will be added to the header after the identifer, but before the 
+description.
+</p>
+<h3>Annotate strand</h3>
+<p>
+If this is selected then the strand of each sequence
+will be added to the header after the identifer, but before the 
+description.  This will be expressed relative to the orientation
+the sequence had when it was originally imported, and will reflect
+whether the sequence has been reverse complemented during the 
+generation of the alignment and assembly.
+</p>
+
+</body>
+
+</html>
