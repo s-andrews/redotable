@@ -39,6 +39,8 @@ import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.dialogs.ProgressDialog;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.displays.preferences.SequenceWriterPrefsEditorDialog;
+import uk.ac.babraham.redotable.offline.OfflineOptions;
+import uk.ac.babraham.redotable.offline.OfflineRunner;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.HashingAligner;
@@ -270,16 +272,30 @@ public class RedotableApplication extends JFrame implements ProgressListener, Ch
 		} catch (Exception e) {}
 
 
-		application = new RedotableApplication();
-
-		//		SequenceParser sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "xseqs");
-		//		sp.addListener(application);		
-		//		sp.startParsing();
-		//	
-		//		sp = new SequenceParser(new File("C:/Users/andrewss/Desktop/redotable/ern1_human.fa"), "yseqs");
-		//		sp.addListener(application);		
-		//		sp.startParsing();
-
+		if (args.length > 0) {
+			// We're working in non-interactive mode.
+			
+			// Set headless to true so we don't get problems
+			// with people working without an X display.
+			System.setProperty("java.awt.headless", "true");
+			
+			OfflineOptions opts = null;
+			
+			try {
+				opts = new OfflineOptions(args);
+			}
+			catch (IllegalArgumentException e) {
+				System.err.println("Failed to parse arguments: "+e.getMessage());
+				System.exit(2);
+			}
+			
+			new OfflineRunner(opts);
+			
+			
+		}
+		else {
+			application = new RedotableApplication();
+		}
 	}
 
 
