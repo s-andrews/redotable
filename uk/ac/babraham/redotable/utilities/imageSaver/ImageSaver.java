@@ -100,14 +100,7 @@ public class ImageSaver {
 				savePNG(c,file);
 			}
 			else if (filter instanceof SVGFileFilter) {
-				PrintWriter pr = new PrintWriter(new FileWriter(file));
-				if (c instanceof SVGProducer) {
-					((SVGProducer)c).writeSVG(pr);
-				}
-				else {
-					SVGGenerator.writeSVG(pr,c);
-				}
-				pr.close();
+				saveSVG(c,file);
 			}
 			else {
 				System.err.println("Unknown file filter type "+filter+" when saving image");
@@ -129,5 +122,19 @@ public class ImageSaver {
 
 		ImageIO.write((BufferedImage)(b),"PNG",file);
 	}
+	
+	public static void saveSVG (Component c, File file) throws IOException {
+		
+		PrintWriter pr = new PrintWriter(new FileWriter(file));
+		if (c instanceof SVGProducer) {
+			((SVGProducer)c).writeSVG(pr);
+		}
+		else {
+			SVGGenerator.writeSVG(pr,c);
+		}
+		pr.close();
+	}
+
+	
 	
 }

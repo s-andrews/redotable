@@ -1,11 +1,15 @@
 package uk.ac.babraham.redotable.offline;
 
+import java.io.IOException;
+
 import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
+import uk.ac.babraham.redotable.displays.DotPlotPanel;
 import uk.ac.babraham.redotable.parsers.SequenceParser;
 import uk.ac.babraham.redotable.preferences.redotablePreferences;
 import uk.ac.babraham.redotable.processors.HashingAligner;
 import uk.ac.babraham.redotable.utilities.ProgressListener;
+import uk.ac.babraham.redotable.utilities.imageSaver.ImageSaver;
 
 public class OfflineRunner implements ProgressListener {
 
@@ -66,10 +70,24 @@ public class OfflineRunner implements ProgressListener {
 		// Mess with the ordering
 		
 		// Write out the result
+		DotPlotPanel panel = new DotPlotPanel(data);
+		panel.setSize(opts.width, opts.height);
+		
+		try {
+			if (opts.graphicsAsSVG) {
+				ImageSaver.saveSVG(panel, null);
+			}
+			else {
+				ImageSaver.savePNG(panel, null);
+			}
+		}
+		catch (IOException ioe) {
+			System.err.println("Failed to save image: "+ioe.getMessage());
+			System.exit(1);
+		}
 		
 		// Clean up and exit
-		
-		
+		System.exit(0);
 	}
 
 	public void progressExceptionReceived(Exception e) {
