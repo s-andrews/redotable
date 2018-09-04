@@ -72,6 +72,14 @@ public class OfflineRunner implements ProgressListener {
 		}
 		
 		// Highlight anything needing highlighting before we mess with the ordering
+		for (int i=0;i<opts.highlightX.length;i++) {
+			data.xSequences().sequences()[opts.highlightX[i]].setHighlight(true);
+		}
+
+		for (int i=0;i<opts.highlightY.length;i++) {
+			data.ySequences().sequences()[opts.highlightY[i]].setHighlight(true);
+		}
+
 		
 		// Mess with the ordering
 		
