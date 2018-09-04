@@ -2,7 +2,7 @@ package uk.ac.babraham.redotable.offline;
 
 import java.io.IOException;
 
-
+import uk.ac.babraham.redotable.analysis.SequenceRearranger;
 import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
@@ -82,6 +82,30 @@ public class OfflineRunner implements ProgressListener {
 
 		
 		// Mess with the ordering
+		if (opts.reorder) {
+			SequenceRearranger rearranger;
+			if (opts.reorderX) {
+				rearranger = new SequenceRearranger(data.alignment(), SequenceRearranger.Y_IS_REFERENCE);
+			}
+			else {
+				rearranger = new SequenceRearranger(data.alignment(), SequenceRearranger.X_IS_REFERENCE);				
+			}
+
+			if (!opts.quiet) {
+				System.err.println("Rearranging sequences");
+			}
+			
+			rearranger.addListener(this);
+			wait = true;
+
+			rearranger.startRearranging();
+
+			while (wait) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {}
+			}	
+		}
 		
 		// Write out the result
 		if (!opts.quiet) {
