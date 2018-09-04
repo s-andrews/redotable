@@ -20,6 +20,7 @@
 package uk.ac.babraham.redotable.displays;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -109,7 +110,7 @@ public class DotPlotPanel extends JPanel implements PreferencesListener, redotab
 	public int maxVisibleY () {
 		return maxVisibleY;
 	}
-	
+			
 	public void zoomOut (boolean x, boolean y) {
 		int xChange = 0;
 		if (x) {

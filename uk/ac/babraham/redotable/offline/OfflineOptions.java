@@ -6,6 +6,7 @@ public class OfflineOptions {
 
 	protected File xSequences;
 	protected File ySequences;
+	protected File outFile;
 	
 	protected int width = 800;
 	protected int height = 800;
@@ -25,12 +26,13 @@ public class OfflineOptions {
 	public OfflineOptions(String [] args) throws IllegalArgumentException {
 
 		// The last two arguments should be the x and y sequences
-		if (args.length < 2) {
+		if (args.length < 3) {
 			throw new IllegalArgumentException("No enough arguments - there must be at least 2");
 		}
 		
-		xSequences = new File(args[args.length-2]);
-		ySequences = new File(args[args.length-1]);
+		xSequences = new File(args[args.length-3]);
+		ySequences = new File(args[args.length-2]);
+		outFile = new File(args[args.length-1]);
 		
 		if ((! xSequences.exists()) || (! xSequences.canRead()) || (! xSequences.isFile())) {
 			throw new IllegalArgumentException("X Sequences "+xSequences+" couldn't be found or read");
@@ -41,7 +43,7 @@ public class OfflineOptions {
 		}
 
 		
-		for (int i=0;i<args.length-2;i++) {
+		for (int i=0;i<args.length-3;i++) {
 			String arg = args[i];
 			
 			if (arg.equals("--width")) {

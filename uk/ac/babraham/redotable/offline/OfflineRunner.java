@@ -2,6 +2,7 @@ package uk.ac.babraham.redotable.offline;
 
 import java.io.IOException;
 
+
 import uk.ac.babraham.redotable.datatypes.RedotabledData;
 import uk.ac.babraham.redotable.datatypes.SequenceCollection;
 import uk.ac.babraham.redotable.displays.DotPlotPanel;
@@ -18,6 +19,11 @@ public class OfflineRunner implements ProgressListener {
 	
 	public OfflineRunner(OfflineOptions opts) {
 	
+		// We need to create the panel at the start so we can
+		// trigger the appropriate responses to the sequences
+		// loading and the alignment completing.
+		DotPlotPanel panel = new DotPlotPanel(data);
+
 		// Read the sequences
 		if (! opts.quiet) {
 			System.err.println("Parsing "+opts.xSequences.getName());
@@ -36,7 +42,7 @@ public class OfflineRunner implements ProgressListener {
 		if (! opts.quiet) {
 			System.err.println("Parsing "+opts.ySequences.getName());
 		}
-		SequenceParser parserY = new SequenceParser(opts.xSequences, "yseqs");
+		SequenceParser parserY = new SequenceParser(opts.ySequences, "yseqs");
 		parserY.addListener(this);
 		wait = true;
 		parserY.startParsing();
@@ -70,15 +76,26 @@ public class OfflineRunner implements ProgressListener {
 		// Mess with the ordering
 		
 		// Write out the result
-		DotPlotPanel panel = new DotPlotPanel(data);
+		if (!opts.quiet) {
+			System.err.println("Creating plot panel");
+		}
+		
 		panel.setSize(opts.width, opts.height);
+		
+		// This is odd, but necessary.  Since we're writing out a multi-component swing object
+		// which has never been added to a frame, it doesn't actually get laid out and the
+		// sub-components don't get drawn.  The kludge fix for this is to explicitly call the
+		// layoutContainer method manually.
+		//
+		// This fix was found at https://stackoverflow.com/questions/13897168/render-swing-containers-in-headless-mode
+		panel.getLayout().layoutContainer(panel);
 		
 		try {
 			if (opts.graphicsAsSVG) {
-				ImageSaver.saveSVG(panel, null);
+				ImageSaver.saveSVG(panel, opts.outFile);
 			}
 			else {
-				ImageSaver.savePNG(panel, null);
+				ImageSaver.savePNG(panel, opts.outFile);
 			}
 		}
 		catch (IOException ioe) {
@@ -87,6 +104,10 @@ public class OfflineRunner implements ProgressListener {
 		}
 		
 		// Clean up and exit
+		if (!opts.quiet) {
+			System.err.println("Result saved to "+opts.outFile);
+			System.err.println("Complete");
+		}
 		System.exit(0);
 	}
 
