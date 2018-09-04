@@ -20,7 +20,6 @@
 package uk.ac.babraham.redotable.displays;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
