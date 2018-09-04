@@ -64,12 +64,6 @@ my $result = GetOptions('help' => \$help,
 						 );
 
 
-# If we have been passed a filename to open then we need to make sure we capture this so we can
-# pass it on to the final java command.
-my $file = $ARGV[0];
-$file = "" unless ($file);
-
-
 # Check the simple stuff first
 
 if ($help) {
@@ -107,9 +101,9 @@ else {
 	delete $ENV{LANG};
 }
 
-warn "Command is: java @java_args uk.ac.babraham.redotable.RedotableApplication $file\n";
+warn "Command is: java @java_args uk.ac.babraham.redotable.RedotableApplication @ARGV\n";
 
-exec "java",@java_args, "uk.ac.babraham.redotable.RedotableApplication", $file;
+exec "java",@java_args, "uk.ac.babraham.redotable.RedotableApplication", @ARGV;
 
 sub print_error {
 	
@@ -326,14 +320,22 @@ __DATA__
 
 SYNOPSIS
 
-	redotable [-m 4000]
+	redotable [OPTIONS] [x seqs] [y seqs] [outfile]
 
 
 DESCRIPTION
 
 	Redotable is a graphical application for the calculation and visualisation
 	of word based dotplots for pairs of large sequence collections.
+	
+	[x seqs]		A multi-fasta format sequence file of sequences to display
+	                on the x axis of the plot.
     
+	[y seqs]		A multi-fasta format sequence file of sequences to display
+	                on the y axis of the plot.
+	                
+	[outfile]       The name of a file to save the plot to         
+
     The options for the program as as follows:
     
     -h --help       Print this help file and exit
@@ -341,6 +343,29 @@ DESCRIPTION
     -m --memory     Set the starting memory allocation in megabytes. Defaults
                     to 1300. Minimum allowed value is 500 and values above
                     1300 should only be set on systems running a 64-bit JRE
+                    
+    --width			Set the width of the output plot (default 800)
+    
+    --height        Set the height of the output plot (default 800)
+    
+    --reorderx		Rearrange the x sequences to match the y
+    
+    --reordery      Rearrange the y sequences to match the x
+    
+    --highlightx    A comma separated list of x sequence index positions (0 based)
+                    to highlight in the final plot
+
+    --highlighty    A comma separated list of y sequence index positions (0 based)
+                    to highlight in the final plot
+                    
+    --window        The minimum size of match window to display (default 50)
+    
+    --png           Save the plot in PNG format (default)
+    
+    --svg           Save the plot in SVG format
+    
+    --quiet         Supress all progress messages                
+
                         
 BUGS
 
