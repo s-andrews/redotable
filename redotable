@@ -3,7 +3,6 @@ use warnings;
 use strict;
 use English;
 use FindBin qw($RealBin);
-use Getopt::Long;
 use IPC::Open3;
 
 # Check to see if they've mistakenly downloaded the source distribution
@@ -12,6 +11,39 @@ use IPC::Open3;
 if (-e "$RealBin/uk/ac/babraham/redotable/RedotableApplication.java") {
 	die "This is the source distribution of Redotable.  You need to get the compiled version if you want to run the program\n";
 }
+
+# We now need to scan the command line for switches which we're going
+# to pass on to the main java program.
+
+my $help;
+my $memory;
+my $quiet;
+
+my %remove_indices;
+
+for my $index (0..$#ARGV) {
+	if ($ARGV[$index] eq '--quiet') {
+		$quiet = 1;
+	}
+	elsif ($ARGV[$index] eq '--help') {
+		$help = 1;
+		$remove_indices{$ARGV[$index]} = 1;
+	}
+	elsif ($ARGV[$index] eq '--memory') {
+		$memory = $ARGV[$index+1];
+		$remove_indices{$index} = 1;
+		$remove_indices{$index+1} = 1;
+	}
+}
+
+my @new_argv;
+
+for my $index (0..$#ARGV) {
+	next if (exists $remove_indices{$index});
+	push @new_argv,$ARGV[$index];
+}
+
+@ARGV = @new_argv;
 
 
 if ($ENV{CLASSPATH}) {
@@ -36,7 +68,7 @@ if ($^O =~ /Win/) {
 	$ENV{CLASSPATH} =~ s/\Q$RealBin:/$RealBin;/g;
 }
 
-warn "CLASSPATH is : $ENV{CLASSPATH}\n";
+warn "CLASSPATH is : $ENV{CLASSPATH}\n" unless ($quiet);
 
 # We need to make sure the language is English so we can parse the output of some
 # standard commands, however if we leave this in place it can break things for people
@@ -53,15 +85,6 @@ $ENV{LANG}='C';
 my @java_args;
 
 
-# We now need to scan the command line for switches which we're going
-# to pass on to the main java program.
-
-my $help;
-my $memory;
-
-my $result = GetOptions('help' => \$help,
-						'memory=i' => \$memory,
-						 );
 
 
 # Check the simple stuff first
@@ -86,7 +109,7 @@ else {
 # heap size you set
 my $actual_memory = correct_memory($memory);
 
-warn "Correcting for VM actual requested allocation for $memory is $actual_memory\n";
+warn "Correcting for VM actual requested allocation for $memory is $actual_memory\n" unless ($quiet);
 
 unshift @java_args,"-Xmx${actual_memory}m";
 
@@ -101,9 +124,9 @@ else {
 	delete $ENV{LANG};
 }
 
-warn "Command is: java @java_args uk.ac.babraham.redotable.RedotableApplication @ARGV\n";
+warn "Command is: java @java_args uk.ac.babraham.redotable.RedotableApplication @ARGV\n" unless ($quiet);
 
-exec "java",@java_args, "uk.ac.babraham.redotable.RedotableApplication", @ARGV;
+system("java",@java_args, "uk.ac.babraham.redotable.RedotableApplication", @ARGV);
 
 sub print_error {
 	
@@ -159,7 +182,7 @@ sub determine_optimal_memory {
 	}
 	close OUT;
 		
-	warn "Memory ceiling is $max_memory\n";
+	warn "Memory ceiling is $max_memory\n" unless ($quiet);
 	
 	# The way we determine the amount of physical memory is OS dependent.
 	my $os = $^O;
@@ -186,7 +209,7 @@ sub determine_optimal_memory {
 		$physical = get_linux_memory($max_memory);
 	}
 	
-	warn "Raw physical memory is $physical\n";
+	warn "Raw physical memory is $physical\n" unless ($quiet);
 	
 	# We then set the memory to be the minimum of 2/3 of the physical
 	# memory or the ceiling, whichever is lower.
@@ -196,7 +219,7 @@ sub determine_optimal_memory {
 		return $max_memory;
 	}
 	
-	warn "Using $physical MB of RAM to launch redotable\n";
+	warn "Using $physical MB of RAM to launch redotable\n" unless ($quiet);
 	return $physical;
 	
 }
@@ -285,7 +308,7 @@ sub get_osx_memory {
 
 sub get_windows_memory {
 	
-	warn "Getting windows physical memory\n";
+	warn "Getting windows physical memory\n" unless ($quiet);
 	
 	# This code was adapted from an answer posted by Tom Feiner on
 	# stackoverflow
