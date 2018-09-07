@@ -103,10 +103,10 @@ public class VerticalScaleBar extends JPanel {
 	}
 	
 	public Dimension getPreferredSize () {
-		return new Dimension(75,100);
+		return new Dimension(85,100);
 	}
 	
 	public Dimension getMinimumSize () {
-		return new Dimension(50,50);
+		return new Dimension(85,50);
 	}
 }

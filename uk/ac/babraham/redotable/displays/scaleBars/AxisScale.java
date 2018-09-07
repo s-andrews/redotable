@@ -91,11 +91,11 @@ public class AxisScale {
 		String scaleSuffix;
 		double division = 1;
 		
-		if (number >= 1000000) {
+		if (interval >= 1000000) {
 			scaleSuffix = "Mb";
 			division = 1000000;
 		}
-		else if (number >= 10000) {
+		else if (interval >= 10000) {
 			scaleSuffix = "kb";
 			division = 1000;
 		}
