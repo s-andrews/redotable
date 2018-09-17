@@ -1,3 +1,22 @@
+RELEASE NOTES FOR REDOTABLE v1.0
+--------------------------------
+
+This is the initial completed release of redotable.  We have now 
+implemented all of the basic features we initially planned for the
+software to have.  The program should be usable for real work in
+its current state, but we are still keen for feedback on what we
+could do better.
+
+The main things which have been added in this release are:
+
+- Added a command line interface
+- Added zooming and panning to the main plot
+- Completed saving sequences
+- Added help for all functions
+
+
+
+
 RELEASE NOTES FOR REDOTABLE v0.1
 --------------------------------
 
