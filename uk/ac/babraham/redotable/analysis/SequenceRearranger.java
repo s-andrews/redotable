@@ -125,11 +125,17 @@ public class SequenceRearranger extends Progressable implements Runnable {
 						if (!diagonals[d].forward()) {
 							longestIsReversed = true;
 						}
+						else {
+							longestIsReversed = false;
+						}
 					}
 					else {
 						mseq.refStart = Math.min(diagonals[d].yStart(),diagonals[d].yEnd());
 						if (!diagonals[d].forward()) {
 							longestIsReversed = true;
+						}
+						else {
+							longestIsReversed = false;
 						}
 					}
 				}
