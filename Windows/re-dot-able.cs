@@ -39,7 +39,7 @@ namespace RedotableLauncher
 
             if (!javaVersion.Contains("Java"))
             {
-                MessageBox.Show("Couldn't find java on your system", "Failed to launch SeqMonk", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Couldn't find java on your system", "Failed to launch ReDotAble", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Environment.Exit(1);
             }
 
@@ -96,7 +96,7 @@ namespace RedotableLauncher
 
             if (memoryToRequest == 0)
             {
-                MessageBox.Show("SeqMonk process failed to start.  Did you move seqmonk.exe out of the SeqMonk directory?", "Failed to launch SeqMonk", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("SeqMonk process failed to start.  Did you move redotable.exe out of the SeqMonk directory?", "Failed to launch ReDotAble", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Environment.Exit(1);
             }
 
