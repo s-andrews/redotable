@@ -43,7 +43,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 	private JTextField separationLength;
 	
 	
-	public SequenceWriterPrefsEditorPanel (SequenceWriterPreferences prefs) {
+	public SequenceWriterPrefsEditorPanel (final SequenceWriterPreferences prefs) {
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -78,7 +78,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		JCheckBox mergeBox = new JCheckBox("",prefs.mergeEntries);
+		final JCheckBox mergeBox = new JCheckBox("",prefs.mergeEntries);
 		separationLength = new JTextField(""+prefs.seaparationRepeat);
 
 		add(mergeBox,gbc);
@@ -128,7 +128,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		JCheckBox basesBox = new JCheckBox("",prefs.writeSequence);
+		final JCheckBox basesBox = new JCheckBox("",prefs.writeSequence);
 		add(basesBox,gbc);
 		basesBox.addActionListener(new ActionListener() {
 			@Override
@@ -145,7 +145,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		JCheckBox descriptionBox = new JCheckBox("",prefs.annotateDescription);
+		final JCheckBox descriptionBox = new JCheckBox("",prefs.annotateDescription);
 		add(descriptionBox,gbc);
 		descriptionBox.addActionListener(new ActionListener() {
 			@Override
@@ -162,7 +162,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		JCheckBox lengthBox = new JCheckBox("",prefs.annotateLength);
+		final JCheckBox lengthBox = new JCheckBox("",prefs.annotateLength);
 		add(lengthBox,gbc);
 		lengthBox.addActionListener(new ActionListener() {
 			@Override
@@ -180,7 +180,7 @@ public class SequenceWriterPrefsEditorPanel extends JPanel {
 		gbc.weightx=0.999;
 		gbc.gridx=1;
 		
-		JCheckBox strandBox = new JCheckBox("",prefs.annotateStrand);
+		final JCheckBox strandBox = new JCheckBox("",prefs.annotateStrand);
 		add(strandBox,gbc);
 		strandBox.addActionListener(new ActionListener() {
 			@Override

@@ -25,7 +25,7 @@ import java.util.Vector;
 
 public class Progressable {
 	
-	private Vector<ProgressListener> listeners = new Vector<>();
+	private Vector<ProgressListener> listeners = new Vector<ProgressListener>();
 
 
 	public void addListener (ProgressListener l) {

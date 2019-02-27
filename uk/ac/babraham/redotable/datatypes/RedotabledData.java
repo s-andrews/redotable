@@ -34,7 +34,7 @@ public class RedotabledData {
 	
 	private SequenceCollectionAlignment alignment;
 	
-	private Vector<redotableDataListener> listeners = new Vector<>();
+	private Vector<redotableDataListener> listeners = new Vector<redotableDataListener>();
 	
 	
 	public SequenceCollection xSequences () {
