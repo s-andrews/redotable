@@ -1,5 +1,5 @@
 //
-// Copyright 2018 Simon Andrews
+// Copyright 2018-19 Simon Andrews
 //
 // This file is part of ReDotAble.
 //
@@ -37,7 +37,7 @@ namespace RedotableLauncher
         {
             string javaVersion = getJavaVersion();
 
-            if (!javaVersion.Contains("Java"))
+            if (!(javaVersion.Contains("Java")  || javaVersion.Contains("OpenJDK")))
             {
                 MessageBox.Show("Couldn't find java on your system", "Failed to launch ReDotAble", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Environment.Exit(1);
