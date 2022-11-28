@@ -37,7 +37,7 @@ namespace RedotableLauncher
         {
             string javaVersion = getJavaVersion();
 
-            if (!javaVersion.Contains("Java"))
+            if (!(javaVersion.Contains("Java") | javaVersion.Contains("openjdk")))
             {
                 MessageBox.Show("Couldn't find java on your system", "Failed to launch ReDotAble", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Environment.Exit(1);
